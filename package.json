@@ -1,0 +1,22 @@
+{
+  "name": "beaming-baldwin",
+  "version": "1.0.0",
+  "description": "MKS20 Greenfield Project",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeamingBaldwin/BeamingBaldwin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BeamingBaldwin/BeamingBaldwin/issues"
+  },
+  "homepage": "https://github.com/BeamingBaldwin/BeamingBaldwin#readme"
+}
