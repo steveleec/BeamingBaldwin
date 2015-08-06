@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/BeamingBaldwin/BeamingBaldwin/issues"
   },
-  "homepage": "https://github.com/BeamingBaldwin/BeamingBaldwin#readme"
+  "homepage": "https://github.com/BeamingBaldwin/BeamingBaldwin#readme",
+  "devDependencies": {
+    "babel-eslint": "^4.0.5",
+    "eslint": "^1.0.0",
+    "eslint-config-airbnb": "0.0.7",
+    "eslint-plugin-react": "^3.2.0"
+  }
 }
