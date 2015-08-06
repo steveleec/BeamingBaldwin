@@ -9,3 +9,7 @@ Included in packages.json:
 
 Install manually:
 - [SublimeLinter-contrib-eslint](https://github.com/roadhump/SublimeLinter-eslint)
+
+## Files
+.eslintrc
+.editorconfig
