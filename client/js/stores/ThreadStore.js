@@ -2,8 +2,8 @@ ThreadStore.getCurrentThreadID()
 
 
 var ThreadStore;
-var SlickAppDispatcher = require('../dispatcher/SlickAppDispatcher');
-var SlickConstants = require('../constants/SlickConstants');
+var SlickAppDispatcher = require('../dispatcher/ChatAppDispatcher');
+var SlickConstants = require('../constants/Constants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
