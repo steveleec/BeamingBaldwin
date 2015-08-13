@@ -1,5 +1,5 @@
-var ChatBoxActionCreator = require('../actinos/ChatBoxActionCreator');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils')
+var ChatBoxActionCreator = require('../actions/ChatBoxActionCreator');
+var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
 var React = require('react');
 
 var ENTER_KEY_CODE = 13;
@@ -11,11 +11,11 @@ var ComposeTextSection = React.createClass({
     userName: React.PropTypes.string
   },
 
-  getInitialState: function {
+  getInitialState: function() {
     return {text: ''};
   },
 
-  render: function(){
+  render: function() {
     return (
       <textarea
         className="message-composition"
@@ -27,11 +27,11 @@ var ComposeTextSection = React.createClass({
     );
   },
 
-  _onChange: function(event, value){
+  _onChange: function(event, value) {
     this.setState({text: event.target.value});
   },
 
-  _onKeyDown: function(event){
+  _onKeyDown: function(event) {
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
       var textToSend = this.state.text.trim();
@@ -43,3 +43,5 @@ var ComposeTextSection = React.createClass({
   },
 
 });
+
+module.exports = ComposeTextSection;

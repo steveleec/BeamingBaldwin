@@ -3,7 +3,7 @@ var React = require('react');
 var OneMessageFromThread = React.createClass({
   propTypes: {
     message: React.PropTypes.object
-  }
+  },
 
   render: function(){
     var message = this.props.message;
@@ -15,6 +15,7 @@ var OneMessageFromThread = React.createClass({
       </li>
     );
   }
+
 });
 
 module.exports = OneMessageFromThread;
