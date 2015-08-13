@@ -1,6 +1,7 @@
-var Chatting = require('./components/ChattingApp.react');
+var React = require('react');
+var SlickApp = require('./components/SlickApp.react');
 
 React.render(
-  <Chatting App/>,
-  document.getElementById('origin')
+  <SlickApp />,
+  document.getElementById('SlickApp')
 );

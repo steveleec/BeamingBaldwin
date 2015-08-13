@@ -5,35 +5,35 @@ var OneMessageFromThread = require('./OneMessageFromThread.react');
 
 /** message: id, authorname, date, text */
 
-function getStateFromStores () {
+function getStateFromStores() {
   return {
     messages: MessageStore.getMessagesforCurrentThread(),
     userName: MessageStore.getUserNameForCurrentThread(),
     threadID: ThreadStore.getCurrentThreadID(),
   };
-};
+}
 
-function getOneMessageByThreadId(message){
+function getOneMessageByThreadId(message) {
   return (
     <OneMessageFromThread
       key={message.id}
       message={message}
     />
   );
-};
+}
 
 var MessageSection = React.createClass({
 
-  getInitialState: function(){
+  getInitialState: function() {
     return getStateFromStores();
   },
 
-  componentDidMount: function(){
+  componentDidMount: function() {
     MessageStore.addChangeListener(this._onChange);
     ThreadStore.addChangeListener(this._onChange);
   },
 
-  render: function(){
+  render: function() {
     var listOfMessagesSelectedByThreadId = this.state.messages.map(getOneMessageByThreadId);
     return (
       <div className="message-section">
@@ -46,7 +46,7 @@ var MessageSection = React.createClass({
       );
   },
 
-  _onChange: function(){
+  _onChange: function() {
     this.setState(getStateFromStores());
   },
 });
