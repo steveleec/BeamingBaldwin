@@ -2,10 +2,10 @@ var React = require('react');
 
 var OneMessageFromThread = React.createClass({
   propTypes: {
-    message: React.PropTypes.object
+    message: React.PropTypes.object,
   },
 
-  render: function(){
+  render: function() {
     var message = this.props.message;
     return (
       <li className="message-from-thread">
@@ -14,7 +14,7 @@ var OneMessageFromThread = React.createClass({
         <div classsName="message-text">{message.text}</div>
       </li>
     );
-  }
+  },
 
 });
 

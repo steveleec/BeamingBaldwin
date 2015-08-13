@@ -1,6 +1,9 @@
+var React = require('react');
+
 var MessageStore = require('../stores/MessageStore');
-var ComposeTextSection = require('./ComposeTextSection.react');
 var ThreadStore = require('../stores/ThreadStore');
+
+var ComposeTextSection = require('./ComposeTextSection.react');
 var OneMessageFromThread = require('./OneMessageFromThread.react');
 
 /** message: id, authorname, date, text */
@@ -9,7 +12,7 @@ function getStateFromStores() {
   return {
     messages: MessageStore.getMessagesforCurrentThread(),
     userName: MessageStore.getUserNameForCurrentThread(),
-    threadID: ThreadStore.getCurrentThreadID(),
+    threadID: { id: "1234"}, //ThreadStore.getCurrentThreadID(),
   };
 }
 
@@ -29,15 +32,14 @@ var MessageSection = React.createClass({
   },
 
   componentDidMount: function() {
-    MessageStore.addChangeListener(this._onChange);
-    ThreadStore.addChangeListener(this._onChange);
+    // MessageStore.addChangeListener(this._onChange);
+    // ThreadStore.addChangeListener(this._onChange);
   },
 
   render: function() {
     var listOfMessagesSelectedByThreadId = this.state.messages.map(getOneMessageByThreadId);
     return (
       <div className="message-section">
-        <h3 className="message-thread-heading">{this.state.threadName.name}</h3>
         <ul>
           {listOfMessagesSelectedByThreadId}
         </ul>
@@ -50,3 +52,5 @@ var MessageSection = React.createClass({
     this.setState(getStateFromStores());
   },
 });
+
+module.exports = MessageSection;

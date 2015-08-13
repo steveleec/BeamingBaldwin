@@ -1,9 +1,9 @@
 {
-  "name": "flux-chat",
-  "author": "Bill Fisher",
-  "version": "0.0.2",
-  "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
-  "repository": "https://github.com/facebook/flux",
+  "name": "",
+  "author": "",
+  "version": "0.0.0",
+  "description": "",
+  "repository": "",
   "main": "js/app.js",
   "dependencies": {
     "classnames": "^2.1.3",

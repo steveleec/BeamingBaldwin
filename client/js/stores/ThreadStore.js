@@ -1,6 +1,3 @@
-ThreadStore.getCurrentThreadID()
-
-
 var ThreadStore;
 var SlickAppDispatcher = require('../dispatcher/ChatAppDispatcher');
 var SlickConstants = require('../constants/Constants');
@@ -12,6 +9,7 @@ var CHANGE_EVENT = 'change';
 
 var _currThread = null;
 var _threads = {};
+
 
 ThreadStore = assign({}, EventEmitter.prototype, {
 
@@ -30,6 +28,10 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   }, // removeChangeListener
+
+  getCurrentThreadID: function() {
+
+  },
 
 });
 
