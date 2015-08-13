@@ -1,7 +1,8 @@
+var React = require('react');
+
 var MessageSection = require('./MessageSection.react');
 var HeaderSection = require('./HeaderSection.react');
 var ThreadSection = require('./ThreadSection.react');
-var React = require('react');
 
 var SlickApp = React.createClass({
   render: function() {

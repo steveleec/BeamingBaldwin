@@ -1,6 +1,7 @@
+var React = require('react');
+
 var ChatBoxActionCreator = require('../actions/ChatBoxActionCreator');
 var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
-var React = require('react');
 
 var ENTER_KEY_CODE = 13;
 
