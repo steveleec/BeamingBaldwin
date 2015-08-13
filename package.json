@@ -9,6 +9,7 @@
     "firebase": "^2.2.9",
     "flux": "^2.0.3",
     "keymirror": "~0.1.1",
+    "lodash": "^3.10.1",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3"
@@ -28,7 +29,7 @@
   "scripts": {
     "start": "npm run watchify & npm run browsersync",
     "watchify": "watchify -o client/js/bundle.js -v -d client/js/main.js",
-    "browsersync": "browser-sync start --server client --files 'js/*.js, css/*.css, *.html'"
+    "browsersync": "browser-sync start --server client --files 'client/js/*.js, client/css/*.css, client/*.html'"
   },
   "browserify": {
     "transform": [
