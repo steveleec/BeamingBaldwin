@@ -1,36 +1,48 @@
 {
   "name": "beaming-baldwin",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "author": "",
   "description": "MKS20 Greenfield Project",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "main": "client/js/main.js",
+  "dependencies": {
+    "classnames": "^2.1.3",
+    "firebase": "^2.2.9",
+    "flux": "^2.0.3",
+    "keymirror": "~0.1.1",
+    "object-assign": "^3.0.0",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.0.5",
+    "browser-sync": "^2.8.2",
+    "browserify": "^11.0.1",
+    "envify": "^3.4.0",
+    "eslint": "^1.0.0",
+    "eslint-config-airbnb": "0.0.7",
+    "eslint-plugin-react": "^3.2.0",
+    "reactify": "^1.1.1",
+    "uglify-js": "~2.4.24",
+    "watchify": "^3.3.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run watchify & npm run browsersync",
+    "watchify": "watchify -o client/js/bundle.js -v -d client/js/main.js",
+    "browsersync": "browser-sync start --server client --files 'js/*.js, css/*.css, *.html'"
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BeamingBaldwin/BeamingBaldwin.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/BeamingBaldwin/BeamingBaldwin/issues"
   },
-  "homepage": "https://github.com/BeamingBaldwin/BeamingBaldwin#readme",
-  "devDependencies": {
-    "babel-eslint": "^4.0.5",
-    "eslint": "^1.0.0",
-    "eslint-config-airbnb": "0.0.7",
-    "eslint-plugin-react": "^3.2.0"
-  },
-  "dependencies": {
-    "firebase": "^2.2.9",
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.4.3",
-    "express": "^4.4.5",
-    "jwt-simple": "^0.2.0",
-    "morgan": "^1.1.1"
-  }
+  "homepage": "https://github.com/BeamingBaldwin/BeamingBaldwin#readme"
 }
