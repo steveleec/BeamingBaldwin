@@ -1,31 +1,22 @@
 var React = require('react');
-
+var MessageSection;
+var MessageListItem = require('./MessageListItem.react');
+var MessageComposer = require('./MessageComposer.react');
 var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
-
-var ComposeTextSection = require('./ComposeTextSection.react');
-var OneMessageFromThread = require('./OneMessageFromThread.react');
 
 /** message: id, authorname, date, text */
 
 function getStateFromStores() {
   return {
-    messages: MessageStore.getMessagesforCurrentThread(),
-    userName: MessageStore.getUserNameForCurrentThread(),
-    threadID: { id: "1234"}, //ThreadStore.getCurrentThreadID(),
+    messagesArr: MessageStore.getMessagesforCurrentThread(),
+    // userName: MessageStore.getUserNameForCurrentThread(), // TODO: this should come from a UserStore
+    userName: 'Bobby Tables',
+    threadID: ThreadStore.getCurrentThreadID(),
   };
 }
 
-function getOneMessageByThreadId(message) {
-  return (
-    <OneMessageFromThread
-      key={message.id}
-      message={message}
-    />
-  );
-}
-
-var MessageSection = React.createClass({
+MessageSection = React.createClass({
 
   getInitialState: function() {
     return getStateFromStores();
@@ -37,20 +28,29 @@ var MessageSection = React.createClass({
   },
 
   render: function() {
-    var listOfMessagesSelectedByThreadId = this.state.messages.map(getOneMessageByThreadId);
-    return (
-      <div className="message-section">
-        <ul>
-          {listOfMessagesSelectedByThreadId}
-        </ul>
-        <ComposeTextSection threadID={this.state.threadID.id} userName={this.state.userName}/>
-      </div>
+    var messageListItems = this.state.messagesArr.map(function(messageObj) {
+      return (
+        <MessageListItem
+          key={messageObj.messageID}
+          messageObj={messageObj}
+        />
       );
+    });
+
+    return (
+      <div className="Message">
+        <ul>
+          {messageListItems}
+        </ul>
+        <MessageComposer threadID={this.state.threadID} userName={this.state.userName}/>
+      </div>
+    );
   },
 
   _onChange: function() {
     this.setState(getStateFromStores());
   },
+
 });
 
 module.exports = MessageSection;
