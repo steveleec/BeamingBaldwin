@@ -1,0 +1,92 @@
+# Slick Firebase Schema
+
+## Schema
+
+```
+firebase: {
+  threads: [{
+    id: {
+      title: String,
+      messages: [{
+        id: UID,
+        text: String,
+        userId: String,
+        createdAt: Date
+      }],
+      parentId: ThreadIdType,
+      participants: [ UserIdType ]
+    }
+  }],
+
+  users: {
+    userid: {
+      name: String,
+      status: StatusType,
+      threads: {
+        threadId: {
+          lastSeenMessageId: MessageIdType,
+          pinned: Boolean,
+          snoozedUntil: Date
+        }
+      },
+      users: {
+        blocked: [ UserIdType ],
+        pinned: [ UserIdType ]
+      }
+    }
+  }
+}
+```
+
+## Types
+
+```
+Date:           Number (epoc)
+MessageIdType:  UUID
+StatusType:     enum (TBD)
+ThreadIdType:   UUID
+UserIdType:     String (Firebase-unsafe characters escaped)
+```
+
+
+## Pending
+
+```
+firebase:
+  threadInfo: {
+    threadId: {
+      title: String,
+      parentId: ThreadIdType,
+      participants: [ UserIdType ]
+    }
+  },
+
+  threadMessages: {
+    threadId: {
+      messageId: {
+        text: String,
+        userId: String,
+        createdAt: Date
+      }
+    },
+  },
+
+  userInfo: {
+    userId: {
+      name: String,
+      status: StatusType,
+      threads: {
+        threadId: {
+          lastSeenMessageId: MessageIdType,
+          pinned: Boolean,
+          snoozedUntil: Date
+        }
+      },
+      users: {
+        blocked: [ UserIdType ],
+        pinned: [ UserIdType ]
+        // why not users: { userId: flag }
+      }
+    }
+  }
+```
