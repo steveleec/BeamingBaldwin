@@ -33,7 +33,7 @@
     "start": "npm run watchify & npm run browsersync & npm run sass",
     "watchify": "watchify -o client/js/bundle.js -v -d client/js/main.js",
     "browsersync": "browser-sync start --server client --files 'client/js/*.js, client/css/*.css, client/*.html'",
-    "sass": "node-sass --watch client/css/scss/main.scss client/css/styles.css",
+    "sass": "node-sass --watch client/css/scss/main.scss client/css/styles.css --output-style compressed",
     "test": "jest --verbose"
   },
   "browserify": {
