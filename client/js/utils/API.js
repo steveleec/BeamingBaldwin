@@ -24,7 +24,7 @@ function _subscribeThread(threadId) {
   .on('child_added', function(snapshot) {
     var child = snapshot.val();
     var message = {
-      createdAt: new Date(Number(child.createdAt)),
+      createdAt: child.createdAt,
       messageId: snapshot.key(),
       text: child.text,
       threadId: threadId,
