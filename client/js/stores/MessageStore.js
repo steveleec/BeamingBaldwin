@@ -42,6 +42,7 @@ MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload) {
+  console.log(payload);
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:
@@ -49,7 +50,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:
-    //Dispatcher.waitFor([ThreadStore.dispatchToken]);
+    // Dispatcher.waitFor([ThreadStore.dispatchToken]);
     _addMessageToMessagesObj(payload.message);
     MessageStore.emitChange();
     break;
