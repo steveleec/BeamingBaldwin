@@ -17,9 +17,9 @@ function _escape(str) {
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 
-function _threadInfoChangeHandler(threadId, snapshop){
+// function _threadInfoChangeHandler(threadId, snapshop){
 
-}
+// }
 
 function _subscribeThread(threadId) {
   console.log('_subscribeThread', threadId);
@@ -52,13 +52,14 @@ function _subscribeThread(threadId) {
     title: String
   }
   */
-  var threadInfoChangeHandler = _threadInfoChangeHandler.bind(null, threadId);
-  _ref(['threads', threadId, 'participants'])
-  .on('value', threadInfoChangeHandler);
+//   var threadInfoChangeHandler = _threadInfoChangeHandler.bind(null, threadId);
+//   _ref(['threads', threadId, 'participants'])
+//   .on('value', threadInfoChangeHandler);
 
-  _ref(['threads', threadId, 'title'])
-  .on('value', threadInfoChangeHandler);
+//   _ref(['threads', threadId, 'title'])
+//   .on('value', threadInfoChangeHandler);
 }
+
 /**
  * Callback on changes to the user object in order
  * to update thread subscriptions and inform user
