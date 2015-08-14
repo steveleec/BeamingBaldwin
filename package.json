@@ -25,13 +25,15 @@
     "jest-cli": "^0.4.3",
     "prettyjson": "^1.1.3",
     "reactify": "^1.1.1",
+    "sass": "^0.5.0",
     "uglify-js": "~2.4.24",
     "watchify": "^3.3.1"
   },
   "scripts": {
-    "start": "npm run watchify & npm run browsersync",
+    "start": "npm run watchify & npm run browsersync & npm run sass",
     "watchify": "watchify -o client/js/bundle.js -v -d client/js/main.js",
     "browsersync": "browser-sync start --server client --files 'client/js/*.js, client/css/*.css, client/*.html'",
+    "sass": "sass --watch client/css/scss/main.scss:client/css/styles.css --style compressed",
     "test": "jest --verbose"
   },
   "browserify": {
@@ -52,5 +54,4 @@
   "jest": {
     "rootDir": "./client/js"
   }
-
 }

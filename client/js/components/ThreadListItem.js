@@ -10,7 +10,7 @@ var ThreadListItem = React.createClass({
 
   render: function() {
     var classes = classNames({
-      'Threads-listItem': true,
+      'Thread-listItem': true,
     });
     return (
       <li
