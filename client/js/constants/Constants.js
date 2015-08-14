@@ -2,10 +2,13 @@ var keyMirror = require('keymirror');
 
 module.exports = {
   ActionTypes: keyMirror({
-    // ChatWebAPIUtils => MessageStore & ThreadStore
+    // API => MessageStore & ThreadStore
     RECEIVE_MESSAGE: null,
 
-    // MessageComposer => ChatWebAPIUtils
+    // MessageComposer => ???
     CREATE_MESSAGE: null,
+
+    // API => ThreadStore
+    RECEIVE_THREADINFO: null,
   }),
 };
