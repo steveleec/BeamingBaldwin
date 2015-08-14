@@ -1,8 +1,8 @@
 /* usage:
-var api = require('./__tests__/test')
+var api = require('./tests/api.test')
 */
 
-var api = require('../API');
+var api = require('../client/js/utils/API');
 
 /* drop data */
 api.debug('users').remove(function() {
