@@ -11,8 +11,8 @@ function getStateFromStores() {
   return {
     messagesArr: MessageStore.getMessagesforCurrentThread(),
     // userName: MessageStore.getUserNameForCurrentThread(), // TODO: this should come from a UserStore
-    userName: 'Bobby Tables',
-    threadID: ThreadStore.getCurrentThreadID(),
+    userName: localStorage.email || 'Bobby Tables',
+    threadID: ThreadStore.getCurrentThreadID() || '0',
   };
 }
 

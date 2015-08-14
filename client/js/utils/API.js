@@ -12,6 +12,9 @@ function _ref(path) {
   }
   return new Firebase(uri + '/' + defaultedPath);
 }
+function _escape(str) {
+  return str.replace(/[\.#@$\[\]]/g, '-');
+}
 
 function _subscribeThread(threadId) {
   console.log('_subscribeThread', threadId);
@@ -20,7 +23,6 @@ function _subscribeThread(threadId) {
   _ref(['threads', threadId, 'messages'])
   .on('child_added', function(snapshot) {
     var child = snapshot.val();
-    console.log('new message on', pretty(child));
     var message = {
       createdAt: child.createdAt,
       messageId: snapshot.key(),
@@ -28,6 +30,7 @@ function _subscribeThread(threadId) {
       threadId: threadId,
       userId: child.userId,
     };
+    console.log('new message on', pretty(child));
     Actions.messageReceivedFromApi(message);
   });
 
@@ -57,6 +60,10 @@ function _userChanged(snapshot) {
 
 function _subscribeUser(user) {
   _ref(['users', user]).on('value', _userChanged);
+}
+
+function _unsubscribeUser() {
+  _ref().off();
 }
 
 // NB orderByChild: "If you want to use orderByChild() on a production app, you should define the keys you will be indexing on via the .indexOn rule in your Security and Firebase Rules." https://www.firebase.com/docs/web/guide/retrieving-data.html
@@ -98,13 +105,13 @@ module.exports = {
   * @param { threadId, text, userId } message
   */
   sendMessage: function(message) {
-    console.log('sendMessage', pretty(message));
     var threadId = message.threadId;
     var messageId = _ref(['threads', threadId, 'messages']).push({
       text: message.text,
       userId: message.userId,
       createdAt: Firebase.ServerValue.TIMESTAMP,
     });
+    console.log('sendMessage sent', pretty(message));
     return messageId;
   },
 
@@ -139,16 +146,19 @@ module.exports = {
   addUser: function(user, next) {
     // TODO check for existing user.
     // TODO find way to use default array keys, but query by user id child.
+    user.id = _escape(user.id);
     _ref(['users', user.id]).set({
       name: user.name,
-      threads: [], // firebase won't actually insert key:[]
+      threads: [ 0 ], // 0 is default thread
     }, next);
   },
 
   login: function(user) {
     console.log('login', user);
-    _subscribeUser(user);
+    _subscribeUser(_escape(user));
   },
+
+  logout: _unsubscribeUser, 
 
   addUserToThread: _addUserToThread,
 
