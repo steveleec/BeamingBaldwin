@@ -34,12 +34,6 @@ var auth = {
 
   signup: function(email, pass, cb) {
     var context = this;
-    // cb = arguments[arguments.length - 1];
-    // if (localStorage.token) {
-    //   if (cb) cb(true);
-    //   this.onChange(true);
-    //   return;
-    // }
     if (!!email || !!pass) {
       ref.createUser({
         email: email,
@@ -47,8 +41,6 @@ var auth = {
       }, function(error, userData) {
         if (error) {
           console.log('Error creating user:', error);
-          // if (cb) cb(false);
-          // context.onChange(false);
         } else {
           console.log('Successfully created user account with uid:', userData.uid);
           API.addUser({

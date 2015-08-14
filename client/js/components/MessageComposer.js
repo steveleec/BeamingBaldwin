@@ -1,11 +1,10 @@
 var React = require('react');
-var ComposeTextSection;
 var API = require('../utils/API');
 // var MessageActionCreators = require('../actions/MessageActionCreators');
 
 var ENTER_KEY_CODE = 13;
 
-ComposeTextSection = React.createClass({
+var MessageComposer = React.createClass({
 
   propTypes: {
     threadID: React.PropTypes.string.isRequired,
@@ -53,4 +52,4 @@ ComposeTextSection = React.createClass({
 
 });
 
-module.exports = ComposeTextSection;
+module.exports = MessageComposer;

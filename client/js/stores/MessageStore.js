@@ -1,7 +1,7 @@
 var MessageStore;
 var ThreadStore = require('./ThreadStore');
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher.js');
-var ActionTypes = require('../constants/Constants');
+var Dispatcher = require('../dispatcher/Dispatcher');
+var ActionTypes = require('../constants/Constants').ActionTypes;
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
@@ -63,15 +63,15 @@ MessageStore = assign({}, EventEmitter.prototype, {
 
 });
 
-MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
+MessageStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:
-    ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
+    Dispatcher.waitFor([ThreadStore.dispatchToken]);
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:
-    ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
+    Dispatcher.waitFor([ThreadStore.dispatchToken]);
     // TODO: this will come from the API
     _addMessageToMessagesObj(payload.message);
     break;

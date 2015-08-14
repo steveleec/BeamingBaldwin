@@ -1,12 +1,10 @@
 var React = require('react');
-
 var Router = require('react-router');
 
 var auth = require('../services/auth');
-// var RedirectWhenLoggedIn = require('../mixins/redirect_when_logged_in');
 
 var Signin = React.createClass({
-  mixins: [Router.Navigation], // , RedirectWhenLoggedIn ],
+  mixins: [Router.Navigation],
 
   statics: {
     attemptedTransition: null,

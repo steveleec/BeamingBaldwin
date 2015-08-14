@@ -18,7 +18,8 @@ var MessageListItem = React.createClass({
         <div>{messageObj.text}</div>
       </li>
     );
-  }, // render
+  },
+
 });
 
 module.exports = MessageListItem;

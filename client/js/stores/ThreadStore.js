@@ -1,10 +1,10 @@
 var ThreadStore;
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var SlickConstants = require('../constants/Constants');
+var Dispatcher = require('../dispatcher/Dispatcher');
+var ActionTypes = require('../constants/Constants').ActionTypes;
+
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
-var ActionTypes = SlickConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _currThreadID = null;
@@ -34,7 +34,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
 });
 
-ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
+ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:

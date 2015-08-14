@@ -1,10 +1,8 @@
 var React = require('react');
 var classNames = require('classnames');
-var ThreadListItem;
-
 var ReactPropTypes = React.PropTypes;
 
-ThreadListItem = React.createClass({
+var ThreadListItem = React.createClass({
 
   propTypes: {
     threadObj: ReactPropTypes.object,
@@ -14,7 +12,6 @@ ThreadListItem = React.createClass({
     var classes = classNames({
       'Threads-listItem': true,
     });
-
     return (
       <li
         className={classes}
