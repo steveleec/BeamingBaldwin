@@ -55,11 +55,6 @@ MessageSection = React.createClass({
       </div>
     );
   },
-
-  _onChange: function() {
-    this.setState(getStateFromStores());
-  },
-
 });
 
 module.exports = MessageSection;

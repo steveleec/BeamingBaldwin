@@ -4,6 +4,8 @@ var Actions = require('../actions/ApiActionCreator');
 /* Private variables & methods */
 
 var uri = 'https://amber-inferno-3412.firebaseio.com';
+var _user;
+
 function _ref(path) {
   var defaultedPath = path || '';
   if (defaultedPath instanceof Array) {
@@ -60,12 +62,23 @@ function _userChanged(snapshot) {
 }
 
 function _subscribeUser(user) {
-  _unsubscribeAll();
+  _user = user;
   _ref(['users', user]).on('value', _userChanged);
 }
 
 function _unsubscribeAll() {
-  _ref().off();
+  // unsubscribe from user object
+  _ref(['users', _user]).off();
+
+  // enumerate user's threads
+  _ref(['users', _user, 'threads']).once('value', function(snapshot) {
+    snapshot.forEach(function(thread) {
+      // unsubscribe from threadInfo
+      _ref(['threadInfo', thread.key()]).off();
+      // unsubscribe from threadMessages
+      _ref(['threadMessages', thread.key()]).off();
+    });
+  });
 }
 
 // NB orderByChild: "If you want to use orderByChild() on a production app, you should define the keys you will be indexing on via the .indexOn rule in your Security and Firebase Rules." https://www.firebase.com/docs/web/guide/retrieving-data.html
