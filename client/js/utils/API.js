@@ -59,7 +59,7 @@ function _subscribeUser(user) {
   _ref(['users', user]).on('value', _userChanged);
 }
 
-function _unsubscribeUser(user) {
+function _unsubscribeUser() {
   _ref().off();
 }
 
@@ -143,6 +143,7 @@ module.exports = {
   addUser: function(user, next) {
     // TODO check for existing user.
     // TODO find way to use default array keys, but query by user id child.
+    user.id = user.id.replace(/[\.#@$\[\]]/g, '-');
     _ref(['users', user.id]).set({
       name: user.name,
       threads: [], // firebase won't actually insert key:[]

@@ -1,6 +1,6 @@
 var Firebase = require('Firebase');
 var ref = new Firebase('https://amber-inferno-3412.firebaseio.com');
-var API = require('../util/API');
+var API = require('../utils/API');
 
 var auth = {
   login: function(email, pass, cb) {
@@ -50,7 +50,10 @@ var auth = {
           // context.onChange(false);
         } else {
           console.log('Successfully created user account with uid:', userData.uid);
-          API.addUser(email);
+          API.addUser({
+            id: email,
+            name: email,
+          });
           context.login(email, pass, cb);
         }
       });
