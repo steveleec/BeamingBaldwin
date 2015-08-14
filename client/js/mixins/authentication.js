@@ -6,7 +6,7 @@ var Authentication = {
     willTransitionTo: function(transition) {
       if (!auth.loggedIn()) {
         Signin.attemptedTransition = transition;
-        transition.redirect('/signin');
+        transition.redirect('/splash');
       }
     },
   },

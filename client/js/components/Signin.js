@@ -50,7 +50,7 @@ var Signin = React.createClass({
         Signin.attemptedTransition = null;
         transition.retry();
       } else {
-        this.replaceWith('/app');
+        this.replaceWith('/');
       }
     }.bind(this));
   },
