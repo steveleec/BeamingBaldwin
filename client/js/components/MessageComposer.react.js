@@ -1,6 +1,6 @@
 var React = require('react');
 
-var ChatBoxActionCreator = require('../actions/ChatBoxActionCreator');
+var MessageActionCreators = require('../actions/MessageActionCreators');
 var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
 
 var ENTER_KEY_CODE = 13;
@@ -9,7 +9,7 @@ var ComposeTextSection = React.createClass({
 
   propTypes: {
     threadID: React.PropTypes.string.isRequired,
-    userName: React.PropTypes.string
+    userName: React.PropTypes.string,
   },
 
   getInitialState: function() {
@@ -28,16 +28,21 @@ var ComposeTextSection = React.createClass({
     );
   },
 
-  _onChange: function(event, value) {
-    this.setState({text: event.target.value});
+  _onChange: function(event) {
+    this.setState({
+      text: event.target.value,
+    });
   },
 
   _onKeyDown: function(event) {
+    var textToSend;
+
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
-      var textToSend = this.state.text.trim();
+      textToSend = this.state.text.trim();
       if (textToSend) {
-        ChatWebAPIUtils.sendMessageToDB(textToSend, this.props.threadID, this.props.userName);
+        MessageActionCreators.createMessage(textToSend, this.props.threadID);
+        // ChatWebAPIUtils.sendMessageToDB(textToSend, this.props.threadID, this.props.userName);
       }
       this.setState({text: ''});
     }
