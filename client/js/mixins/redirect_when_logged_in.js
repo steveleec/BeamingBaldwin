@@ -4,7 +4,7 @@ var RedirectWhenLoggedIn = {
   statics: {
     willTransitionTo: function(transition) {
       if ( auth.loggedIn()) {
-        transition.redirect('/app');
+        transition.redirect('/');
       }
     },
   },

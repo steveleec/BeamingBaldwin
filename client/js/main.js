@@ -16,11 +16,11 @@ var routes = (
     <Route name="signup" handler={Signup}/>
     <Route name="signin" handler={Signin}/>
     <Route name="signout" handler={Signout}/>
-    <Route name="app" handler={SlickApp}/>
-    <DefaultRoute handler={Splash}/>
+    <Route name="app" path="/" handler={SlickApp}/>
+    <Route name="splash" handler={Splash}/>
   </Route>
 );
 
-Router.run(routes, Router.HistoryLocation, function(Handler) {
+Router.run(routes, function(Handler) {
   React.render(<Handler />, document.getElementById('react'));
 });

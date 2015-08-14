@@ -50,7 +50,7 @@ var Signup = React.createClass({
         Signup.attemptedTransition = null;
         transition.retry();
       } else {
-        this.replaceWith('/app');
+        this.replaceWith('/');
       }
     }.bind(this));
   },
