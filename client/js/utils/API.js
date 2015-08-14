@@ -12,6 +12,9 @@ function _ref(path) {
   }
   return new Firebase(uri + '/' + defaultedPath);
 }
+function _escape(str) {
+  return str.replace(/[\.#@$\[\]]/g, '-');
+}
 
 function _subscribeThread(threadId) {
   console.log('_subscribeThread', threadId);
@@ -143,22 +146,19 @@ module.exports = {
   addUser: function(user, next) {
     // TODO check for existing user.
     // TODO find way to use default array keys, but query by user id child.
-    user.id = user.id.replace(/[\.#@$\[\]]/g, '-');
+    user.id = _escape(user.id);
     _ref(['users', user.id]).set({
       name: user.name,
-      threads: [], // firebase won't actually insert key:[]
+      threads: [ 0 ], // 0 is default thread
     }, next);
   },
 
   login: function(user) {
     console.log('login', user);
-    _subscribeUser(user);
+    _subscribeUser(_escape(user));
   },
 
-  logout: function(user) {
-    console.log('logout', user);
-    _unsubscribeUser(user);
-  },
+  logout: _unsubscribeUser, 
 
   addUserToThread: _addUserToThread,
 

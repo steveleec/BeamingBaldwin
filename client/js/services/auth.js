@@ -23,6 +23,7 @@ var auth = {
         } else {
           console.log('Authenticated successfully with payload:', authData);
           localStorage.token = authData.token;
+          localStorage.email = email;
           API.login(email);
           if (cb) cb(true);
           context.onChange(true);
@@ -66,7 +67,8 @@ var auth = {
 
   logout: function(cb) {
     delete localStorage.token;
-    API.logout(user);
+    delete localStorage.email;
+    API.logout();
     if (cb) cb();
     this.onChange(false);
   },
