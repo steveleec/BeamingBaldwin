@@ -39,7 +39,7 @@ MessageSection = React.createClass({
 
     return (
       <div className="Message">
-        <ul>
+        <ul className="Message__list">
           {messageListItems}
         </ul>
         <MessageComposer threadID={this.state.threadID} userName={this.state.userName}/>

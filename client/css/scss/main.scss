@@ -1,7 +1,7 @@
 // utils
 @import 'utils/normalize';
 @import 'utils/box-sizing';
-@import 'utils/susy/sass/susy';
+@import '../../../bower_components/susy/sass/susy';
 
 // components
 @import 'SlickApp';

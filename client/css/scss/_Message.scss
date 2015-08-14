@@ -1,1 +1,4 @@
-.Message {}
+.Message { @include span(8 of 12 last); padding: 16px; border: 1px solid red; border-radius: 5px; }
+.Message__list { margin: 0; }
+.Message__listItem { list-style: none; }
+.Message__composer { width: 100%; border: 1px solid red; }

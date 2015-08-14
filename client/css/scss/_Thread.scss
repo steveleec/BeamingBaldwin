@@ -1,2 +1,2 @@
-.Thread { padding: 0; border: 1px solid red; list-style: none; }
+.Thread { @include span(4 of 12); margin: 0; padding: 0; border: 1px solid red; border-radius: 5px; list-style: none; }
 .Thread-listItem { padding: 16px; cursor: pointer; }
