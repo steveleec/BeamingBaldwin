@@ -13,7 +13,6 @@ function getCreatedMessageData(text, currentThreadID) {
 }
 
 module.exports = {
-
   createMessage: function(text, currentThreadID) {
     var messageObj;
 
@@ -27,5 +26,4 @@ module.exports = {
       currentThreadID: currentThreadID,
     });
   }, // createMessage
-
 };

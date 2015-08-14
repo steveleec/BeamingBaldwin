@@ -1,9 +1,8 @@
 var React = require('react');
-var ThreadSection;
 var ThreadListItem = require('./ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 
-ThreadSection = React.createClass({
+var ThreadSection = React.createClass({
 
   getInitialState: function() {
     // return this.state object
@@ -38,7 +37,6 @@ ThreadSection = React.createClass({
         />
       );
     });
-
     return (
       <ul className="Threads">
         {threadListItems}

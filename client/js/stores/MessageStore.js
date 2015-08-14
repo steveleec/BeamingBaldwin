@@ -1,7 +1,7 @@
 var MessageStore;
 var ThreadStore = require('./ThreadStore');
 var Dispatcher = require('../dispatcher/Dispatcher');
-var ActionTypes = require('../constants/Constants');
+var ActionTypes = require('../constants/Constants').ActionTypes;
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');

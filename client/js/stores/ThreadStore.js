@@ -1,10 +1,10 @@
 var ThreadStore;
 var Dispatcher = require('../dispatcher/Dispatcher');
-var Constants = require('../constants/Constants');
+var ActionTypes = require('../constants/Constants').ActionTypes;
+
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
-var ActionTypes = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _currThreadID = null;
