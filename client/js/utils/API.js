@@ -59,6 +59,10 @@ function _subscribeUser(user) {
   _ref(['users', user]).on('value', _userChanged);
 }
 
+function _unsubscribeUser(user) {
+  _ref().off();
+}
+
 // NB orderByChild: "If you want to use orderByChild() on a production app, you should define the keys you will be indexing on via the .indexOn rule in your Security and Firebase Rules." https://www.firebase.com/docs/web/guide/retrieving-data.html
 
 function _addThreadToUsers(threadId, users) {
@@ -148,6 +152,11 @@ module.exports = {
   login: function(user) {
     console.log('login', user);
     _subscribeUser(user);
+  },
+
+  logout: function(user) {
+    console.log('logout', user);
+    _unsubscribeUser(user);
   },
 
   addUserToThread: _addUserToThread,

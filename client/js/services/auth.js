@@ -1,5 +1,6 @@
 var Firebase = require('Firebase');
 var ref = new Firebase('https://amber-inferno-3412.firebaseio.com');
+var API = require('../util/API');
 
 var auth = {
   login: function(email, pass, cb) {
@@ -22,6 +23,7 @@ var auth = {
         } else {
           console.log('Authenticated successfully with payload:', authData);
           localStorage.token = authData.token;
+          API.login(email);
           if (cb) cb(true);
           context.onChange(true);
         }
@@ -48,6 +50,7 @@ var auth = {
           // context.onChange(false);
         } else {
           console.log('Successfully created user account with uid:', userData.uid);
+          API.addUser(email);
           context.login(email, pass, cb);
         }
       });
@@ -60,6 +63,7 @@ var auth = {
 
   logout: function(cb) {
     delete localStorage.token;
+    API.logout(user);
     if (cb) cb();
     this.onChange(false);
   },
