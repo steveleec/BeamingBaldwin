@@ -71,13 +71,9 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:
+    ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
     // TODO: this will come from the API
     _addMessageToMessagesObj(payload.message);
-    break;
-
-  case ActionTypes.GET_THREAD_MESSAGES_BY_DEFAULT:
-    ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
-    MessageStore.emitChange();
     break;
 
   default:

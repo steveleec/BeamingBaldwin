@@ -1,15 +1,15 @@
 var React = require('react');
-
-var ChatBoxActionCreator = require('../actions/ChatBoxActionCreator');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
+var ComposeTextSection;
+var API = require('../utils/API');
+// var MessageActionCreators = require('../actions/MessageActionCreators');
 
 var ENTER_KEY_CODE = 13;
 
-var ComposeTextSection = React.createClass({
+ComposeTextSection = React.createClass({
 
   propTypes: {
     threadID: React.PropTypes.string.isRequired,
-    userName: React.PropTypes.string
+    userName: React.PropTypes.string,
   },
 
   getInitialState: function() {
@@ -28,16 +28,24 @@ var ComposeTextSection = React.createClass({
     );
   },
 
-  _onChange: function(event, value) {
-    this.setState({text: event.target.value});
+  _onChange: function(event) {
+    this.setState({
+      text: event.target.value,
+    });
   },
 
   _onKeyDown: function(event) {
+    var textToSend;
+
     if (event.keyCode === ENTER_KEY_CODE) {
       event.preventDefault();
-      var textToSend = this.state.text.trim();
+      textToSend = this.state.text.trim();
       if (textToSend) {
-        ChatWebAPIUtils.sendMessageToDB(textToSend, this.props.threadID, this.props.userName);
+        API.sendMessage({
+          threadId: this.props.threadID || 0, // TODO: need to wire up API to serve ThreadStore with data to set a currentThreadID
+          text: textToSend,
+          userId: this.props.userName,
+        });
       }
       this.setState({text: ''});
     }
