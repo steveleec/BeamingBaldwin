@@ -50,7 +50,6 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
 
   case ActionTypes.RECEIVE_MESSAGE:
     //Dispatcher.waitFor([ThreadStore.dispatchToken]);
-    // TODO: this will come from the API
     _addMessageToMessagesObj(payload.message);
     MessageStore.emitChange();
     break;
