@@ -8,7 +8,7 @@ module.exports = {
     console.log('APIActionCreator.messageReceived', message);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
-      message: message
+      message: message,
     });
   },
-}
+};
