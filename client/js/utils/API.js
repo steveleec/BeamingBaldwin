@@ -17,15 +17,11 @@ function _escape(str) {
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 
-// function _threadInfoChangeHandler(threadId, snapshop){
-
-// }
-
 function _subscribeThread(threadId) {
   console.log('_subscribeThread', threadId);
 
   // subscribe to messages
-  _ref(['threads', threadId, 'messages'])
+  _ref(['threadMessages', threadId])
   .on('child_added', function(snapshot) {
     var child = snapshot.val();
     var message = {
@@ -39,25 +35,7 @@ function _subscribeThread(threadId) {
     Actions.messageReceivedFromApi(message);
   });
 
-  // subscribe the thread info changes
-  // call _threadInfoChangeHandler
-  /*
-  ThreadInfo Payload
-  ------------------
-
-  thread: {
-    parentId: ThreadIdType,
-    participants: [ UserIdType ],
-    threadId: ThreadIdType,
-    title: String
-  }
-  */
-//   var threadInfoChangeHandler = _threadInfoChangeHandler.bind(null, threadId);
-//   _ref(['threads', threadId, 'participants'])
-//   .on('value', threadInfoChangeHandler);
-
-//   _ref(['threads', threadId, 'title'])
-//   .on('value', threadInfoChangeHandler);
+  // TODO subscribe the thread info changes
 }
 
 /**
@@ -70,7 +48,7 @@ function _userChanged(snapshot) {
   user.id = snapshot.key();
   console.log('_userChanged', pretty(user));
   // kill existing thread listeners,
-  _ref(['threads']).off();
+  _ref(['threadMessages']).off();
   // then restore.  Beware aware of race.
   _ref(['users', user.id, 'threads']).once('value', function(threads) {
     console.log('re-adding thread listeners');
@@ -107,7 +85,7 @@ function _addUserToThread(user, threadId) {
   var userStub = {};
   userStub[user] = true;
   console.log('_addUserToThread', user, threadId);
-  _ref(['threads', threadId, 'participants'])
+  _ref(['threadInfo', threadId, 'participants'])
   .update(userStub);
 
   _addThreadToUsers(threadId, [user]);
@@ -116,7 +94,7 @@ function _addUserToThread(user, threadId) {
 function _removeUserFromThread(user, threadId) {
   console.log('_removeUserFromThread', user, threadId);
   _ref(['users', user, 'threads', threadId]).remove();
-  _ref(['threads', threadId, 'participants', user]).remove();
+  _ref(['threadInfo', threadId, 'participants', user]).remove();
 }
 
 /* exported methods */
@@ -130,7 +108,7 @@ module.exports = {
   */
   sendMessage: function(message) {
     var threadId = message.threadId;
-    var messageId = _ref(['threads', threadId, 'messages']).push({
+    var messageId = _ref(['threadMessages', threadId]).push({
       text: message.text,
       userId: message.userId,
       createdAt: Firebase.ServerValue.TIMESTAMP,
@@ -149,7 +127,7 @@ module.exports = {
         memo[user] = true;
         return memo;
       }, {});
-    var threadId = _ref('threads').push({
+    var threadId = _ref('threadInfo').push({
       title: thread.title,
       parentId: thread.parentId,
       participants: participants,
