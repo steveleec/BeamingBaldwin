@@ -3,8 +3,7 @@ var pretty = require('prettyjson').render;
 var Actions = require('../actions/ApiActionCreator');
 /* Private variables & methods */
 
-var uri = 'https://blistering-inferno-2653.firebaseio.com';
-// var uri = 'https://amber-inferno-3412.firebaseio.com';
+var uri = 'https://amber-inferno-3412.firebaseio.com';
 function _ref(path) {
   var defaultedPath = path || '';
   if (defaultedPath instanceof Array) {
