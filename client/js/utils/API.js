@@ -60,6 +60,7 @@ function _userChanged(snapshot) {
 }
 
 function _subscribeUser(user) {
+  _unsubscribeAll();
   _ref(['users', user]).on('value', _userChanged);
 }
 

@@ -9,29 +9,7 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _messagesObj = {
-  '0': [
-    {
-      createdAt: new Date(),
-      messageID: 1, // MessageIdType
-      text: 'sup homie', // String
-      threadID: '0', // ThreadIdType
-      userID: 'Bob', // String
-    },
-    {
-      createdAt: new Date(),
-      messageID: 2, // MessageIdType
-      text: 'sup bro', // String
-      threadID: '0', // ThreadIdType
-      userID: 'Bob', // String
-    },
-    {
-      createdAt: new Date(),
-      messageID: 3, // MessageIdType
-      text: 'sup man', // String
-      threadID: '0', // ThreadIdType
-      userID: 'Bob', // String
-    },
-  ],
+  '0': [],
 };
 
 function _addMessageToMessagesObj(messagePayloadObj) {
@@ -74,6 +52,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
     //Dispatcher.waitFor([ThreadStore.dispatchToken]);
     // TODO: this will come from the API
     _addMessageToMessagesObj(payload.message);
+    MessageStore.emitChange();
     break;
 
   default:
