@@ -1,14 +1,11 @@
 var Dispatcher = require('../dispatcher/ChatAppDispatcher');
 var Constants = require('../constants/Constants');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
+var API = require('../utils/API');
 
 var ActionTypes = Constants.ActionTypes;
 
 function getCreatedMessageData(text, currentThreadID) {
-  var timestamp = Date.now();
   return {
-    createdAt: new Date(timestamp),
-    messageId: 'm_' + timestamp,
     text: text,
     threadId: currentThreadID,
     userId: localStorage.username || 'Bill',
@@ -22,7 +19,7 @@ module.exports = {
 
     messageObj = getCreatedMessageData(text, currentThreadID);
     console.log('Sending message to the DB:', messageObj);
-    ChatWebAPIUtils.sendMessageToDB(messageObj);
+    API.sendMessage(messageObj);
 
     Dispatcher.dispatch({
       type: ActionTypes.CREATE_MESSAGE,

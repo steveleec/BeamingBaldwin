@@ -1,11 +1,11 @@
 var React = require('react');
-
-var MessageActionCreators = require('../actions/MessageActionCreators');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
+var ComposeTextSection;
+var API = require('../utils/API');
+// var MessageActionCreators = require('../actions/MessageActionCreators');
 
 var ENTER_KEY_CODE = 13;
 
-var ComposeTextSection = React.createClass({
+ComposeTextSection = React.createClass({
 
   propTypes: {
     threadID: React.PropTypes.string.isRequired,
@@ -41,8 +41,11 @@ var ComposeTextSection = React.createClass({
       event.preventDefault();
       textToSend = this.state.text.trim();
       if (textToSend) {
-        MessageActionCreators.createMessage(textToSend, this.props.threadID);
-        // ChatWebAPIUtils.sendMessageToDB(textToSend, this.props.threadID, this.props.userName);
+        API.sendMessage({
+          threadId: this.props.threadID || 0, // TODO: need to wire up API to serve ThreadStore with data to set a currentThreadID
+          text: textToSend,
+          userId: this.props.userName,
+        });
       }
       this.setState({text: ''});
     }
