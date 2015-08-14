@@ -9,36 +9,14 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _messagesObj = {
-  '1': [
-    {
-      createdAt: new Date(),
-      messageID: 1, // MessageIdType
-      text: 'sup homie', // String
-      threadID: 1, // ThreadIdType
-      userID: 'Bob', // String
-    },
-    {
-      createdAt: new Date(),
-      messageID: 2, // MessageIdType
-      text: 'sup bro', // String
-      threadID: 1, // ThreadIdType
-      userID: 'Bob', // String
-    },
-    {
-      createdAt: new Date(),
-      messageID: 3, // MessageIdType
-      text: 'sup man', // String
-      threadID: 1, // ThreadIdType
-      userID: 'Bob', // String
-    },
-  ],
+  '0': [],
 };
 
 function _addMessageToMessagesObj(messagePayloadObj) {
-  if (_messagesObj[messagePayloadObj.threadID] === undefined) {
-    _messagesObj[messagePayloadObj.threadID] = [];
+  if (_messagesObj[messagePayloadObj.threadId] === undefined) {
+    _messagesObj[messagePayloadObj.threadId] = [];
   }
-  _messagesObj[messagePayloadObj.threadID].push(messagePayloadObj);
+  _messagesObj[messagePayloadObj.threadId].push(messagePayloadObj);
 }
 
 MessageStore = assign({}, EventEmitter.prototype, {
@@ -57,7 +35,7 @@ MessageStore = assign({}, EventEmitter.prototype, {
 
   getMessagesforCurrentThread: function() {
     // TODO: sort the messages by chronological order
-    return _messagesObj['1'];
+    return _messagesObj['0'];
     // return _messagesObj[ThreadStore.getCurrentThreadID()];
   }, // getMessagesforCurrentThread
 
@@ -71,9 +49,9 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:
-    Dispatcher.waitFor([ThreadStore.dispatchToken]);
-    // TODO: this will come from the API
+    //Dispatcher.waitFor([ThreadStore.dispatchToken]);
     _addMessageToMessagesObj(payload.message);
+    MessageStore.emitChange();
     break;
 
   default:

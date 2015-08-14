@@ -1,6 +1,5 @@
 var React = require('react');
 var API = require('../utils/API');
-// var MessageActionCreators = require('../actions/MessageActionCreators');
 
 var ENTER_KEY_CODE = 13;
 

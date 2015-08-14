@@ -23,8 +23,17 @@ MessageSection = React.createClass({
   },
 
   componentDidMount: function() {
-    // MessageStore.addChangeListener(this._onChange);
+    MessageStore.addChangeListener(this._onChange);
     // ThreadStore.addChangeListener(this._onChange);
+  },
+
+  componentDidUnmount: function() {
+    MessageStore.removeChangeListener(this._onChange);
+    // ThreadStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState(getStateFromStores());
   },
 
   render: function() {
