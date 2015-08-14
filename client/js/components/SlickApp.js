@@ -11,7 +11,7 @@ var SlickApp = React.createClass({
 
   render: function() {
     return (
-      <div className="ChattingApp">
+      <div className="SlickApp">
         <HeaderSection/>
         <ThreadSection/>
         <MessageSection/>

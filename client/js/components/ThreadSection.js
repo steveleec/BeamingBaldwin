@@ -38,7 +38,7 @@ var ThreadSection = React.createClass({
       );
     });
     return (
-      <ul className="Threads">
+      <ul className="Thread">
         {threadListItems}
       </ul>
     );

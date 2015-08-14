@@ -25,7 +25,7 @@ var App = React.createClass({
       <Link to="signout">Signout</Link> :
       <Link to="signin">Signin</Link>;
     return (
-      <div>
+      <div className="App">
         <ul>
           <li><Link to="/">Home</Link></li>
           <li>{signinOrOut}</li>
