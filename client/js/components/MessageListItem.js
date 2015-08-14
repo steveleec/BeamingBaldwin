@@ -11,11 +11,9 @@ var MessageListItem = React.createClass({
     var messageObj = this.props.messageObj;
     return (
       <li className="Message__listItem">
-        <h5>{messageObj.userID}</h5>
-        <div>
-          {messageObj.createdAt.toString()}
-        </div>
-        <div>{messageObj.text}</div>
+        <h5 className="Message__listItemH5">{messageObj.userID}</h5>
+        <p className="Message__listItemCreatedAt">{messageObj.createdAt.toString()}</p>
+        <p className="Message__listItemText">{messageObj.text}</p>
       </li>
     );
   },

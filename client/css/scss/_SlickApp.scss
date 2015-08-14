@@ -1,1 +1,2 @@
-.SlickApp { @include container; max-width: 800px; }
+// body { height: 100vh; }
+.SlickApp { display: flex; height: 100%; width: 100%; margin: 0 auto; }
