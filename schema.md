@@ -3,55 +3,6 @@
 ## Schema
 
 ```
-firebase: {
-  threads: [{
-    id: {
-      title: String,
-      messages: [{
-        id: UID,
-        text: String,
-        userId: String,
-        createdAt: Date
-      }],
-      parentId: ThreadIdType,
-      participants: [ UserIdType ]
-    }
-  }],
-
-  users: {
-    userid: {
-      name: String,
-      status: StatusType,
-      threads: {
-        threadId: {
-          lastSeenMessageId: MessageIdType,
-          pinned: Boolean,
-          snoozedUntil: Date
-        }
-      },
-      users: {
-        blocked: [ UserIdType ],
-        pinned: [ UserIdType ]
-      }
-    }
-  }
-}
-```
-
-## Types
-
-```
-Date:           Number (epoc)
-MessageIdType:  UUID
-StatusType:     enum (TBD)
-ThreadIdType:   UUID
-UserIdType:     String (Firebase-unsafe characters escaped)
-```
-
-
-## Pending
-
-```
 firebase:
   threadInfo: {
     threadId: {
@@ -90,3 +41,17 @@ firebase:
     }
   }
 ```
+
+## Types
+
+```
+Date:           Number (epoc)
+MessageIdType:  UUID
+StatusType:     enum (TBD)
+ThreadIdType:   UUID
+UserIdType:     String (Firebase-unsafe characters escaped)
+```
+
+
+## Pending
+
