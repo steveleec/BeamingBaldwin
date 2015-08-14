@@ -23,9 +23,9 @@
     "eslint-config-airbnb": "0.0.7",
     "eslint-plugin-react": "^3.2.0",
     "jest-cli": "^0.4.3",
+    "node-sass": "^3.2.0",
     "prettyjson": "^1.1.3",
     "reactify": "^1.1.1",
-    "sass": "^0.5.0",
     "uglify-js": "~2.4.24",
     "watchify": "^3.3.1"
   },
@@ -33,7 +33,7 @@
     "start": "npm run watchify & npm run browsersync & npm run sass",
     "watchify": "watchify -o client/js/bundle.js -v -d client/js/main.js",
     "browsersync": "browser-sync start --server client --files 'client/js/*.js, client/css/*.css, client/*.html'",
-    "sass": "sass --watch client/css/scss/main.scss:client/css/styles.css --style compressed",
+    "sass": "node-sass --watch client/css/scss/main.scss client/css/styles.css --output-style compressed",
     "test": "jest --verbose"
   },
   "browserify": {
