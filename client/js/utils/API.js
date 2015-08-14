@@ -37,6 +37,10 @@ function _subscribeThread(threadId) {
   });
 
   // TODO subscribe the thread info changes
+  _ref(['threadInfo', threadId])
+  .on('value', function(){
+    
+  }
 }
 
 /**
