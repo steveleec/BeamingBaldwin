@@ -85,7 +85,7 @@ function _subscribeUser(user) {
   _ref(['users', user]).on('value', _userChanged);
 }
 
-function _unsubscribeUser() {
+function _unsubscribeAll() {
   _ref().off();
 }
 
@@ -181,7 +181,7 @@ module.exports = {
     _subscribeUser(_escape(user));
   },
 
-  logout: _unsubscribeUser, 
+  logout: _unsubscribeAll,
 
   addUserToThread: _addUserToThread,
 
