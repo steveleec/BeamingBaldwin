@@ -20,7 +20,6 @@ function _subscribeThread(threadId) {
   _ref(['threads', threadId, 'messages'])
   .on('child_added', function(snapshot) {
     var child = snapshot.val();
-    console.log('new message on', pretty(child));
     var message = {
       createdAt: child.createdAt,
       messageId: snapshot.key(),
@@ -28,6 +27,7 @@ function _subscribeThread(threadId) {
       threadId: threadId,
       userId: child.userId,
     };
+    console.log('new message on', pretty(child));
     Actions.messageReceivedFromApi(message);
   });
 
@@ -98,13 +98,13 @@ module.exports = {
   * @param { threadId, text, userId } message
   */
   sendMessage: function(message) {
-    console.log('sendMessage', pretty(message));
     var threadId = message.threadId;
     var messageId = _ref(['threads', threadId, 'messages']).push({
       text: message.text,
       userId: message.userId,
       createdAt: Firebase.ServerValue.TIMESTAMP,
     });
+    console.log('sendMessage sent', pretty(message));
     return messageId;
   },
 
