@@ -1,10 +1,10 @@
 var ThreadStore;
 var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var SlickConstants = require('../constants/Constants');
+var Constants = require('../constants/Constants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
-var ActionTypes = SlickConstants.ActionTypes;
+var ActionTypes = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _currThreadID = null;
