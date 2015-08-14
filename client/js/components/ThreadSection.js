@@ -1,6 +1,6 @@
 var React = require('react');
 var ThreadSection;
-var ThreadListItem = require('./ThreadListItem.react');
+var ThreadListItem = require('./ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 
 ThreadSection = React.createClass({

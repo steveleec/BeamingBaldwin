@@ -1,7 +1,6 @@
 var React = require('react');
-var HeaderSection;
 
-HeaderSection = React.createClass({
+var HeaderSection = React.createClass({
   render: function() {
     return (
       <header className="Header"></header>

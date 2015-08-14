@@ -1,5 +1,5 @@
 var ThreadStore;
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
+var Dispatcher = require('../dispatcher/Dispatcher');
 var Constants = require('../constants/Constants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
@@ -34,7 +34,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
 });
 
-ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
+ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:

@@ -1,7 +1,7 @@
 var React = require('react');
 var MessageSection;
-var MessageListItem = require('./MessageListItem.react');
-var MessageComposer = require('./MessageComposer.react');
+var MessageListItem = require('./MessageListItem');
+var MessageComposer = require('./MessageComposer');
 var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
 

@@ -1,4 +1,4 @@
-var Dispatcher = require('../dispatcher/ChatAppDispatcher');
+var Dispatcher = require('../dispatcher/Dispatcher');
 var Constants = require('../constants/Constants');
 var API = require('../utils/API');
 

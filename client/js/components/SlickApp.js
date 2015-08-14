@@ -1,8 +1,8 @@
 var React = require('react');
 
-var MessageSection = require('./MessageSection.react');
-var HeaderSection = require('./HeaderSection.react');
-var ThreadSection = require('./ThreadSection.react');
+var MessageSection = require('./MessageSection');
+var HeaderSection = require('./HeaderSection');
+var ThreadSection = require('./ThreadSection');
 
 var Authentication = require('../mixins/authentication');
 
