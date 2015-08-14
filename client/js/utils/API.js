@@ -32,11 +32,16 @@ function _subscribeThread(threadId) {
       threadId: threadId,
       userId: child.userId,
     };
-    console.log('new message on', pretty(child));
     Actions.messageReceivedFromApi(message);
   });
 
-  // TODO subscribe the thread info changes
+  // subscribe the thread info changes
+  _ref(['threadInfo', threadId])
+  .on('value', function(snapshot){
+    var threadInfo = snapshot.val();
+    threadInfo.id = threadId;
+    Actions.threadInfoReceivedFromApi(threadInfo);
+  });
 }
 
 /**
