@@ -12,8 +12,13 @@ function _ref(path) {
   }
   return new Firebase(uri + '/' + defaultedPath);
 }
+
 function _escape(str) {
   return str.replace(/[\.#@$\[\]]/g, '-');
+}
+
+function _threadInfoChangeHandler(threadId, snapshop){
+
 }
 
 function _subscribeThread(threadId) {
@@ -34,7 +39,25 @@ function _subscribeThread(threadId) {
     Actions.messageReceivedFromApi(message);
   });
 
-  // TODO subscribe to thread changes (excluding messages)
+  // subscribe the thread info changes
+  // call _threadInfoChangeHandler
+  /*
+  ThreadInfo Payload
+  ------------------
+
+  thread: {
+    parentId: ThreadIdType,
+    participants: [ UserIdType ],
+    threadId: ThreadIdType,
+    title: String
+  }
+  */
+  var threadInfoChangeHandler = _threadInfoChangeHandler.bind(null, threadId);
+  _ref(['threads', threadId, 'participants'])
+  .on('value', threadInfoChangeHandler);
+
+  _ref(['threads', threadId, 'title'])
+  .on('value', threadInfoChangeHandler);
 }
 /**
  * Callback on changes to the user object in order
