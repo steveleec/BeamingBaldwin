@@ -90,6 +90,7 @@ function _addThreadToUsers(threadId, users) {
 
 function _addUserToThread(user, threadId) {
   var userStub = {};
+  user = _escape(user); // no-param-reassign
   userStub[user] = true;
   console.log('_addUserToThread', user, threadId);
   _ref(['threadInfo', threadId, 'participants'])
@@ -99,6 +100,7 @@ function _addUserToThread(user, threadId) {
 }
 
 function _removeUserFromThread(user, threadId) {
+  user = _escape(user);
   console.log('_removeUserFromThread', user, threadId);
   _ref(['users', user, 'threads', threadId]).remove();
   _ref(['threadInfo', threadId, 'participants', user]).remove();
@@ -115,25 +117,19 @@ function _userChanged(snapshot) {
   console.log('_userChanged', pretty(user));
   // kill existing thread listeners,
   _unsubscribeThreads();
-  // _ref(['threadMessages']).off();
 
   // then restore.  Beware aware of race.
   _subscribeThreads();
-  // _ref(['users', user.id, 'threads']).once('value', function(threads) {
-  //   console.log('re-adding thread listeners');
-  //   console.log(pretty(threads.val()));
-  //   threads.forEach(function(thread) {
-  //     console.log('re-adding thread listener to', thread.key(), thread.val());
-  //     _subscribeThread(thread.key());
-  //   });
-  // });
-
   Actions.userInfoReceivedFromApi(user);
 }
 
 function _subscribeUser(user) {
   _user = user;
-  _ref(['users', user]).on('value', _userChanged);
+  // _ref(['users', user]).on('value', _userChanged);
+  // subscribe to specific user attributes.
+  var threads = _ref(['users', _user, 'threads']);
+  threads.on('child_added', _userLeftThread);
+  threads.on('child_added', _userJoinedThread);
 }
 
 /* exported methods */
