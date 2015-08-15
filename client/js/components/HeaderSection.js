@@ -31,7 +31,7 @@ HeaderSection = React.createClass({
           onRequestClose={this._closeModal}
         >
           <button onClick={this._closeModal}>Close</button>
-          <NewThreadForm />
+          <NewThreadForm doClose={this._closeModal} />
         </Modal>
 
       </header>

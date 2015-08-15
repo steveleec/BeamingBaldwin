@@ -65,6 +65,8 @@ NewThreadForm = React.createClass({
 
     React.findDOMNode(this.refs.title).value = '';
     React.findDOMNode(this.refs.participants).value = '';
+
+    this.props.doClose();
     return;
   },
 
