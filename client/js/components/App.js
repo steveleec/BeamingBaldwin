@@ -23,14 +23,16 @@ var App = React.createClass({
 
   render: function() {
     var signinOrOut = this.state.loggedIn ?
-      <Link to="signout">Signout</Link> :
-      <Link to="signin">Signin</Link>;
-    var signupOrNothing = this.state.loggedIn ? <div/> : <li><Link to="/signup">Signup</Link></li>;
+      <Link to="signout">Logout</Link> :
+      <Link to="signin">Login</Link>;
+
+    var signupOrNothing = this.state.loggedIn ? <div/> : <li className="Nav__li--signUp"><Link to="/signup">Sign Up</Link></li>;
+
     return (
       <div className="App">
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li>{signinOrOut}</li>
+        <ul className="Nav">
+          <li className="Nav__li--home"><Link to="/">Slick</Link></li>
+          <li className="Nav__li--signInOut">{signinOrOut}</li>
           {signupOrNothing}
         </ul>
         <RouteHandler/>

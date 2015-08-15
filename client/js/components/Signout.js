@@ -16,7 +16,11 @@ var Signout = React.createClass({
   },
 
   render: function() {
-    return <p>You are now logged out</p>;
+    return (
+      <div className="Signout">
+        <p>You are now logged out</p>
+      </div>
+    );
   },
 
 });

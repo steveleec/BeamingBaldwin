@@ -7,8 +7,10 @@ var Splash = React.createClass({
 
   render: function() {
     return (
-      <div>
-        Please login...
+      <div className="Splash__container">
+        <div className="Splash">
+          <h2 className="Splash__h2">Please login...</h2>
+        </div>
       </div>
     );
   },

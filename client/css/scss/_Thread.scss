@@ -1,5 +1,8 @@
-.Thread { flex: 1 100%; margin: 0; padding: 0; border: 1px solid red; border-radius: 5px; list-style: none; }
-.Thread-listItem { padding: 16px; cursor: pointer; }
+.Thread { flex: 1 100%; margin: 0; padding: 0; list-style: none; background: $slick-bg3; overflow: auto; }
+[class^="Thread__listItem--"],
+[class*=" Thread__listItem--"] { padding: 8px; cursor: pointer;
+  &:hover { background: $slick-bg2; }
+}
 
 @media #{$tablet} {
   .Thread { flex: 0 0 240px; }

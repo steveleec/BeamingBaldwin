@@ -17,7 +17,7 @@ NewThreadForm = React.createClass({
   render: function() {
     return (
       <div className="NewThreadForm">
-        <h2>New Thread</h2>
+        <h2 className="NewThreadForm__h2">New Thread</h2>
         <form
           className="NewThreadForm__form"
           onSubmit={this._handleSubmit}

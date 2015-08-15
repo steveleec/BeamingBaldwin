@@ -19,12 +19,19 @@ var Signup = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <form>
-            Email: <input type="email" placeholder="Please enter email" ref="email"/>
-            Password: <input type="password" placeholder="Please enter password" ref="password"/>
-            <input type="button" value="Signup" onClick={this.handler}/>
-        </form>
+      <div className="Signup__container">
+        <div className="Signup">
+          <h2 className="Signup__h2">Sign Up</h2>
+          <form className="Signup__form">
+            <label className="Signup__label">Email:
+              <input className="Signup__input" type="email" placeholder="you@example.com" ref="email"/>
+            </label>
+            <label className="Signup__label">Password:
+              <input className="Signup__input" type="password" ref="password"/>
+            </label>
+            <input className="Signup__submit" type="submit" value="Sign Up" onClick={this.handler}/>
+          </form>
+        </div>
       </div>
     );
   },
