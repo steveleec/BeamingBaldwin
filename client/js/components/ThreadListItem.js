@@ -18,36 +18,34 @@ var ThreadListItem = React.createClass({
   },
 
   render: function() {
-    // var classes = classNames({
-    //   'Threads-listItem': true,
-    // });
-    var children = this.props.threadChildren;
-    // console.log('children', children);
-    var renderChildrenThread = function() {
+    var renderChildrenThread = function(children) {
       var i;
       var child;
       if (children.length > 0) {
         for (i = 0; i < children.length; i++) {
           child = children[i];
+          console.log('child', children.length);
+          if (child.children.length > 0) {
+            console.log('children of child', child.children);
+            renderChildrenThread(child.children);
+          }
           return (
             <ChildListItem
-              className="child"
+              className="Thread__listItem--2"
               childTitle={child.info.title}
-              childLastMessage={child.lastMessage}
-              children={child.children}
             />
           );
         }
       }
     };
+    var myChildren = this.props.threadChildren;
     return (
       <li
-        className="parent-thread">
+        className="Thread__listItem--1">
         <div onClick={this._onClick}>
           <p>Title: {this.props.threadTitle} </p>
-          <p>Last Message: {this.props.threadLastMessage} </p>
         </div>
-        {renderChildrenThread()}
+        {renderChildrenThread(myChildren)}
       </li>
     );
   },

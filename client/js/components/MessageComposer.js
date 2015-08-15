@@ -1,13 +1,15 @@
 var React = require('react');
 var API = require('../utils/API');
 
+var ReactPropTypes = React.PropTypes;
+
 var ENTER_KEY_CODE = 13;
 
 var MessageComposer = React.createClass({
 
   propTypes: {
-    threadID: React.PropTypes.string.isRequired,
-    userName: React.PropTypes.string.isRequired,
+    threadID: ReactPropTypes.string.isRequired,
+    userName: ReactPropTypes.string.isRequired,
   },
 
   getInitialState: function() {

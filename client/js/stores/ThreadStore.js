@@ -29,7 +29,7 @@ var _retrieveInfoForThread = function(thread) {
 };
 
 var _updateTreeOfChildren = function(thread) {
-  if (thread.parentId !== '') {
+  if (thread.parentId !== undefined) {
     if (thread.parentId in _listOfChildren) {
       _listOfChildren[thread.parentId].push(thread.threadId);
     } else {
@@ -50,8 +50,8 @@ var _giveThreadsAnIdNumberForOrdering = function() {
   if (Object.keys(_threads).length > 0) {
     for (thread in _threads) {
       if (_threads[thread].info.parentId === '') {
-        timeStampAndThreads[_threads[thread].info.timestamp] = _threads[thread].info.threadId;
-        tempArrayDateThreadsOrganized.push(_threads[thread].info.timestamp);
+        timeStampAndThreads[_threads[thread].info.createdAt] = _threads[thread].info.threadId;
+        tempArrayDateThreadsOrganized.push(_threads[thread].info.createdAt);
       }
     }
     tempArrayDateThreadsOrganized.sort();
@@ -64,13 +64,14 @@ var _giveThreadsAnIdNumberForOrdering = function() {
 
 var _thereIsParentFor = function(thread, res) {
   // root when _threads[thread].info.parentId === ''
+  var result = false;
   var eachThread;
   var recurse = function(children) {
     var i;
     if (children.length > 0) {
       for (i = 0; i < children.length; i++) {
         if (children[i].listOfchildren.indexOf(thread)) {
-          return true;
+          result = true;
         } else {
           recurse(children[i].children);
         }
@@ -79,13 +80,13 @@ var _thereIsParentFor = function(thread, res) {
   };
   if (Object.keys(res).length > 0) {
     for (eachThread in res) {
-      if (thread === eachThread) {
-        return true;
+      if (res[eachThread].listOfchildren.indexOf(thread) !== -1) result = true;
+      if (res[eachThread].children.length > 0) {
+        recurse(res[eachThread].children);
       }
-      recurse(res[eachThread].children);
     }
   }
-  return false;
+  return result;
 };
 
 ThreadStore = assign({}, EventEmitter.prototype, {
@@ -105,17 +106,17 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   getCurrentThreadID: function() {
     return _currThreadID;
   },
-  _storeInNestedParent: function(res, threadToStore) {
+  storeInNestedParent: function(res, threadToStore) {
     var thread;
     var recurse = function(children) {
       var i;
       if (children.length > 0) {
         for (i = 0; i < children.length; i++) {
-          if (children[i].listOfchildren.indexOf(threadToStore.info.threadId)) {
+          if(children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             children[i].children.push(threadToStore);
             return;
           } else {
-            recurse(children[i].children);
+            if (children[i].children.length > 0) recurse(children[i].children);
           }
         }
       }
@@ -123,11 +124,11 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     if (Object.keys(res).length > 0) {
       for (thread in res) {
         // if threadToStore is a child of a parent in root res.
-        if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId)) {
+        if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
           res[thread].children.push(threadToStore);
           return;
         }  else {
-          recurse(res[thread].children);
+          if (res[thread].children.length > 0) recurse(res[thread].children);
         }
       }
     }
@@ -145,18 +146,21 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         aThread[thread] = {};
         // Create a type of object name aThread
         aThread[thread].info = _threads[thread].info || {};
-        aThread[thread].listOfchildren = _listOfChildren[thread] || {};
+        aThread[thread].listOfchildren = _listOfChildren[thread] || [];
         aThread[thread].lastMessage = _messages[thread] && _messages[thread].text || '';
         aThread[thread].children = []; // nested children objects will be insterded during iteration
         // thread without parent but it might have children
         // console.log('_threads[thread].info.parentId', _threads[thread].info.parentId);
         if (_threads[thread].info.parentId === undefined) {
           res[thread] = aThread[thread];
+          aThread = {};
           // console.log('res[thread]', res[thread]);
         } else if (_threads[thread].info.parentId !== undefined && _thereIsParentFor(thread, res)) {
-          _storeInNestedParent(res, aThread.thread);
+          ThreadStore.storeInNestedParent(res, aThread[thread]);
+          aThread = {};
         } else if (_threads[thread].info.parentId !== undefined && !_thereIsParentFor(thread, res)) {
           orphans[thread] = aThread[thread];
+          aThread = {};
         }
       }
     }

@@ -16,7 +16,7 @@ var App = React.createClass({
     };
   },
 
-  componentWillMount: function() {
+  componentDidMount: function() {
     auth.onChange = this.setStateOnAuth;
     auth.login();
   },

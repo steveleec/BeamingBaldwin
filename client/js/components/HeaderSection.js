@@ -11,11 +11,11 @@ var HeaderSection = React.createClass({
         >New Thread</button>
       </header>
     );
-  }, // render
+  },
 
   _onNewThreadBtnClick: function() {
     console.log('new thread button');
-  }, // _onNewThreadBtnClick
+  },
 });
 
 module.exports = HeaderSection;
