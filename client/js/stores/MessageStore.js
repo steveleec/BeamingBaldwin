@@ -34,7 +34,6 @@ MessageStore = assign({}, EventEmitter.prototype, {
   },
 
   getMessagesforCurrentThread: function() {
-    // TODO: sort the messages by chronological order
     var key = ThreadStore.getCurrentThreadID() || '0';
     console.log('currentThreadID:', key);
     return !_messagesObj[key] ? [] : _messagesObj[key];

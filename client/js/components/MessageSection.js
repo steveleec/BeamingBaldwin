@@ -5,12 +5,9 @@ var MessageComposer = require('./MessageComposer');
 var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
 
-/** message: id, authorname, date, text */
-
 function getStateFromStores() {
   return {
     messagesArr: MessageStore.getMessagesforCurrentThread(),
-    // userName: MessageStore.getUserNameForCurrentThread(), // TODO: this should come from a UserStore
     userName: localStorage.email || 'Bobby Tables',
     threadID: ThreadStore.getCurrentThreadID() || '0',
   };
@@ -41,7 +38,6 @@ MessageSection = React.createClass({
         />
       );
     });
-
     return (
       <div className="Message">
         <ul className="Message__list" ref="messageList">

@@ -34,9 +34,9 @@ var Signin = React.createClass({
     React.findDOMNode(this.refs.email).value = '';
     React.findDOMNode(this.refs.password).value = '';
 
-    console.log('Trying to signin');
-    console.log('Email: ', email);
-    console.log('Password: ', password);
+    // console.log('Trying to signin');
+    // console.log('Email: ', email);
+    // console.log('Password: ', password);
 
     auth.login(email, password, function(loggedIn) {
       var transition;

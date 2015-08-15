@@ -8,7 +8,7 @@ var ChildListItem = React.createClass({
     childLastMessage: ReactPropTypes.string,
   },
 
-  render: function(){
+  render: function() {
     // console.log('ChildListItem', ChildListItem);
     return (
       <li>
