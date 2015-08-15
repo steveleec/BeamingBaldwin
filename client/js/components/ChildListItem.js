@@ -1,9 +1,12 @@
 var React = require('react');
-var classNames = require('classnames');
-var _ = require('lodash');
 var ReactPropTypes = React.PropTypes;
 
 var ChildListItem = React.createClass({
+
+  propTypes: {
+    childTitle: ReactPropTypes.string,
+    childLastMessage: ReactPropTypes.string,
+  },
 
   render: function(){
     // console.log('ChildListItem', ChildListItem);
