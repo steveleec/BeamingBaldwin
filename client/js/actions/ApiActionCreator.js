@@ -5,7 +5,7 @@ var ActionTypes = Constants.ActionTypes;
 
 module.exports = {
   messageReceivedFromApi: function(message) {
-    console.log('ApiActionCreator.messageReceived', message);
+    // console.log('ApiActionCreator.messageReceived', message);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
       message: message,
@@ -18,10 +18,11 @@ module.exports = {
       type: ActionTypes.RECEIVE_THREADINFO,
       threadInfo: threadInfo,
     });
+    console.log('End of Dispatcher');
   },
 
   userInfoReceivedFromApi: function(userInfo) {
-    console.log('ApiActionCreator.userInfoReceivedFromApi', userInfo);
+    // console.log('ApiActionCreator.userInfoReceivedFromApi', userInfo);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_USERINFO,
       userInfo: userInfo,

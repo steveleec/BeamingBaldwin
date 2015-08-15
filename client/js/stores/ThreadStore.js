@@ -58,15 +58,6 @@ var _giveThreadsAnIdNumberForOrdering = function() {
   }
 };
 
-var _thereIsNoParentFor = function(thread){
-  // verify if thread exists as a child of _threads
-  if (Object.keys(_threads).length > 0) {
-    for (var aThread in _threads) {
-
-    }
-  }
-};
-
 ThreadStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -160,6 +151,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   // Keeps track of all the threads send by the DB in an object.
   updateLocalThreadsStorage: function(thread) {
+    console.log('updateLocalThreadsStorage', thread);
     _updateTreeOfChildren(thread);
     _threads[thread.threadId].info = _retrieveInfoForThread(thread);
   },
@@ -167,8 +159,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   // Keeps last messages sent by the DB for each thread.
   // Attach the last message as a property of thread within _threads.
   updateLocalLastMessagesStorage: function(payload) {
-    if (payload.messages.threadId in _messages) {
-      if (_messages[payload.messages.threadId].createdAt < payload.message.createdAt) {
+    if (payload.message.threadId in _messages) {
+      if (_messages[payload.message.threadId].createdAt < payload.message.createdAt) {
         _messages[payload.message.threadId] = payload.message;
       }
     } else {
@@ -195,14 +187,15 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     _currThreadID = payload.threadID;
     break;
 
-  case ActionTypes.SEND_STREAM_OF_THREADS:
-    updateLocalThreadsStorage(payload.thread);
+  case ActionTypes.RECEIVE_THREADINFO:
+    console.log('Listening to Thread DB', payload.threadInfo);
+    ThreadStore.updateLocalThreadsStorage(payload.threadInfo);
     setCurrentThreadId();
     ThreadStore.emitChange();
     break;
 
-  case ActionTypes.SEND_STREAM_OF_MESSAGES:
-    updateLocalLastMessagesStorage(payload);
+  case ActionTypes.RECEIVE_MESSAGE:
+    ThreadStore.updateLocalLastMessagesStorage(payload);
     ThreadStore.emitChange();
     break;
 

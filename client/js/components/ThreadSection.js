@@ -3,13 +3,9 @@ var ThreadListItem = require('./ThreadListItem');
 var _ = require('lodash');
 var ThreadStore = require('../stores/ThreadStore');
 
-
-var ThreadSection = React.createClass({
-  getInitialState: function() {
-    return {
-      // thread: ThreadStore.getOneThreadFromStream(),
-      // message: ThreadStore.getOneMessageFromStream(),
-      // currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
+var getStateFromStores = function(){
+  return {
+    currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
       currentState: {
         thread1: {
           info: {
@@ -79,17 +75,19 @@ var ThreadSection = React.createClass({
           children: [],
         },
       },
-    };
+  };
+};
+
+var ThreadSection = React.createClass({
+  getInitialState: function() {
+    return getStateFromStores();
   },
   componentDidMount: function() {
     ThreadStore.addChangeListener(this._onChange);
     // UnreadThreadStore.addChangeListener(this._onChange);
   },
   render: function() {
-    console.log('render initial state');
-    console.log('currentState', this.state.currentState);
     var threadListItems = _.map(this.state.currentState, function(state) {
-      console.log('state', state);
       return (
         <ThreadListItem
           threadId={state.info.threadId}

@@ -52,9 +52,7 @@ var ThreadListItem = React.createClass({
             />
           );
         }
-
       };
-
     };
 
     return (

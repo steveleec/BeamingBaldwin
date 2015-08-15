@@ -41,6 +41,7 @@ function _subscribeThread(threadId) {
     var threadInfo = snapshot.val();
     threadInfo.id = threadId;
     Actions.threadInfoReceivedFromApi(threadInfo);
+    console.log('Getting thread info from DB', threadInfo);
   });
 }
 
