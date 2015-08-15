@@ -51,7 +51,6 @@ NewThreadForm = React.createClass({
   },
 
   _inputOnChange: function(e) {
-    console.log(this.state.participants, e.target.value);
     this.setState({participants: e.target.value});
   },
 
@@ -72,12 +71,10 @@ NewThreadForm = React.createClass({
       participants: participants.split(' '),
       title: title,
     };
-    console.log(this.props.threadProps);
     if (this.props.threadProps.parentId) {
       threadInfo.parentId = this.props.threadProps.parentId;
     }
-    // API.addThread(threadInfo);
-    console.log('would create', threadInfo);
+    API.addThread(threadInfo);
 
     React.findDOMNode(this.refs.title).value = '';
     React.findDOMNode(this.refs.participants).value = '';
