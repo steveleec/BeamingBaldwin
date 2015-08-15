@@ -19,7 +19,6 @@ module.exports = {
       type: ActionTypes.RECEIVE_THREADINFO,
       threadInfo: threadInfo,
     });
-    // console.log('End of Dispatcher');
   },
 
   userInfoReceivedFromApi: function(userInfo) {
