@@ -41,7 +41,7 @@ var Signin = React.createClass({
     auth.login(email, password, function(loggedIn) {
       var transition;
       if (!loggedIn) {
-        return this.setState({ error: true });
+        return this.setState({error: true});
       }
       if (Signin.attemptedTransition) {
         transition = Signin.attemptedTransition;

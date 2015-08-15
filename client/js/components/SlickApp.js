@@ -7,6 +7,7 @@ var ThreadSection = require('./ThreadSection');
 var Authentication = require('../mixins/authentication');
 
 var SlickApp = React.createClass({
+
   mixins: [ Authentication ],
 
   render: function() {
@@ -20,6 +21,7 @@ var SlickApp = React.createClass({
       </div>
     );
   },
+
 });
 
 module.exports = SlickApp;

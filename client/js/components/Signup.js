@@ -4,6 +4,7 @@ var Router = require('react-router');
 var auth = require('../services/auth');
 
 var Signup = React.createClass({
+
   mixins: [Router.Navigation],
 
   statics: {

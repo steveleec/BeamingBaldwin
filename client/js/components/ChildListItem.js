@@ -4,6 +4,7 @@ var _ = require('lodash');
 var ReactPropTypes = React.PropTypes;
 
 var ChildListItem = React.createClass({
+
   render: function(){
     // console.log('ChildListItem', ChildListItem);
     return (

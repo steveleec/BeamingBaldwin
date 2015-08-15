@@ -79,6 +79,7 @@ var getStateFromStores = function(){
 };
 
 var ThreadSection = React.createClass({
+
   getInitialState: function() {
     var state = getStateFromStores();
     // console.log('currentState', state);
