@@ -25,12 +25,13 @@ var App = React.createClass({
     var signinOrOut = this.state.loggedIn ?
       <Link to="signout">Signout</Link> :
       <Link to="signin">Signin</Link>;
+    var signupOrNothing = this.state.loggedIn ? <div/> : <li><Link to="/signup">Signup</Link></li>;
     return (
       <div className="App">
         <ul>
           <li><Link to="/">Home</Link></li>
           <li>{signinOrOut}</li>
-          <li><Link to="/signup">Signup</Link></li>
+          {signupOrNothing}
         </ul>
         <RouteHandler/>
       </div>
