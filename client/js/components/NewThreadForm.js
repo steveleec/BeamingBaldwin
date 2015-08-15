@@ -1,9 +1,18 @@
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
 var NewThreadForm;
 var API = require('../utils/API');
 
 NewThreadForm = React.createClass({
-
+  propTypes: {
+    threadProps: ReactPropTypes.object,
+    doClose: ReactPropTypes.func,
+  },
+  getInitialState: function() {
+    return {
+      participants: localStorage.email || 'Bobby Tables',
+    };
+  },
   render: function() {
     return (
       <div className="NewThreadForm">
@@ -19,7 +28,7 @@ NewThreadForm = React.createClass({
               name="title"
               placeholder="Slick Title"
               type="text"
-              onChange={this._inputOnChange}
+              // onChange={this._inputOnChange}
             />
           </label>
           <label className="NewThreadForm__label">Participants:
@@ -27,9 +36,9 @@ NewThreadForm = React.createClass({
               className="NewThreadForm__input"
               ref="participants"
               name="participants"
-              placeholder="Who do you want to Slick?"
               type="text"
               onChange={this._inputOnChange}
+              value={this.state.participants}
             />
           </label>
           <input className="NewThreadForm__submit"
@@ -41,7 +50,10 @@ NewThreadForm = React.createClass({
     );
   },
 
-  _inputOnChange: function() {},
+  _inputOnChange: function(e) {
+    console.log(this.state.participants, e.target.value);
+    this.setState({participants: e.target.value});
+  },
 
   _handleSubmit: function(e) {
     var title;
@@ -56,12 +68,16 @@ NewThreadForm = React.createClass({
       console.error('You must provide a title and participants');
       return;
     }
-
-    API.addThread({
+    var threadInfo = {
       participants: participants.split(' '),
       title: title,
-      parentId: undefined, // TODO: get this from ThreadStore
-    });
+    };
+    console.log(this.props.threadProps);
+    if (this.props.threadProps.parentId) {
+      threadInfo.parentId = this.props.threadProps.parentId;
+    }
+    // API.addThread(threadInfo);
+    console.log('would create', threadInfo);
 
     React.findDOMNode(this.refs.title).value = '';
     React.findDOMNode(this.refs.participants).value = '';
