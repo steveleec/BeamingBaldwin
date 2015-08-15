@@ -15,7 +15,7 @@ var ThreadListItem = React.createClass({
       'Threads-listItem': true,
     });
     var children = this.props.threadChildren;
-    console.log('children', children);
+    // console.log('children', children);
     // var recurse = function(children){
     //   for (var i=0; i<children.length; i++) {
 
