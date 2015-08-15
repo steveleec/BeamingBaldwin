@@ -37,46 +37,20 @@ function _subscribeThread(threadId) {
 
   // subscribe the thread info changes
   _ref(['threadInfo', threadId])
-  .on('value', function(snapshot){
+  .on('value', function(snapshot) {
     var threadInfo = snapshot.val();
     threadInfo.id = threadId;
     Actions.threadInfoReceivedFromApi(threadInfo);
   });
 }
 
-/**
- * Callback on changes to the user object in order
- * to update thread subscriptions and inform user
- * store of changes.
- */
-function _userChanged(snapshot) {
-  var user = snapshot.val();
-  user.id = snapshot.key();
-  console.log('_userChanged', pretty(user));
-  // kill existing thread listeners,
-  _ref(['threadMessages']).off();
-  // then restore.  Beware aware of race.
-  _ref(['users', user.id, 'threads']).once('value', function(threads) {
-    console.log('re-adding thread listeners');
-    console.log(pretty(threads.val()));
-    threads.forEach(function(thread) {
-      console.log('re-adding thread listener to', thread.key(), thread.val());
-      _subscribeThread(thread.key());
-    });
-  });
-}
-
-function _subscribeUser(user) {
-  _user = user;
-  _ref(['users', user]).on('value', _userChanged);
-}
-
-function _unsubscribeAll() {
-  // unsubscribe from user object
-  _ref(['users', _user]).off();
-
+function _userThreadsDo(callback) {
   // enumerate user's threads
-  _ref(['users', _user, 'threads']).once('value', function(snapshot) {
+  _ref(['users', _user, 'threads']).once('value', callback);
+}
+
+function _unsubscribeThreads() {
+  _userThreadsDo(function(snapshot) {
     snapshot.forEach(function(thread) {
       // unsubscribe from threadInfo
       _ref(['threadInfo', thread.key()]).off();
@@ -84,6 +58,20 @@ function _unsubscribeAll() {
       _ref(['threadMessages', thread.key()]).off();
     });
   });
+}
+
+function _subscribeThreads() {
+  _userThreadsDo(function(snapshot) {
+    snapshot.forEach(function(thread) {
+      _subscribeThread(thread.key());
+    });
+  });
+}
+
+function _unsubscribeAll() {
+  // unsubscribe from user object
+  _ref(['users', _user]).off();
+  _unsubscribeThreads();
 }
 
 // NB orderByChild: "If you want to use orderByChild() on a production app, you should define the keys you will be indexing on via the .indexOn rule in your Security and Firebase Rules." https://www.firebase.com/docs/web/guide/retrieving-data.html
@@ -113,6 +101,38 @@ function _removeUserFromThread(user, threadId) {
   console.log('_removeUserFromThread', user, threadId);
   _ref(['users', user, 'threads', threadId]).remove();
   _ref(['threadInfo', threadId, 'participants', user]).remove();
+}
+
+/**
+ * Callback on changes to the user object in order
+ * to update thread subscriptions and inform user
+ * store of changes.
+ */
+function _userChanged(snapshot) {
+  var user = snapshot.val();
+  user.id = snapshot.key();
+  console.log('_userChanged', pretty(user));
+  // kill existing thread listeners,
+  _unsubscribeThreads();
+  // _ref(['threadMessages']).off();
+
+  // then restore.  Beware aware of race.
+  _subscribeThreads();
+  // _ref(['users', user.id, 'threads']).once('value', function(threads) {
+  //   console.log('re-adding thread listeners');
+  //   console.log(pretty(threads.val()));
+  //   threads.forEach(function(thread) {
+  //     console.log('re-adding thread listener to', thread.key(), thread.val());
+  //     _subscribeThread(thread.key());
+  //   });
+  // });
+
+  Actions.userInfoReceivedFromApi(user);
+}
+
+function _subscribeUser(user) {
+  _user = user;
+  _ref(['users', user]).on('value', _userChanged);
 }
 
 /* exported methods */
@@ -184,3 +204,5 @@ module.exports = {
 
   removeUserFromThread: _removeUserFromThread,
 };
+
+window.__api = module.exports;
