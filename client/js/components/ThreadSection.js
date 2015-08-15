@@ -93,18 +93,26 @@ var ThreadSection = React.createClass({
     var threadListItems;
     // console.log('render initial state');
     // console.log('currentState', this.state.currentState);
-    threadListItems = _.map(this.state.currentState, function(state) {
-      return (
-        <ThreadListItem
-          threadId={state.info.threadId}
-          threadLastMessage={state.lastMessage}
-          threadTitle={state.info.title}
-          threadChildren={state.children}
-        />
-      );
-    });
+    // threadListItems = _.map(this.state.currentState, function(state) {
+    //   return (
+    //     <ThreadListItem
+    //       threadId={state.info.threadId}
+    //       threadLastMessage={state.lastMessage}
+    //       threadTitle={state.info.title}
+    //       threadChildren={state.children}
+    //     />
+    //   );
+    // });
+    var nodes = this.state;
+    if (nodes.children.length > 0 || this.props.node.length > 0) {
+      threadListItems = _.map(this.props.node, function(node) {
+        console.log('threadListItems', node);
+        return <li>{this.props.children.info.title} <ThreadSection node={node.children}/></li>
+      });
+    }
+
     return (
-      <ul className="Thread">
+      <ul className="Thread" children={nodes}>
         {threadListItems}
       </ul>
     );
