@@ -165,7 +165,6 @@ module.exports = {
       userId: message.userId,
       createdAt: Firebase.ServerValue.TIMESTAMP,
     });
-    console.log('sendMessage sent', pretty(message));
     return messageId;
   },
 
@@ -176,9 +175,11 @@ module.exports = {
   */
   addThread: function(thread) {
     var participants = thread.participants && thread.participants.reduce(function(memo, user) {
-        memo[user] = true;
+        memo[_escape(user)] = true;
         return memo;
       }, {});
+
+    // create threadInfo block
     var threadId = _ref('threadInfo').push({
       title: thread.title,
       parentId: thread.parentId,
@@ -193,7 +194,9 @@ module.exports = {
       });
       return threadId;
     }
-    _addThreadToUsers(threadId, thread.participants);
+    _addThreadToUsers(threadId, thread.participants.map(function(user) {
+      return _escape(user);
+    }));
     return threadId;
   },
 
