@@ -12,10 +12,8 @@ var _threads = {};
 
 var _messages = {};
 var _listOfChildren = {};
-var counter = 0;
 
 var _getLastThreadId = function(_threads) {
-
 };
 
 var _getParentThreadId = function() {
@@ -46,54 +44,6 @@ var _updateTreeOfChildren = function(thread) {
   }
 };
 
-var _giveThreadsAnIdNumberForOrdering = function() {
-  var timeStampAndThreads = {};
-  var tempArrayDateThreadsOrganized = [];
-  var thread;
-  var i;
-  var threadIdToChange;
-  if (Object.keys(_threads).length > 0) {
-    for (thread in _threads) {
-      if (_threads[thread].info.parentId === '') {
-        timeStampAndThreads[_threads[thread].info.createdAt] = _threads[thread].info.threadId;
-        tempArrayDateThreadsOrganized.push(_threads[thread].info.createdAt);
-      }
-    }
-    tempArrayDateThreadsOrganized.sort();
-    for (i = 0; i < tempArrayDateThreadsOrganized.length; i++) {
-      threadIdToChange = timeStampAndThreads[tempArrayDateThreadsOrganized[i]];
-      _threads[threadIdToChange].info.threadIdNumber = i;
-    }
-  }
-};
-
-var _thereIsParentFor = function(thread, res) {
-  // root when _threads[thread].info.parentId === ''
-  var result = false;
-  var eachThread;
-  var recurse = function(children) {
-    var i;
-    if (children.length > 0) {
-      for (i = 0; i < children.length; i++) {
-        if (children[i].listOfchildren.indexOf(thread)) {
-          result = true;
-        } else {
-          recurse(children[i].children);
-        }
-      }
-    }
-  };
-  if (Object.keys(res).length > 0) {
-    for (eachThread in res) {
-      if (res[eachThread].listOfchildren.indexOf(thread) !== -1) result = true;
-      if (res[eachThread].children.length > 0) {
-        recurse(res[eachThread].children);
-      }
-    }
-  }
-  return result;
-};
-
 ThreadStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -111,67 +61,81 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   getCurrentThreadID: function() {
     return _currThreadID;
   },
-  storeInNestedParent: function(res, threadToStore) {
+
+  getCurrentStateOfThreadsAndMessages: function() {
+    var res = {};
+    var aThread = {};
     var thread;
+    var counter;
+    var threadToStore;
+    var _thereIsParentFor = function(thread, res) {
+      var result = false;
+      var recurse = function(children) {
+        var i;
+        var eachThread;
+        if (children.length > 0) {
+          for (i = 0; i < children.length; i++) {
+            if (children[i].listOfchildren.indexOf(thread)) {
+              result = true;
+              break;
+            } else {
+              recurse(children[i].children);
+            }
+          }
+        }
+      };
+      for (eachThread in res) {
+        if (res[eachThread].listOfchildren.indexOf(thread) !== -1) {
+          result = true;
+          break;
+        } else if (res[eachThread].children.length > 0) {
+          recurse(res[eachThread].children);
+        }
+      }
+      return result;
+    };
     var recurse = function(children) {
       var i;
+      counter++;
       if (children.length > 0) {
         for (i = 0; i < children.length; i++) {
-          if(children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
+          if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
+            threadToStore.info['depth'] = counter;
             children[i].children.push(threadToStore);
-            return;
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
         }
       }
+      counter--;
     };
-    if (Object.keys(res).length > 0) {
-      for (thread in res) {
-        // if threadToStore is a child of a parent in root res.
-        if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
-          res[thread].children.push(threadToStore);
-          return;
-        }  else {
-          if (res[thread].children.length > 0) recurse(res[thread].children);
-        }
-      }
-    }
-  },
-
-  getCurrentStateOfThreadsAndMessages: function() {
-    var res = {};
-    var aThread = {};
-    var orphans = {};
-    var thread;
-    _giveThreadsAnIdNumberForOrdering();
-    // console.log('getting current State');
-    if (Object.keys(_threads).length > 0) {
-      for (thread in _threads) {
-        aThread[thread] = {};
-        // Create a type of object name aThread
-        aThread[thread].info = _threads[thread].info || {};
-        aThread[thread].listOfchildren = _listOfChildren[thread] || [];
-        aThread[thread].lastMessage = _messages[thread] && _messages[thread].text || '';
-        aThread[thread].children = []; // nested children objects will be insterded during iteration
-        // thread without parent but it might have children
-        // console.log('_threads[thread].info.parentId', _threads[thread].info.parentId);
+    for (thread in _threads) {
+      if (!!_threads[thread]) {
+        counter = 1;
+        aThread[thread] = {
+          info: _threads[thread].info || {},
+          listOfchildren: _listOfChildren[thread] || [],
+          lastMessage: _messages[thread] && _messages[thread].text || '',
+          children: [],
+        };
         if (_threads[thread].info.parentId === undefined) {
+          aThread[thread].info['depth'] = 0;
           res[thread] = aThread[thread];
-          aThread = {};
-          // console.log('res[thread]', res[thread]);
-        } else if (_threads[thread].info.parentId !== undefined && _thereIsParentFor(thread, res)) {
-          ThreadStore.storeInNestedParent(res, aThread[thread]);
-          aThread = {};
-        } else if (_threads[thread].info.parentId !== undefined && !_thereIsParentFor(thread, res)) {
-          orphans[thread] = aThread[thread];
-          aThread = {};
+        } else if (_thereIsParentFor(thread, res)) {
+          threadToStore = aThread[thread];
+          if (Object.keys(res).length > 0) {
+            for (thread in res) {
+              if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
+                threadToStore.info['depth'] = counter;
+                res[thread].children.push(threadToStore);
+              }  else {
+                if (res[thread].children.length > 0) recurse(res[thread].children);
+              }
+            }
+          }
         }
       }
     }
-    // console.log('_threads', _threads);
-    // console.log('res', res);
-    // console.log('aThread', aThread);
     return res;
   },
 
@@ -241,53 +205,3 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
 });
 
 module.exports = ThreadStore;
-
-// var ThreadStore;
-// var Dispatcher = require('../dispatcher/Dispatcher');
-// var ActionTypes = require('../constants/Constants').ActionTypes;
-
-// var EventEmitter = require('events').EventEmitter;
-// var assign = require('object-assign');
-
-// var CHANGE_EVENT = 'change';
-
-// var _currThreadID = null;
-// var _threads = {};
-
-// ThreadStore = assign({}, EventEmitter.prototype, {
-
-//   init: function() {
-
-//   }, // init
-
-//   emitChange: function() {
-//     this.emit(CHANGE_EVENT);
-//   }, // emit
-
-//   addChangeListener: function(callback) {
-//     this.on(CHANGE_EVENT, callback);
-//   }, // addChangeListener
-
-//   removeChangeListener: function(callback) {
-//     this.on(CHANGE_EVENT, callback);
-//   }, // removeChangeListener
-
-//   getCurrentThreadID: function() {
-//     return _currThreadID;
-//   },
-
-// });
-
-// ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
-//   switch (payload.type) {
-
-//   case ActionTypes.CLICK_THREAD:
-//     _currThreadID = payload.threadID;
-//     break;
-
-//   default:
-//     // do nothing
-//   }
-// });
-
-// module.exports = ThreadStore;
