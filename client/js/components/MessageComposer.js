@@ -7,7 +7,7 @@ var MessageComposer = React.createClass({
 
   propTypes: {
     threadID: React.PropTypes.string.isRequired,
-    userName: React.PropTypes.string,
+    userName: React.PropTypes.string.isRequired,
   },
 
   getInitialState: function() {
