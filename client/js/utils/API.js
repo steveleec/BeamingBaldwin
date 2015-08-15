@@ -18,8 +18,7 @@ function _escape(str) {
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 
-function _subscribeThread(snapshot) {
-  var threadId = snapshot.key();
+function _subscribeThread(threadId) {
   console.log('_subscribeThread', threadId);
 
   // subscribe to messages
@@ -66,7 +65,7 @@ function _subscribeThreads() {
   _userThreadsDo(function(snapshot) {
     snapshot.forEach(function(thread) {
       console.log('_subscribeThreads', thread);
-      _subscribeThread(thread);
+      _subscribeThread(thread.key());
     });
   });
 }
@@ -103,9 +102,11 @@ function _addUserToThread(user, threadId) {
 
 function _removeUserFromThread(user, threadId) {
   user = _escape(user);
-  console.log('_removeUserFromThread', user, threadId);
   _ref(['users', user, 'threads', threadId]).remove();
   _ref(['threadInfo', threadId, 'participants', user]).remove();
+  if(user === _user) {
+    _unsubscribeThread(threadId);
+  }
 }
 
 /**
@@ -125,8 +126,8 @@ function _userChanged(snapshot) {
   Actions.userInfoReceivedFromApi(user);
 }
 
-function _unsubscribeThread(snapshot) {
-  var threadId = snapshot.key();
+function _unsubscribeThread(threadId) {
+  console.log('_unsubscribeThread', threadId);
   _ref(['threadMessages', threadId]).off();
   _ref(['threadInfo', threadId]).off();
   Actions.userRemovedFromThread(threadId);
@@ -138,8 +139,8 @@ function _subscribeUser(user) {
   // _ref(['users', user]).on('value', _userChanged);
   // subscribe to specific user attributes.
   var threads = _ref(['users', _user, 'threads']);
-  threads.on('child_added', _unsubscribeThread);
-  threads.on('child_added', _subscribeThread);
+  threads.on('child_added', function(snapshot) { _unsubscribeThread(snapshot.key()); });
+  threads.on('child_added', function(snapshot) { _subscribeThread(snapshot.key()); });
 
   _ref(['users', _user]).once('value', function(snapshot) {
     var userInfo = snapshot.val();
