@@ -10,5 +10,8 @@ module.exports = {
 
     // API => ThreadStore
     RECEIVE_THREADINFO: null,
+
+    // API => ???
+    RECEIVE_USERINFO: null,
   }),
 };
