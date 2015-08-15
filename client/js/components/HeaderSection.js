@@ -3,6 +3,7 @@ var HeaderSection;
 var Modal = require('react-modal');
 var NewThreadForm = require('./NewThreadForm');
 var ThreadStore = require('../stores/ThreadStore');
+var api = require('../utils/API.js');
 
 var appElement = document.getElementById('react');
 Modal.setAppElement(appElement);
@@ -43,6 +44,13 @@ HeaderSection = React.createClass({
           New Child Thread
         </button>
 
+        <button
+          className="Header__leaveThreadBtn"
+          onClick={this._leaveThread}
+        >
+          Leave Thread
+        </button>
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this._closeModal}
@@ -73,6 +81,9 @@ HeaderSection = React.createClass({
     this.setState({modalIsOpen: false});
   },
 
+  _leaveThread: function() {
+    api.leaveThread(this.state.threadId);
+  },
 });
 
 module.exports = HeaderSection;

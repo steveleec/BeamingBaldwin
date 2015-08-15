@@ -228,6 +228,10 @@ module.exports = {
     last[threadId] = messageId;
     _ref(['users', _user, 'threads']).set(last);
   },
+
+  leaveThread: function(threadId) {
+    _removeUserFromThread(_user, threadId);
+  }
 };
 
 window.__api = module.exports;
