@@ -5,6 +5,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
 var ChildListItem = require('./ChildListItem');
+var ThreadActionCreators = require('../actions/ThreadActionCreators');
 
 var ThreadListItem = React.createClass({
 
@@ -13,6 +14,7 @@ var ThreadListItem = React.createClass({
     threadChildren: ReactPropTypes.array,
     threadTitle: ReactPropTypes.string,
     threadLastMessage: ReactPropTypes.string,
+    threadId: ReactPropTypes.string,
   },
 
   render: function() {
@@ -38,19 +40,21 @@ var ThreadListItem = React.createClass({
         }
       }
     };
-
     return (
       <li
-        className="parent-thread"
-        onClick={this._onClick}>
-        <p>Title: {this.props.threadTitle} </p>
-        <p>Laste Message: {this.props.threadLastMessage} </p>
+        className="parent-thread">
+        <div onClick={this._onClick}>
+          <p>Title: {this.props.threadTitle} </p>
+          <p>Last Message: {this.props.threadLastMessage} </p>
+        </div>
         {renderChildrenThread()}
       </li>
     );
   },
 
   _onClick: function() {
+    console.log('Hello from ', this.props.threadTitle, ' with id: ', this.props.threadId);
+    ThreadActionCreators.clickThread(this.props.threadId);
   },
 
 });

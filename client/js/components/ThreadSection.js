@@ -4,7 +4,7 @@ var _ = require('lodash');
 var ThreadListItem = require('./ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 
-var getStateFromStores = function(){
+var getStateFromStores = function() {
   return {
     currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
     // currentState: {
@@ -92,8 +92,8 @@ var ThreadSection = React.createClass({
   },
   render: function() {
     var threadListItems;
-    console.log('render initial state');
-    console.log('currentState', this.state.currentState);
+    // console.log('render initial state');
+    // console.log('currentState', this.state.currentState);
     threadListItems = _.map(this.state.currentState, function(state) {
       return (
         <ThreadListItem

@@ -13,7 +13,6 @@ var _messagesObj = {
 };
 
 function _addMessageToMessagesObj(messagePayloadObj) {
-  // console.log('messagePayloadObj', messagePayloadObj);
   if (_messagesObj[messagePayloadObj.threadId] === undefined) {
     _messagesObj[messagePayloadObj.threadId] = [];
   }
@@ -24,21 +23,22 @@ MessageStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
-  }, // emit
+  },
 
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
-  }, // addChangeListener
+  },
 
   removeChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
-  }, // removeChangeListener
+  },
 
   getMessagesforCurrentThread: function() {
     // TODO: sort the messages by chronological order
-    return _messagesObj['0'];
-    // return _messagesObj[ThreadStore.getCurrentThreadID()];
-  }, // getMessagesforCurrentThread
+    var key = ThreadStore.getCurrentThreadID() || '0';
+    console.log('currentThreadID:', key);
+    return !_messagesObj[key] ? [] : _messagesObj[key];
+  },
 
 });
 
@@ -47,6 +47,8 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
 
   case ActionTypes.CLICK_THREAD:
     Dispatcher.waitFor([ThreadStore.dispatchToken]);
+    // TODO: Add back read markings
+    MessageStore.emitChange();
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:

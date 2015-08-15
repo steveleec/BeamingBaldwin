@@ -25,7 +25,7 @@ MessageSection = React.createClass({
   componentDidMount: function() {
     this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange);
-    // ThreadStore.addChangeListener(this._onChange);
+    ThreadStore.addChangeListener(this._onChange);
   },
 
   componentDidUpdate: function() {
@@ -54,7 +54,7 @@ MessageSection = React.createClass({
 
   componentDidUnmount: function() {
     MessageStore.removeChangeListener(this._onChange);
-    // ThreadStore.removeChangeListener(this._onChange);
+    ThreadStore.removeChangeListener(this._onChange);
   },
 
   _scrollToBottom: function() {
