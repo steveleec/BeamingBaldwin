@@ -43,7 +43,6 @@ MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 MessageStore.dispatchToken = Dispatcher.register(function(payload) {
-  console.log(payload);
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:
