@@ -18,6 +18,11 @@ var _getLastThreadId = function(_threads) {
 
 };
 
+var _getParentThreadId = function() {
+  return _threads[_currThreadID]
+ && _threads[_currThreadID].parentId || 0;
+};
+
 var _retrieveInfoForThread = function(thread) {
   return {
     timestamp: thread.createdAt,
@@ -200,6 +205,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   getOneMessageFromStream: function() {
     return [];
   },
+
+  getParentThreadId: _getParentThreadId,
 
 });
 

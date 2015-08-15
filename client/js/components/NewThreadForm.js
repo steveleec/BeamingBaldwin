@@ -2,6 +2,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var NewThreadForm;
 var API = require('../utils/API');
+var ThreadActionCreators = require('../actions/ThreadActionCreators');
 
 NewThreadForm = React.createClass({
   propTypes: {
@@ -74,12 +75,13 @@ NewThreadForm = React.createClass({
     if (this.props.threadProps.parentId) {
       threadInfo.parentId = this.props.threadProps.parentId;
     }
-    API.addThread(threadInfo);
+    var newThreadId = API.addThread(threadInfo);
 
     React.findDOMNode(this.refs.title).value = '';
     React.findDOMNode(this.refs.participants).value = '';
 
     this.props.doClose();
+    ThreadActionCreators.clickThread(newThreadId);
     return;
   },
 
