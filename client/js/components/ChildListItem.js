@@ -5,7 +5,7 @@ var ReactPropTypes = React.PropTypes;
 
 var ChildListItem = React.createClass({
   render: function(){
-    console.log('ChildListItem', ChildListItem);
+    // console.log('ChildListItem', ChildListItem);
     return (
       <li>
         <div>Title: {this.props.childTitle} </div>

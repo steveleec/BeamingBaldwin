@@ -19,7 +19,7 @@ var _getLastThreadId = function(_threads){
 
 var _retrieveInfoForThread = function(thread) {
   return {
-    timestamp: Date,
+    timestamp: Date.now(),
     parentId: thread.parentId,
     participants: thread.participants,
     threadId: thread.threadId,
@@ -58,33 +58,7 @@ var _giveThreadsAnIdNumberForOrdering = function() {
   }
 };
 
-var _thereIsNoParentFor = function(thread){
-  // verify if thread exists as a child of _threads
-  if (Object.keys(_threads).length > 0) {
-    for (var aThread in _threads) {
-
-    }
-  }
-};
-
-ThreadStore = assign({}, EventEmitter.prototype, {
-
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
-
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  removeChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  getCurrentThreadID: function() {
-    return _currThreadID;
-  },
-  _thereIsParentFor: function(thread, res){
+var _thereIsParentFor = function(thread, res) {
     // root when _threads[thread].info.parentId === ""
     if (Object.keys(res).length > 0) {
       for (var eachThread in res) {
@@ -105,6 +79,24 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       }
     }
     return false;
+  };
+
+ThreadStore = assign({}, EventEmitter.prototype, {
+
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
+  },
+
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
+
+  removeChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
+
+  getCurrentThreadID: function() {
+    return _currThreadID;
   },
   _storeInNestedParent: function(res, threadToStore) {
     if (Object.keys(res).length > 0) {
@@ -137,38 +129,46 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     var res = {};
     var aThread = {};
     var orphans = {};
-    console.log('getting current State');
+    // console.log('getting current State');
     if (Object.keys(_threads).length > 0) {
       for (var thread in _threads) {
+          aThread[thread] = {};
         // Create a type of object name aThread
           aThread[thread].info = _threads[thread].info || {};
           aThread[thread].listOfchildren = _listOfChildren[thread] || {};
           aThread[thread].lastMessage = _messages[thread].text || "";
           aThread[thread].children =[]; // nested children objects will be insterded during iteration
         // thread without parent but it might have children
-        if (_threads[thread].info.parentId === "") {
+        // console.log('_threads[thread].info.parentId', _threads[thread].info.parentId);
+        if (_threads[thread].info.parentId === undefined) {
           res[thread] = aThread[thread];
-        } else if (_threads[thread].info.parentId !== "" && _thereIsParentFor(thread, res)) {
+          console.log('res[thread]', res[thread]);
+        } else if (_threads[thread].info.parentId !== undefined && _thereIsParentFor(thread, res)) {
           _storeInNestedParent(res, aThread.thread);
-        } else if (_threads[thread].info.parentId !== "" && !_thereIsParentFor(thread, res)) {
+        } else if (_threads[thread].info.parentId !== undefined && !_thereIsParentFor(thread, res)) {
           orphans[thread] = aThread[thread];
         }
       }
     }
+    // console.log('_threads', _threads);
+    // console.log('res', res);
+    // console.log('aThread', aThread);
     return res;
   },
 
   // Keeps track of all the threads send by the DB in an object.
   updateLocalThreadsStorage: function(thread) {
+    _threads[thread.threadId] = {};
     _updateTreeOfChildren(thread);
     _threads[thread.threadId].info = _retrieveInfoForThread(thread);
+    //console.log('updateLocalThreadsStorage', _threads[thread.threadId]);
   },
 
   // Keeps last messages sent by the DB for each thread.
   // Attach the last message as a property of thread within _threads.
   updateLocalLastMessagesStorage: function(payload) {
-    if (payload.messages.threadId in _messages) {
-      if (_messages[payload.messages.threadId].createdAt < payload.message.createdAt) {
+    if (payload.message.threadId in _messages) {
+      if (_messages[payload.message.threadId].createdAt < payload.message.createdAt) {
         _messages[payload.message.threadId] = payload.message;
       }
     } else {
@@ -195,14 +195,17 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     _currThreadID = payload.threadID;
     break;
 
-  case ActionTypes.SEND_STREAM_OF_THREADS:
-    updateLocalThreadsStorage(payload.thread);
-    setCurrentThreadId();
+  case ActionTypes.RECEIVE_THREADINFO:
+    // console.log('Listening to Thread DB', payload.threadInfo.threadId);
+    ThreadStore.updateLocalThreadsStorage(payload.threadInfo);
+    ThreadStore.setCurrentThreadId();
+    console.log('_threads[0]', _threads);
     ThreadStore.emitChange();
     break;
 
-  case ActionTypes.SEND_STREAM_OF_MESSAGES:
-    updateLocalLastMessagesStorage(payload);
+  case ActionTypes.RECEIVE_MESSAGE:
+    // console.log('Listening to message DB', payload.message);
+    ThreadStore.updateLocalLastMessagesStorage(payload);
     ThreadStore.emitChange();
     break;
 
