@@ -1,118 +1,39 @@
 var React = require('react');
 var _ = require('lodash');
-
-var ThreadListItem = require('./ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 
 var getStateFromStores = function() {
   return {
-    currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
-    // currentState: {
-    //   thread1: {
-    //     info: {
-    //       timestamp: Date.now(),
-    //       parentId: '',
-    //       participants: ['user1', 'user2'],
-    //       threadId: 'thread1',
-    //       title: 'Thread1 title',
-    //       threadIdNumber: 1,
-    //     },
-    //     listOfchildren: ['thread2', 'thread3'],
-    //     lastMessage: "Thread1 and two nested children: thread2 and thread3",
-    //     children: [
-    //       { // thread2
-    //         info: {
-    //           timestamp: Date.now(),
-    //           parentId: 'thread1',
-    //           participants: ['user3', 'user4'],
-    //           threadId: 'thread2',
-    //           title: 'Thread2 title',
-    //           threadIdNumber: 0,
-    //         },
-    //         listOfchildren: [],
-    //         lastMessage: "Thread2 nested inside thread1 as a chiln.",
-    //         children: [],
-    //       },
-    //       { // thread3
-    //         info: {
-    //           timestamp: Date.now(),
-    //           parentId: 'thread1',
-    //           participants: ['user5', 'user6'],
-    //           threadId: 'thread3',
-    //           title: 'Thread3 title',
-    //           threadIdNumber: 0,
-    //         },
-    //         listOfchildren: ['thread4'],
-    //         lastMessage: "Thread3 nested inside thread1 as a chiln.",
-    //         children: [
-    //           {
-    //             info: {
-    //               timestamp: Date.now(),
-    //               parentId: 'thread3',
-    //               participants: ['user5', 'user6'],
-    //               threadId: 'thread4',
-    //               title: 'Thread4 title',
-    //               threadIdNumber: 0,
-    //             },
-    //             listOfchildren: ['thread4'],
-    //             lastMessage: "Thread4 nested inside thread3 as a child, which is nested inside thread1.",
-    //             children: [],
-    //           }
-    //         ],
-    //       }
-    //     ],
-    //   },
-    //   thread5:{
-    //     info: {
-    //       timestamp: Date,
-    //       parentId: '',
-    //       participants: ['user7', 'user8'],
-    //       threadId: 'thread5',
-    //       title: 'Thread5 title',
-    //       threadIdNumber: 0,
-    //     },
-    //     listOfchildren: [],
-    //     lastMessage: "Thread5 and 0 nested children.",
-    //     children: [],
-    //   },
-    // },
+    // currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
+    currentState: {"0":{"info":{"timestamp":1439595498518,"threadId":"0","title":"General","depth":0},"listOfchildren":[],"lastMessage":"test","children":[]},"-JwjvY4uDv2-KdX6WtTR":{"info":{"timestamp":1439618183611,"depth":0,"participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY4uDv2-KdX6WtTR","title":"A"},"listOfchildren":["-JwjvY5CCqc8g1kBHuAI","-JwjvY5UkFxfuI1WCjMV"],"lastMessage":"ffsd","children":[{"info":{"timestamp":1439618183623,"depth":1,"parentId":"-JwjvY4uDv2-KdX6WtTR","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY5CCqc8g1kBHuAI","title":"B"},"listOfchildren":[],"lastMessage":"","children":[]},{"info":{"timestamp":1439618183642,"depth":1,"parentId":"-JwjvY4uDv2-KdX6WtTR","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY5UkFxfuI1WCjMV","title":"C"},"listOfchildren":[],"lastMessage":"","children":[]}]},"-JwjvY5nH_kZaRPwdiQS":{"info":{"timestamp":1439618183663,"depth":0,"participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY5nH_kZaRPwdiQS","title":"D"},"listOfchildren":["-JwjvY69Mtpu6P4YSgG6"],"lastMessage":"","children":[{"info":{"timestamp":1439618183687,"depth":1,"parentId":"-JwjvY5nH_kZaRPwdiQS","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY69Mtpu6P4YSgG6","title":"E"},"listOfchildren":[],"lastMessage":"","children":[]}]},"-JwjvY6S7wcZZ3NLtpYF":{"info":{"timestamp":1439618183705,"depth":0,"participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY6S7wcZZ3NLtpYF","title":"F"},"listOfchildren":["-JwjvY6v3IRgvGSpOnux","-JwjvY7DZhjkj2VicHkq"],"lastMessage":"blahblahblah","children":[{"info":{"timestamp":1439618183735,"depth":1,"parentId":"-JwjvY6S7wcZZ3NLtpYF","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY6v3IRgvGSpOnux","title":"G"},"listOfchildren":["-JwjvY7WGpHi8qnMlPJx"],"lastMessage":"","children":[{"info":{"timestamp":1439618183773,"depth":2,"parentId":"-JwjvY6v3IRgvGSpOnux","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY7WGpHi8qnMlPJx","title":"H"},"listOfchildren":[],"lastMessage":"","children":[]}]},{"info":{"timestamp":1439618183754,"depth":1,"parentId":"-JwjvY6S7wcZZ3NLtpYF","participants":{"abc-abc-com":true,"b-b-com":true,"cyu06-hotmail-com":true,"l-l-com":true},"threadId":"-JwjvY7DZhjkj2VicHkq","title":"I"},"listOfchildren":[],"lastMessage":"","children":[]}]},"-JwmXgcR58lLqVijb1pu":{"info":{"timestamp":1439662000823,"depth":0,"participants":{"cyu06-hotmail-com":true},"threadId":"-JwmXgcR58lLqVijb1pu","title":"New Root Thread"},"listOfchildren":[],"lastMessage":"I'm COOL!","children":[]}},
   };
 };
-
+var counter = 0;
+var classNameOfElement="";
+var deep = false;
 var ThreadSection = React.createClass({
 
   getInitialState: function() {
-    var state = getStateFromStores();
-    return state;
+
+    return getStateFromStores();
   },
   componentDidMount: function() {
     ThreadStore.addChangeListener(this._onChange);
     // UnreadThreadStore.addChangeListener(this._onChange);
   },
   render: function() {
+
     var threadListItems;
-    // console.log('render initial state');
-    // console.log('currentState', this.state.currentState);
-    // threadListItems = _.map(this.state.currentState, function(state) {
-    //   return (
-    //     <ThreadListItem
-    //       threadId={state.info.threadId}
-    //       threadLastMessage={state.lastMessage}
-    //       threadTitle={state.info.title}
-    //       threadChildren={state.children}
-    //     />
-    //   );
-    // });
-    var nodes = this.state;
-    if (nodes.children.length > 0 || this.props.node.length > 0) {
-      threadListItems = _.map(this.props.node, function(node) {
-        console.log('threadListItems', node);
-        return <li>{this.props.children.info.title} <ThreadSection node={node.children}/></li>
+    var nodes = this.state.currentState;
+    var classOfElement="Thread__listItem--";
+    if (Object.keys(nodes).length > 0) {
+      threadListItems = _.map(this.props.node || nodes, function(node) {
+        return <li className={classOfElement + node.info.depth}>{node.info.title}<ThreadSection node={node.children}/></li>
       });
     }
 
     return (
-      <ul className="Thread" children={nodes}>
+      <ul className="Thread" node={nodes}>
         {threadListItems}
       </ul>
     );
