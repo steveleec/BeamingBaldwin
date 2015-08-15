@@ -4,8 +4,6 @@ var API = require('../utils/API');
 
 NewThreadForm = React.createClass({
 
-  getInitialState: function() {},
-
   render: function() {
     return (
       <div className="NewThreadForm">
@@ -17,9 +15,9 @@ NewThreadForm = React.createClass({
           <label className="NewThreadForm__label">Topic:
             <input
               className="NewThreadForm__input"
-              ref="topic"
-              name="topic"
-              placeholder="Slick Topic"
+              ref="title"
+              name="title"
+              placeholder="Slick Title"
               type="text"
               onChange={this._inputOnChange}
             />
@@ -46,22 +44,28 @@ NewThreadForm = React.createClass({
   _inputOnChange: function() {},
 
   _handleSubmit: function(e) {
-    var author = React.findDOMNode(this.refs.author).value.trim();
-    var text = React.findDOMNode(this.refs.text).value.trim();
+    var title;
+    var participants;
+
     e.preventDefault();
-    if (!text || !author) {
+
+    title = React.findDOMNode(this.refs.title).value.trim();
+    participants = React.findDOMNode(this.refs.participants).value.trim();
+
+    if (!participants || !title) {
+      console.error('You must provide a title and participants');
       return;
     }
-    // TODO: send request to the server
-    React.findDOMNode(this.refs.author).value = '';
-    React.findDOMNode(this.refs.text).value = '';
-    return;
 
     API.addThread({
-      participants: [],
-      title: '',
-      parentId: null, // TODO: what will this be set to?
+      participants: participants.split(' '),
+      title: title,
+      parentId: undefined, // TODO: get this from ThreadStore
     });
+
+    React.findDOMNode(this.refs.title).value = '';
+    React.findDOMNode(this.refs.participants).value = '';
+    return;
   },
 
 });

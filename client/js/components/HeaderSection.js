@@ -1,9 +1,9 @@
 var React = require('react');
 var HeaderSection;
 var Modal = require('react-modal');
-var API = require('../utils/API');
+var NewThreadForm = require('./NewThreadForm');
 
-var appElement = document.getElementById('your-app-element');
+var appElement = document.getElementById('react');
 Modal.setAppElement(appElement);
 Modal.injectCSS();
 
@@ -18,32 +18,24 @@ HeaderSection = React.createClass({
   render: function() {
     return (
       <header className="Header">
+
         <button
           className="Header__newThreadBtn"
-          onClick={this._onNewThreadBtnClick}
-        >New Thread</button>
+          onClick={this._openModal}
+        >
+          New Thread
+        </button>
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this._closeModal}
         >
-          <h2>Hello</h2>
-          <button onClick={this._closeModal}>close</button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
+          <button onClick={this._closeModal}>Close</button>
+          <NewThreadForm />
         </Modal>
+
       </header>
     );
-  },
-
-  _onNewThreadBtnClick: function() {
-    console.log('new thread button');
-    this._openModal();
   },
 
   _openModal: function() {
