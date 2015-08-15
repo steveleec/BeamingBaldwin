@@ -23,19 +23,13 @@ MessageSection = React.createClass({
   },
 
   componentDidMount: function() {
+    this._scrollToBottom();
     MessageStore.addChangeListener(this._onChange);
     // ThreadStore.addChangeListener(this._onChange);
   },
 
-  componentDidUnmount: function() {
-    MessageStore.removeChangeListener(this._onChange);
-    // ThreadStore.removeChangeListener(this._onChange);
-  },
-
-  _onChange: function() {
-    if (this.isMounted()) {
-      this.setState(getStateFromStores());
-    }
+  componentDidUpdate: function() {
+    this._scrollToBottom();
   },
 
   render: function() {
@@ -50,13 +44,30 @@ MessageSection = React.createClass({
 
     return (
       <div className="Message">
-        <ul className="Message__list">
+        <ul className="Message__list" ref="messageList">
           {messageListItems}
         </ul>
         <MessageComposer threadID={this.state.threadID} userName={this.state.userName}/>
       </div>
     );
   },
+
+  componentDidUnmount: function() {
+    MessageStore.removeChangeListener(this._onChange);
+    // ThreadStore.removeChangeListener(this._onChange);
+  },
+
+  _scrollToBottom: function() {
+    var ul = this.refs.messageList.getDOMNode();
+    ul.scrollTop = ul.scrollHeight;
+  },
+
+  _onChange: function() {
+    if (this.isMounted()) {
+      this.setState(getStateFromStores());
+    }
+  },
+
 });
 
 module.exports = MessageSection;
