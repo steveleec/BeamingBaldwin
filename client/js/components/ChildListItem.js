@@ -11,10 +11,11 @@ var ChildListItem = React.createClass({
   render: function() {
     // console.log('ChildListItem', ChildListItem);
     return (
-      <li>
-        <div>Title: {this.props.childTitle} </div>
-        <div>Laste Message: {this.props.childLastMessage} </div>
-      </li>
+      <ul
+      rt-if="this.props.children"
+      className="Thread__listItem--2">
+        <li>Title: {this.props.childTitle}</li>
+      </ul>
       );
   },
 });
