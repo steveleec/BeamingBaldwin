@@ -13,8 +13,10 @@ var SlickApp = React.createClass({
     return (
       <div className="SlickApp">
         <HeaderSection/>
-        <ThreadSection/>
-        <MessageSection/>
+        <div className="Body">
+          <ThreadSection/>
+          <MessageSection/>
+        </div>
       </div>
     );
   },
