@@ -82,7 +82,7 @@ function _unsubscribeAll() {
 function _addThreadToUsers(threadId, users) {
   var user;
   var threadStub = {};
-  threadStub[threadId] = true;
+  threadStub[threadId] = 0;
   for (user of users) {
     console.log('adding', user, 'to', threadId);
     _ref(['users', user, 'threads'])
@@ -180,12 +180,13 @@ module.exports = {
       }, {});
 
     // create threadInfo block
-    var threadId = _ref('threadInfo').push({
+    var threadInfo = {
       title: thread.title,
-      parentId: thread.parentId,
       participants: participants,
       createdAt: Firebase.ServerValue.TIMESTAMP,
-    }).key();
+    };
+    if (thread.parentId) threadInfo.parentId = thread.parentId;
+    var threadId = _ref('threadInfo').push(threadInfo).key();
 
     // if no participants specified, add to all users.
     if (!thread.participants || !thread.participants.length) {
@@ -221,6 +222,12 @@ module.exports = {
   addUserToThread: _addUserToThread,
 
   removeUserFromThread: _removeUserFromThread,
+
+  readMessage: function(threadId, messageId) {
+    var last = {};
+    last[threadId] = messageId;
+    _ref(['users', _user, 'threads']).set(last);
+  },
 };
 
 window.__api = module.exports;

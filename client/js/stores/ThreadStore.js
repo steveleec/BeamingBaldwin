@@ -19,7 +19,7 @@ var _getLastThreadId = function(_threads){
 
 var _retrieveInfoForThread = function(thread) {
   return {
-    timestamp: Date.now(),
+    timestamp: thread.createdAt,
     parentId: thread.parentId,
     participants: thread.participants,
     threadId: thread.threadId,
@@ -136,8 +136,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         // Create a type of object name aThread
           aThread[thread].info = _threads[thread].info || {};
           aThread[thread].listOfchildren = _listOfChildren[thread] || {};
-          aThread[thread].lastMessage = _messages[thread].text || "";
-          aThread[thread].children =[]; // nested children objects will be insterded during iteration
+          aThread[thread].lastMessage = _messages[thread] && _messages[thread].text || '';
+          aThread[thread].children = []; // nested children objects will be insterded during iteration
         // thread without parent but it might have children
         // console.log('_threads[thread].info.parentId', _threads[thread].info.parentId);
         if (_threads[thread].info.parentId === undefined) {
