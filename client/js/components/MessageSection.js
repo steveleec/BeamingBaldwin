@@ -42,7 +42,7 @@ MessageSection = React.createClass({
     var messageListItems = this.state.messagesArr.map(function(messageObj) {
       return (
         <MessageListItem
-          key={messageObj.messageID}
+          key={messageObj.messageId}
           messageObj={messageObj}
         />
       );

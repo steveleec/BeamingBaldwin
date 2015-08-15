@@ -6,7 +6,7 @@ var ThreadListItem = React.createClass({
 
   propTypes: {
     threadObj: ReactPropTypes.object,
-  }, // propTypes
+  },
 
   render: function() {
     var classes = classNames({
@@ -19,7 +19,7 @@ var ThreadListItem = React.createClass({
         {this.props.threadObj.threadName}
       </li>
     );
-  }, // render
+  },
 
 });
 

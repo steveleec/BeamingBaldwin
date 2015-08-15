@@ -13,6 +13,7 @@ var _messagesObj = {
 };
 
 function _addMessageToMessagesObj(messagePayloadObj) {
+  console.log('messagePayloadObj', messagePayloadObj);
   if (_messagesObj[messagePayloadObj.threadId] === undefined) {
     _messagesObj[messagePayloadObj.threadId] = [];
   }
