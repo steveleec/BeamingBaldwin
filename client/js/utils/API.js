@@ -234,7 +234,10 @@ module.exports = {
     _ref('users').once('value', function(snapshot) {
       var users = [];
       snapshot.forEach(function(user) {
-        users.push(user.val().name || user.key());
+        users.push({
+          name: user.val().name || user.key(),
+          id: user.key(),
+        });
       });
       callback(users);
     });
