@@ -28,4 +28,12 @@ module.exports = {
       userInfo: userInfo,
     });
   },
+
+  userRemovedFromThread: function(threadId) {
+    console.log('ApiActionCreator.userRemovedFromThread', threadId);
+    Dispatcher.dispatch({
+      type: ActionTypes.REMOVED_FROM_THREAD,
+      threadId: threadId,
+    });
+  },
 };

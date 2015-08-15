@@ -14,8 +14,11 @@ module.exports = {
     // API => ???
     RECEIVE_USERINFO: null,
 
+    // API => ThreadStore
+    REMOVED_FROM_THREAD: null,
+
     SEND_STREAM_THREADS: null,
     SEND_STREAM_MESSAGES: null,
-    CLICK_THREAD:null,
+    CLICK_THREAD: null,
   }),
 };

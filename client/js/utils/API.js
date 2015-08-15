@@ -18,16 +18,17 @@ function _escape(str) {
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 
-function _subscribeThread(threadId) {
+function _subscribeThread(snapshot) {
+  var threadId = snapshot.key();
   console.log('_subscribeThread', threadId);
 
   // subscribe to messages
   _ref(['threadMessages', threadId])
-  .on('child_added', function(snapshot) {
-    var child = snapshot.val();
+  .on('child_added', function(__snapshot) {
+    var child = __snapshot.val();
     var message = {
       createdAt: child.createdAt,
-      messageId: snapshot.key(),
+      messageId: __snapshot.key(),
       text: child.text,
       threadId: threadId,
       userId: child.userId,
@@ -37,8 +38,8 @@ function _subscribeThread(threadId) {
 
   // subscribe the thread info changes
   _ref(['threadInfo', threadId])
-  .on('value', function(snapshot) {
-    var threadInfo = snapshot.val();
+  .on('value', function(__snapshot) {
+    var threadInfo = __snapshot.val();
     threadInfo.threadId = threadId;
     Actions.threadInfoReceivedFromApi(threadInfo);
     // console.log('Getting thread info from DB', threadInfo);
@@ -64,7 +65,8 @@ function _unsubscribeThreads() {
 function _subscribeThreads() {
   _userThreadsDo(function(snapshot) {
     snapshot.forEach(function(thread) {
-      _subscribeThread(thread.key());
+      console.log('_subscribeThreads', thread);
+      _subscribeThread(thread);
     });
   });
 }
@@ -123,13 +125,28 @@ function _userChanged(snapshot) {
   Actions.userInfoReceivedFromApi(user);
 }
 
+function _unsubscribeThread(snapshot) {
+  var threadId = snapshot.key();
+  _ref(['threadMessages', threadId]).off();
+  _ref(['threadInfo', threadId]).off();
+  Actions.userRemovedFromThread(threadId);
+}
+
 function _subscribeUser(user) {
+  console.log('_subscribeUser', user);
   _user = user;
   // _ref(['users', user]).on('value', _userChanged);
   // subscribe to specific user attributes.
   var threads = _ref(['users', _user, 'threads']);
-  threads.on('child_added', _userLeftThread);
-  threads.on('child_added', _userJoinedThread);
+  threads.on('child_added', _unsubscribeThread);
+  threads.on('child_added', _subscribeThread);
+
+  _ref(['users', _user]).once('value', function(snapshot) {
+    var userInfo = snapshot.val();
+    userInfo.id = snapshot.key();
+    console.log('got user subscriptions', pretty(userInfo));
+    Actions.userInfoReceivedFromApi(userInfo);
+  });
 }
 
 /* exported methods */
