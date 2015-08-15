@@ -35,7 +35,7 @@ MessageStore = assign({}, EventEmitter.prototype, {
 
   getMessagesforCurrentThread: function() {
     var key = ThreadStore.getCurrentThreadID() || '0';
-    console.log('currentThreadID:', key);
+    // console.log('currentThreadID:', key);
     return !_messagesObj[key] ? [] : _messagesObj[key];
   },
 
