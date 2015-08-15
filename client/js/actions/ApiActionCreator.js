@@ -3,9 +3,11 @@ var Constants = require('../constants/Constants');
 
 var ActionTypes = Constants.ActionTypes;
 
+
+// See API-Payloads.md for payload object descriptions.
+
 module.exports = {
   messageReceivedFromApi: function(message) {
-    // console.log('ApiActionCreator.messageReceived', message);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
       message: message,
@@ -13,19 +15,23 @@ module.exports = {
   },
 
   threadInfoReceivedFromApi: function(threadInfo) {
-    // console.log('ApiActionCreator.threadInfoReceivedFromApi', threadInfo);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_THREADINFO,
       threadInfo: threadInfo,
     });
-    // console.log('End of Dispatcher');
   },
 
   userInfoReceivedFromApi: function(userInfo) {
-    // console.log('ApiActionCreator.userInfoReceivedFromApi', userInfo);
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_USERINFO,
       userInfo: userInfo,
+    });
+  },
+
+  userRemovedFromThread: function(threadId) {
+    Dispatcher.dispatch({
+      type: ActionTypes.REMOVED_FROM_THREAD,
+      threadId: threadId,
     });
   },
 };
