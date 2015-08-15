@@ -50,7 +50,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
   case ActionTypes.RECEIVE_MESSAGE:
-    // Dispatcher.waitFor([ThreadStore.dispatchToken]);
+    Dispatcher.waitFor([ThreadStore.dispatchToken]);
     _addMessageToMessagesObj(payload.message);
     MessageStore.emitChange();
     break;
@@ -58,6 +58,7 @@ MessageStore.dispatchToken = Dispatcher.register(function(payload) {
   default:
     // do nothing
   }
+  return true;
 });
 
 module.exports = MessageStore;

@@ -214,6 +214,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   default:
     // do nothing
   }
+  return true;
 });
 
 module.exports = ThreadStore;
