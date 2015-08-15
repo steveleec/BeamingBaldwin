@@ -13,5 +13,9 @@ module.exports = {
 
     // API => ???
     RECEIVE_USERINFO: null,
+
+    SEND_STREAM_THREADS: null,
+    SEND_STREAM_MESSAGES: null,
+    CLICK_THREAD:null,
   }),
 };
