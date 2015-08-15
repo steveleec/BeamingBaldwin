@@ -3,7 +3,7 @@ var auth = require('../services/auth');
 var RedirectWhenLoggedIn = {
   statics: {
     willTransitionTo: function(transition) {
-      if ( auth.loggedIn()) {
+      if (auth.loggedIn()) {
         transition.redirect('/');
       }
     },

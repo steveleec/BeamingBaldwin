@@ -1,9 +1,10 @@
 var React = require('react');
-var ThreadListItem = require('./ThreadListItem');
 var _ = require('lodash');
+
+var ThreadListItem = require('./ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 
-var getStateFromStores = function(){
+var getStateFromStores = function() {
   return {
     currentState: ThreadStore.getCurrentStateOfThreadsAndMessages(),
     // currentState: {
@@ -79,6 +80,7 @@ var getStateFromStores = function(){
 };
 
 var ThreadSection = React.createClass({
+
   getInitialState: function() {
     var state = getStateFromStores();
     // console.log('currentState', state);
@@ -89,7 +91,10 @@ var ThreadSection = React.createClass({
     // UnreadThreadStore.addChangeListener(this._onChange);
   },
   render: function() {
-    var threadListItems = _.map(this.state.currentState, function(state) {
+    var threadListItems;
+    // console.log('render initial state');
+    // console.log('currentState', this.state.currentState);
+    threadListItems = _.map(this.state.currentState, function(state) {
       return (
         <ThreadListItem
           threadId={state.info.threadId}
@@ -100,7 +105,7 @@ var ThreadSection = React.createClass({
       );
     });
     return (
-      <ul className="Threads">
+      <ul className="Thread">
         {threadListItems}
       </ul>
     );

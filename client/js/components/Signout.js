@@ -1,4 +1,5 @@
 var React = require('react');
+
 var auth = require('../services/auth');
 
 var Signout = React.createClass({

@@ -10,9 +10,9 @@
   - [feature] Completes feature-name.
   - [bugfix] Fixes bug-description in feature-name (closes #issue-number).
   - [save] Saves progress on feature-name.
-1. When you've finished with your fix or feature, rebase upstream changes into your local branch. Submit a [pull request][] directly to the matching feature branch on the team repo. Include a description of your changes.
-1. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
-1. Fix any issues raised by your code reviwer, and push your fixes as a single new commit.
+1. When you've finished with your fix or feature, rebase upstream changes from the dev branch into your local branch. Submit a [pull request][] directly to the dev branch of the team repo. Include a brief description of your changes.
+1. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests that you make a change that you don't understand, ask them why.
+1. Fix any issues raised by your code reviewer, and resubmit your fixes as a single new commit.
 1. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
 ## Detailed Workflow

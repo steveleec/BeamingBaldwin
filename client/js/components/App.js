@@ -8,6 +8,7 @@ var auth = require('../services/auth');
 var API = require('../utils/API');
 
 var App = React.createClass({
+
   getInitialState: function() {
     if (localStorage.email) API.login(localStorage.email);
     return {
