@@ -11,6 +11,7 @@ ThreadInfo Payload
 ------------------
 
 threadInfo: {
+  createdAt: Date,
   parentId: ThreadIdType,
   participants: [ UserIdType ],
   threadId: ThreadIdType,

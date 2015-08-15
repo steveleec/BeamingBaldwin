@@ -184,6 +184,7 @@ module.exports = {
       title: thread.title,
       parentId: thread.parentId,
       participants: participants,
+      createdAt: Firebase.ServerValue.TIMESTAMP,
     }).key();
 
     // if no participants specified, add to all users.

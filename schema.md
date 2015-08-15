@@ -8,7 +8,8 @@ firebase:
     threadId: {
       title: String,
       parentId: ThreadIdType,
-      participants: [ UserIdType ]
+      participants: [ UserIdType ],
+      createdAt: Date,
     }
   },
 
