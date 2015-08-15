@@ -2,7 +2,7 @@
 .Thread-listItem { padding: 16px; cursor: pointer; }
 
 @media #{$tablet} {
-  .Thread { flex: 0 1 240px; }
+  .Thread { flex: 0 0 240px; }
 }
 
 @media #{$desktop} {
