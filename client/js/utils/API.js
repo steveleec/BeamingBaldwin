@@ -229,6 +229,16 @@ module.exports = {
     last[threadId] = messageId;
     _ref(['users', _user, 'threads']).set(last);
   },
+
+  listUsers: function(callback) {
+    _ref('users').once('value', function(snapshot) {
+      var users = [];
+      snapshot.forEach(function(user) {
+        users.push(user.val().name || user.key());
+      });
+      callback(users);
+    });
+  },
 };
 
 window.__api = module.exports;

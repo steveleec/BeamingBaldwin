@@ -14,6 +14,12 @@ NewThreadForm = React.createClass({
       participants: localStorage.email || 'Bobby Tables',
     };
   },
+  componentWillMount: function() {
+    API.listUsers(function(users) {
+      this.setState({users: users});
+    }.bind(this));
+  },
+
   render: function() {
     return (
       <div className="NewThreadForm">
@@ -58,6 +64,8 @@ NewThreadForm = React.createClass({
   _handleSubmit: function(e) {
     var title;
     var participants;
+
+    console.log('users', this.state.users);
 
     e.preventDefault();
 
