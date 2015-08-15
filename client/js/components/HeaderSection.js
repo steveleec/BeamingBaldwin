@@ -68,7 +68,7 @@ HeaderSection = React.createClass({
 
   _openModal: function(event) {
     var threadProps = {};
-    if(event.target.getAttribute('data') === 'new') {
+    if (event.target.getAttribute('data') === 'new') {
       threadProps.parentId = this.state.threadId;
     }
     this.setState({
@@ -82,7 +82,8 @@ HeaderSection = React.createClass({
   },
 
   _leaveThread: function() {
-    api.leaveThread(this.state.threadId);
+    var user = localStorage.email || 'Bobby Tables';
+    api.removeUserFromThread(user, this.state.threadId);
   },
 });
 
