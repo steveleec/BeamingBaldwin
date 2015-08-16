@@ -10,6 +10,7 @@ function getStateFromStores() {
     messagesArr: MessageStore.getMessagesforCurrentThread(),
     userName: localStorage.email || 'Bobby Tables',
     threadID: ThreadStore.getCurrentThreadID() || '0',
+    threadTitle: ThreadStore.getCurrentThreadTitle() || '',
   };
 }
 
@@ -40,6 +41,7 @@ MessageSection = React.createClass({
     });
     return (
       <div className="Message">
+        <h2 className="Message__h2">{this.state.threadTitle}</h2>
         <ul className="Message__list" ref="messageList">
           {messageListItems}
         </ul>
