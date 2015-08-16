@@ -64,8 +64,21 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   },
 
   getCurrentThreadTitle: function() {
-    if (!_threads[_currThreadID]) { return; }
-    return _threads[_currThreadID].info.title;
+    console.log('_currThreadID', _currThreadID);
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      console.log('null null', tId);
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+      console.log('null not-null', _threads[tId].info.title);
+      return _threads[tId].info.title;
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+      console.log('not-null', _threads[tId].info.title);
+      return _threads[tId].info.title;
+    }
+    console.log('getCurrentThreadTitle', tId);
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
