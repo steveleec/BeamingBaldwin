@@ -33,15 +33,28 @@ var NewThreadForm = React.createClass({
               // onChange={this._inputOnChange}
             />
           </label>
+          <label className="NewThreadForm__label">Participants:
+            <input
+              className="NewThreadForm__input"
+              ref="participants"
+              name="participants"
+              type="text"
+              onChange={this._inputOnChange}
+              value={this.state.participants}
+            />
+          </label>
           <input className="NewThreadForm__submit"
             type="submit"
             value="Create"
           />
-          <UserSelector ref="UserSelector" />
         </form>
       </div>
     );
   },
+
+  // <label className="NewThreadForm__label>">Participants:
+  //   <UserSelector ref="UserSelector" />
+  // </label>
 
   _inputOnChange: function(e) {
     this.setState({participants: e.target.value});
@@ -50,7 +63,7 @@ var NewThreadForm = React.createClass({
   _handleSubmit: function(e) {
     var title = React.findDOMNode(this.refs.title).value.trim();
     var participants = UserSelector.getSelected(this.refs.UserSelector);
-
+    var threadInfo;
     e.preventDefault();
 
 
@@ -58,7 +71,8 @@ var NewThreadForm = React.createClass({
       console.error('You must provide a title and participants');
       return;
     }
-    var threadInfo = {
+
+    threadInfo = {
       // participants: participants.split(' '),
       participants: participants,
       title: title,
@@ -66,13 +80,11 @@ var NewThreadForm = React.createClass({
     if (this.props.threadProps.parentId) {
       threadInfo.parentId = this.props.threadProps.parentId;
     }
-    var newThreadId = API.addThread(threadInfo);
 
     React.findDOMNode(this.refs.title).value = '';
 
     this.props.doClose();
-    ThreadActionCreators.clickThread(newThreadId);
-    return;
+    ThreadActionCreators.clickThread(API.addThread(threadInfo));
   },
 
 });

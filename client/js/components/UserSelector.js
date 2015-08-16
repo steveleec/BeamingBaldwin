@@ -2,16 +2,25 @@ var React = require('react');
 var API = require('../utils/API');
 var UserSelectorItem = require('./UserSelectorItem');
 var _ = require('lodash');
+var UserSelectorStore = require('../stores/UserSelectorStore');
 
-module.exports = UserSelector = React.createClass({
+
+var UserSelector = React.createClass({
   getInitialState: function() {
-    API.listUsers(function(users) {
-      this.setState({users: users});
-    }.bind(this));
-
+    UserSelectorStore.init();
     return {
       users: [],
     };
+  },
+
+  componentDidMount: function() {
+    UserSelectorStore.addChangeListener(function() {
+      this.setState({
+        users: _.map(UserSelectorStore.getAll(), function(val) {
+          return val;
+        }),
+      });
+    }.bind(this));
   },
 
   render: function() {
@@ -29,16 +38,38 @@ module.exports = UserSelector = React.createClass({
       </div>
     );
   },
+
+  componentDidUnmount: function() {
+    UserSelectorStore.wipe();
+  },
 });
 
-module.exports.getSelected = function(userSelectorRef) {
-  // refs.UserSelector.refs.brian.state
-  // var users = this.refs.UserSelector.refs;
-  var ref = userSelectorRef.refs;
+UserSelector.getSelected = function() {
+  var selected = UserSelectorStore.getAll();
   var users = [];
-  _.each(ref, function(obj, user) {
-    // console.log(user, obj.state.complete);
-    if (obj.state.complete) users.push(user);
-  });
+  for(var user in selected) {
+    if (selected[user]) {
+      users.push(user);
+    }
+  }
   return users;
 };
+
+// UserSelector.setSelected = function(userSelectorRef, users) {
+//   _.each(users, function(user) {
+//     console.log('update', user);
+//     UserSelectorStore.updateUserState(user.id, true);
+//   })
+// };
+UserSelector.setSelected = function(threadId) {
+  console.log('setSelected', threadId);
+  API.listUsersInThread(threadId, function(users) {
+    console.log(threadId, users);
+    _.each(users, function(user) {
+      console.log('update', user);
+      UserSelectorStore.updateUserState(user.id, true);
+    });
+  });
+};
+
+module.exports = UserSelector;

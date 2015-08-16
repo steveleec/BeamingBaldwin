@@ -1,16 +1,23 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var API = require('../utils/API');
-
-module.exports = UserSelectorItem = React.createClass({
+var UserSelectorStore = require('../stores/UserSelectorStore');
+var UserSelectorItem = React.createClass({
   propTypes: {
     user: ReactPropTypes.object.isRequired,
   },
 
   getInitialState: function() {
     return {
-      complete: false,
+      complete: UserSelectorStore.getUserState(this.props.user.id),
     };
+  },
+
+  componentDidMount: function() {
+    UserSelectorStore.addChangeListener(function() {
+      var state = UserSelectorStore.getUserState(this.props.user.id);
+      this.setState({complete: state});
+      this.refs.complete = state;
+    }.bind(this));
   },
 
   render: function() {
@@ -28,7 +35,14 @@ module.exports = UserSelectorItem = React.createClass({
       </li>
     );
   },
+
+  componentDidUnmount: function() {
+    UserSelectorStore.removeChangeListener();
+  },
+
   toggle: function() {
-    this.setState({complete: !this.state.complete});
-  }
+    UserSelectorStore.updateUserState(this.props.user.id, !this.state.complete);
+  },
 });
+
+module.exports = UserSelectorItem;
