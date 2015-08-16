@@ -187,6 +187,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
 
   case ActionTypes.CLICK_THREAD:
     _currThreadID = payload.threadId;
+    console.log('clicking');
     ThreadStore.emitChange();
     break;
 
