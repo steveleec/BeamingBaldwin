@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _currThreadID = 0;
+var _currThreadID = null;
 var _threads = {};
 
 var _messages = {};
@@ -194,10 +194,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   },
 
   getParentThreadId: _getParentThreadId,
-
-  getCurrentThread: function() {
-    return _threads[_currThreadID] && _threads[_currThreadID].info;
-  },
 
   getThreadIdByDefault: function(){
     return threadIdByDefault;
