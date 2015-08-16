@@ -24,7 +24,6 @@ var ThreadSection = React.createClass({
 
   componentDidMount: function() {
     ThreadStore.addChangeListener(this._onChange);
-    ThreadActionCreators.clickThread('0');
   },
 
   render: function() {

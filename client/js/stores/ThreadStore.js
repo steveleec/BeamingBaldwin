@@ -7,7 +7,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _currThreadID = null;
+var _currThreadID = '0';
 var _threads = {};
 
 var _messages = {};
