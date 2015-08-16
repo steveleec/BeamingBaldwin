@@ -17,12 +17,11 @@ var SlickApp = React.createClass({
         <HeaderSection/>
         <div className="Body">
           <div className="Thread">
+            <h2 className="Thread__h2">Threads</h2>
             <ThreadSection />
           </div>
           <MessageSection />
-          <div className="Participants">
-            <ParticipantsSection />
-          </div>
+          <ParticipantsSection />
         </div>
       </div>
     );
