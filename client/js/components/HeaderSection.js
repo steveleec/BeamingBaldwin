@@ -16,7 +16,7 @@ HeaderSection = React.createClass({
     return {
       modalIsOpen: false,
       modifyParticipantsModalIsOpen: false,
-      thread: ThreadStore.getCurrentThread(),
+      thread: ThreadStore.getCurrentThreadID(),
     };
   },
 
@@ -89,7 +89,7 @@ HeaderSection = React.createClass({
 
   _change: function() {
     this.setState({
-      thread: ThreadStore.getCurrentThread(),
+      thread: ThreadStore.getCurrentThreadID(),
     });
   },
 
