@@ -16,7 +16,7 @@ HeaderSection = React.createClass({
     return {
       modalIsOpen: false,
       modifyParticipantsModalIsOpen: false,
-      thread: ThreadStore.getCurrentThreadID(),
+      thread: ThreadStore.getCurrentThread(),
     };
   },
 
@@ -89,7 +89,7 @@ HeaderSection = React.createClass({
 
   _change: function() {
     this.setState({
-      thread: ThreadStore.getCurrentThreadID(),
+      thread: ThreadStore.getCurrentThread(),
     });
   },
 
@@ -120,9 +120,9 @@ HeaderSection = React.createClass({
 
   _leaveThread: function() {
     var user;
-    if (this.state.threadId !== '0') {
+    if (this.state.thread.threadId !== '0') {
       user = localStorage.email || 'Bobby Tables';
-      API.removeUserFromThread(user, this.state.threadId);
+      API.removeUserFromThread(user, this.state.thread.threadId);
       ThreadActionCreators.clickThread(ThreadStore.getParentThreadId());
     }
   },

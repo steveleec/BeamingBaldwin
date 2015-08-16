@@ -5,6 +5,7 @@ var ThreadStore = require('../stores/ThreadStore');
 var res;
 
 var getStateFromStores = function() {
+  console.log(ThreadStore.getCurrentParticipants());
   return {
     listOfParticipants: ThreadStore.getCurrentParticipants(),
   };
