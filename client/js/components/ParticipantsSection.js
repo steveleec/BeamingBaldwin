@@ -46,7 +46,7 @@ ParticipantsSection = React.createClass({
     var thread = ThreadStore.getCurrentThread();
     if (thread) {
       API.listUsersInThread(thread.threadId, function(users) {
-        console.log('thead users', users);
+        // console.log('thead users', users);
         this.setState({
           listOfParticipants: users
         });

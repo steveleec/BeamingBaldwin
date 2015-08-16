@@ -262,14 +262,14 @@ module.exports = API = {
   },
 
   updateParticipants: function(threadInfo, participants) {
-    console.log('updateParticipants', threadInfo, participants);
+    // console.log('updateParticipants', threadInfo, participants);
     _.each(Object.keys(threadInfo.participants), function(userId) {
-      console.log('removeUserFromThread', userId, threadInfo.threadId)
+      // console.log('removeUserFromThread', userId, threadInfo.threadId)
       this.removeUserFromThread(userId, threadInfo.threadId);
     }, this);
 
     _.each(participants, function(user) {
-      console.log('addUserToThread', user.id, threadInfo.threadId)
+      // console.log('addUserToThread', user.id, threadInfo.threadId)
       this.addUserToThread(user.id, threadInfo.threadId);
     }, this);
   },

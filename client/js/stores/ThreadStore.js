@@ -35,7 +35,7 @@ var _retrieveInfoForThread = function(thread) {
 var _updateTreeOfChildren = function(thread) {
   if (thread.parentId !== undefined) {
     if (thread.parentId in _listOfChildren) {
-      _listOfChildren[thread.parentId].push(thread.threadId);
+      _listOfChildren[thread.parentId].unshift(thread.threadId);
     } else {
       _listOfChildren[thread.parentId] = [thread.threadId];
     }
@@ -129,7 +129,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         for (i = 0; i < children.length; i++) {
           if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             threadToStore.info['depth'] = counter;
-            children[i].children.push(threadToStore);
+            console.log('threadToStore.info', threadToStore);
+            children[i].children.unshift(threadToStore);
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
@@ -155,7 +156,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
             for (thread in res) {
               if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
                 threadToStore.info['depth'] = counter;
-                res[thread].children.push(threadToStore);
+                res[thread].children.unshift(threadToStore);
               }  else {
                 if (res[thread].children.length > 0) recurse(res[thread].children);
               }

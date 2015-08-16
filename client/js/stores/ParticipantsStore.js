@@ -9,12 +9,12 @@ var CHANGE_EVENT = 'change';
 
 ParticipantsStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
-    console.log('emitChange');
+    // console.log('emitChange');
     this.emit(CHANGE_EVENT);
   },
 
   addChangeListener: function(callback) {
-    console.log('addChangeListener');
+    // console.log('addChangeListener');
     this.on(CHANGE_EVENT, callback);
   },
 
@@ -28,7 +28,7 @@ ParticipantsStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:
-    console.log('ParticipantsStore', payload.threadId);
+    // console.log('ParticipantsStore', payload.threadId);
     Dispatcher.waitFor([ThreadStore.dispatchToken]);
     // ParticipantsStore.getUsersForThread(payload.threadId);
     ParticipantsStore.emitChange();
