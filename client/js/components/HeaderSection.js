@@ -119,9 +119,12 @@ HeaderSection = React.createClass({
   },
 
   _leaveThread: function() {
-    var user = localStorage.email || 'Bobby Tables';
-    api.removeUserFromThread(user, this.state.threadId);
-    ThreadActionCreators.clickThread(ThreadStore.getParentThreadId());
+    var user;
+    if (this.state.threadId !== '0') {
+      user = localStorage.email || 'Bobby Tables';
+      api.removeUserFromThread(user, this.state.threadId);
+      ThreadActionCreators.clickThread(ThreadStore.getParentThreadId());
+    }
   },
 });
 

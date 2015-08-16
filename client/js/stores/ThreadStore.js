@@ -12,6 +12,8 @@ var _threads = {};
 
 var _messages = {};
 var _listOfChildren = {};
+var counter = 0;
+var threadIdByDefault = null;
 
 var _getLastThreadId = function(_threads) {
 };
@@ -60,10 +62,27 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   getCurrentThreadID: function() {
     return _currThreadID;
   },
-
+  getCurrentParticipants: function() {
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+    }
+    return _threads[tId].info.participants;
+  },
   getCurrentThreadTitle: function() {
-    if (!_threads[_currThreadID]) { return; }
-    return _threads[_currThreadID].info.title;
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+    }
+      return _threads[tId].info.title;
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
@@ -180,6 +199,15 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 
+  getThreadIdByDefault: function(){
+    return threadIdByDefault;
+  },
+
+  setThreadIdByDefault: function(threadId){
+    counter++;
+    if (counter ===1 ) threadIdByDefault = threadId;
+    return threadIdByDefault;
+  },
 });
 
 ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
@@ -187,6 +215,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
 
   case ActionTypes.CLICK_THREAD:
     _currThreadID = payload.threadId;
+    console.log('clicking');
     ThreadStore.emitChange();
     break;
 
@@ -194,6 +223,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     // console.log('Listening to Thread DB', payload.threadInfo.threadId);
     ThreadStore.updateLocalThreadsStorage(payload.threadInfo);
     ThreadStore.setCurrentThreadId();
+    ThreadStore.setThreadIdByDefault(payload.threadInfo.threadId);
     // console.log('_threads[0]', _threads);
     ThreadStore.emitChange();
     break;

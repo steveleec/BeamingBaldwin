@@ -3,6 +3,7 @@ var React = require('react');
 var MessageSection = require('./MessageSection');
 var HeaderSection = require('./HeaderSection');
 var ThreadSection = require('./ThreadSection');
+var ParticipantsSection = require('./ParticipantsSection');
 
 var Authentication = require('../mixins/authentication');
 
@@ -16,9 +17,12 @@ var SlickApp = React.createClass({
         <HeaderSection/>
         <div className="Body">
           <div className="Thread">
-            <ThreadSection/>
+            <ThreadSection />
           </div>
-          <MessageSection/>
+          <MessageSection />
+          <div className="Participants">
+            <ParticipantsSection />
+          </div>
         </div>
       </div>
     );
