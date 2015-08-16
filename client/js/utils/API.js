@@ -250,8 +250,6 @@ module.exports = API = {
     }
     _ref(['threadInfo', threadId, 'participants']).once('value', function(participants) {
       var users = [];
-      // _ref(['users']).once('value', function(allusers) {
-      //   allusers.forEach(function(userInfo) {
       API.listUsers(function(allusers) {
         allusers.forEach(function(userInfo){
           participants.forEach(function(user) {
