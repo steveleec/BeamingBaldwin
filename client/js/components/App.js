@@ -31,7 +31,7 @@ var App = React.createClass({
     return (
       <div className="App">
         <ul className="Nav">
-          <li className="Nav__li--home"><Link to="/">Slick</Link></li>
+          <li className="Nav__li--home"><Link to="/">Slck</Link></li>
           <li className="Nav__li--signInOut">{signinOrOut}</li>
           {signupOrNothing}
         </ul>
