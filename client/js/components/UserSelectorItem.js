@@ -1,48 +1,48 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var UserSelectorStore = require('../stores/UserSelectorStore');
+var UserSelectorActions = require('../actions/UserSelectorActions');
+
 var UserSelectorItem = React.createClass({
   propTypes: {
     user: ReactPropTypes.object.isRequired,
   },
 
-  getInitialState: function() {
-    return {
-      complete: UserSelectorStore.getUserState(this.props.user.id),
-    };
-  },
-
-  componentDidMount: function() {
-    UserSelectorStore.addChangeListener(function() {
-      var state = UserSelectorStore.getUserState(this.props.user.id);
-      this.setState({complete: state});
-      this.refs.complete = state;
-    }.bind(this));
-  },
+  // componentDidMount: function() {
+  //   UserSelectorStore.addChangeListener(this._change);
+  // },
 
   render: function() {
+    var user = this.props.user;
     return (
       <li className="UserSelect__userli">
         <label className="UserSelect__userlabel">
           <input className="UserSelect__usercb"
             type="checkbox"
-            ref="complete"
             onChange={this.toggle}
-            defaultChecked={this.state.complete}
+            checked={user.selected}
           />
-          {this.props.user.name}
+          {user.name}
         </label>
       </li>
     );
   },
 
-  componentDidUnmount: function() {
-    UserSelectorStore.removeChangeListener();
-  },
+  // componentDidUnmount: function() {
+  //   UserSelectorStore.removeChangeListener(_change);
+  // },
 
   toggle: function() {
-    UserSelectorStore.updateUserState(this.props.user.id, !this.state.complete);
+    UserSelectorActions.toggle(this.props.user);
   },
+
+  // _change: function() {
+  //   var state = UserSelectorStore.getUserState(this.props.user.id);
+  //   console.log('state', state);
+  //   // this.setState({selected: state});
+  //   // this.refs.selected = state;
+  //   window.__usi = this;
+  // },
 });
 
 module.exports = UserSelectorItem;

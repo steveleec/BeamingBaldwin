@@ -3,6 +3,7 @@ var ActionTypes = require('../constants/Constants').ActionTypes;
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var API = require('../utils/API');
+var _ = require('lodash');
 
 var CHANGE_EVENT = 'change';
 
@@ -30,19 +31,28 @@ var UserSelectorStore = assign({}, EventEmitter.prototype, {
     return _selections;
   },
 
+  getSelected: function() {
+    return _.filter(_selections, function(user) {
+      return user.selected;
+    });
+  },
+
   updateUserState: function(userId, selected) {
+    if (!_selections[userId]) {
+      console.warn(userId, _selections);
+    }
     _selections[userId].selected = selected;
     this.emitChange();
   },
 
   init: function() {
     this.wipe();
-    API.listUsers(function(users){
-      users.forEach(function(user){
+    API.listUsers(function(users) {
+      users.forEach(function(user) {
         _selections[user.id] = {
           id: user.id,
           name: user.name,
-          selected: false
+          selected: false,
         };
       });
       UserSelectorStore.emitChange();
@@ -52,13 +62,23 @@ var UserSelectorStore = assign({}, EventEmitter.prototype, {
   wipe: function() {
     _selections = {};
   },
+
+  setAll: function(users) {
+    _selections = {};
+    _.each(users, function(user) {
+      _selections[user.id] = user;
+    });
+    this.emitChange();
+  },
 });
 
 UserSelectorStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
-  case ActionTypes.TOGGLE_USER:
-    _selections[payload.userId] = payload.completed;
+  case ActionTypes.TOGGLE_USERSELECTOR:
+    var user = payload.user;
+    user.selected = !user.selected;
+    _selections[user.id] = user;
     UserSelectorStore.emitChange();
     break;
 

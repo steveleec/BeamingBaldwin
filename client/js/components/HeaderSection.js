@@ -16,16 +16,12 @@ HeaderSection = React.createClass({
     return {
       modalIsOpen: false,
       modifyParticipantsModalIsOpen: false,
-      threadId: ThreadStore.getCurrentThreadID() || '0',
+      thread: ThreadStore.getCurrentThread(),
     };
   },
 
   componentDidMount: function() {
-    ThreadStore.addChangeListener(function() {
-      this.setState({
-        threadId: ThreadStore.getCurrentThreadID() || '0',
-      });
-    }.bind(this));
+    ThreadStore.addChangeListener(this._change);
   },
 
   render: function() {
@@ -54,6 +50,12 @@ HeaderSection = React.createClass({
           Leave Thread
         </button>
 
+        <button
+          className="Header__modifyParticipantsBtn"
+          onClick={this._openModifyParticipantsModal}
+        >
+          Update Participants
+        </button>
 
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -73,7 +75,7 @@ HeaderSection = React.createClass({
           <button onClick={this._closeModifyParticipantsModal}>Close</button>
           <ModifyParticipants
             doClose={this._closeModifyParticipantsModal}
-            threadId={this.state.threadId}
+            thread={this.state.thread}
           />
         </Modal>
 
@@ -81,17 +83,20 @@ HeaderSection = React.createClass({
     );
   },
 
-  // <button
-  //   className="Header__modifyParticipantsBtn"
-  //   onClick={this._openModifyParticipantsModal}
-  // >
-  //   Update Participants
-  // </button>
+  componentDidUnmount: function() {
+    ThreadStore.removeChangeListener(this._change);
+  },
+
+  _change: function() {
+    this.setState({
+      thread: ThreadStore.getCurrentThread(),
+    });
+  },
 
   _openModal: function(event) {
     var threadProps = {};
     if (event.target.getAttribute('data') === 'new') {
-      threadProps.parentId = this.state.threadId;
+      threadProps.parentId = this.state.thread.threadId;
     }
     this.setState({
       modalIsOpen: true,

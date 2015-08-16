@@ -23,6 +23,7 @@ var ThreadSection = React.createClass({
   },
 
   componentDidMount: function() {
+    console.log('ThreadSection addChangeListener');
     ThreadStore.addChangeListener(this._onChange);
   },
 

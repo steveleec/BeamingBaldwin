@@ -14,20 +14,14 @@ var UserSelector = React.createClass({
   },
 
   componentDidMount: function() {
-    UserSelectorStore.addChangeListener(function() {
-      this.setState({
-        users: _.map(UserSelectorStore.getAll(), function(val) {
-          return val;
-        }),
-      });
-    }.bind(this));
+    UserSelectorStore.addChangeListener(this._change);
   },
 
   render: function() {
     var userListItems = this.state.users
     .map(function(user) {
       return (
-        <UserSelectorItem user={user} ref={user.id}/>
+        <UserSelectorItem user={user}/>
       );
     });
     return (
@@ -42,32 +36,42 @@ var UserSelector = React.createClass({
   componentDidUnmount: function() {
     UserSelectorStore.wipe();
   },
+
+  _change: function() {
+    this.setState({
+      users: _.map(UserSelectorStore.getAll(), function(val) {
+        return val;
+      }),
+    });
+  },
 });
 
 UserSelector.getSelected = function() {
-  var selected = UserSelectorStore.getAll();
-  var users = [];
-  for(var user in selected) {
-    if (selected[user]) {
-      users.push(user);
-    }
-  }
-  return users;
+  return UserSelectorStore.getSelected();
+
+  // var selected = UserSelectorStore.getAll();
+  // var users = [];
+  // for (var user in selected) {
+  //   if (selected[user]) {
+  //     users.push(user);
+  //   }
+  // }
+  // return users;
 };
 
-// UserSelector.setSelected = function(userSelectorRef, users) {
-//   _.each(users, function(user) {
-//     console.log('update', user);
-//     UserSelectorStore.updateUserState(user.id, true);
-//   })
-// };
 UserSelector.setSelected = function(threadId) {
   console.log('setSelected', threadId);
-  API.listUsersInThread(threadId, function(users) {
-    console.log(threadId, users);
-    _.each(users, function(user) {
-      console.log('update', user);
-      UserSelectorStore.updateUserState(user.id, true);
+  API.listUsers(function(allusers) {
+    API.listUsersInThread(threadId, function(users) {
+      _.each(allusers, function(eachAlluser, key) {
+        allusers[key].selected = false;
+        _.each(users, function(eachUser) {
+          if (eachUser.id === eachAlluser.id) {
+            allusers[key].selected = true;
+          }
+        });
+      });
+      UserSelectorStore.setAll(allusers);
     });
   });
 };
