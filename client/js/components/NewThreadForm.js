@@ -84,11 +84,12 @@ var NewThreadForm = React.createClass({
   },
 
   _handleSubmit: function(e) {
-    var title = this.state.title.value.trim();
+    e.preventDefault();
+    console.log(this.state.title);
+    var title = this.state.title.trim();
     // var participants = this.state.participants.trim().split(' ');
     var participants = _.pluck(UserSelector.getSelected(), 'id');
     var threadInfo;
-    e.preventDefault();
 
     if (!participants || !title) {
       console.error('You must provide a title and participants');

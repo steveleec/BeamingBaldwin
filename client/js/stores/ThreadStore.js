@@ -63,26 +63,31 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     return _currThreadID;
   },
   getCurrentParticipants: function() {
-    var tId;
-    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
-      return;
-    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
-      tId = ThreadStore.getThreadIdByDefault();
-    } else if(_currThreadID !== null) {
-      tId = _currThreadID;
-    }
-    return _threads[tId].info.participants;
+    // var tId;
+    // if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+    //   return;
+    // } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+    //   tId = ThreadStore.getThreadIdByDefault();
+    // } else if(_currThreadID !== null) {
+    //   tId = _currThreadID;
+    // }
+    // return _threads[tId].info.participants;
+    var thread = this.getCurrentThread();
+    return thread && thread.participants;
+
   },
   getCurrentThreadTitle: function() {
-    var tId;
-    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
-      return;
-    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
-      tId = ThreadStore.getThreadIdByDefault();
-    } else if(_currThreadID !== null) {
-      tId = _currThreadID;
-    }
-      return _threads[tId].info.title;
+    // var tId;
+    // if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+    //   return;
+    // } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+    //   tId = ThreadStore.getThreadIdByDefault();
+    // } else if(_currThreadID !== null) {
+    //   tId = _currThreadID;
+    // }
+    //   return _threads[tId].info.title;
+    var thread = this.getCurrentThread();
+    return thread && thread.title;
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
@@ -203,6 +208,10 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     counter++;
     if (counter ===1 ) threadIdByDefault = threadId;
     return threadIdByDefault;
+  },
+
+  getCurrentThread: function() {
+      return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 });
 
