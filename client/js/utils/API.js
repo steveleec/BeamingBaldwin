@@ -5,6 +5,7 @@ var Actions = require('../actions/ApiActionCreator');
 
 var uri = 'https://amber-inferno-3412.firebaseio.com';
 var _user;
+var API;
 
 function _ref(path) {
   var defaultedPath = path || '';
@@ -152,7 +153,7 @@ function _subscribeUser(user) {
 
 /* exported methods */
 
-module.exports = {
+module.exports = API = {
   debug: _ref,
 
   /**
@@ -247,16 +248,20 @@ module.exports = {
     if (threadId === '0') {
       return this.listUsers(callback);
     }
-    _ref(['threads', threadId, 'participants']).once('value', function(snapshot) {
+    _ref(['threadInfo', threadId, 'participants']).once('value', function(participants) {
       var users = [];
-      snapshot.forEach(function(user) {
-        users.push({
-          name: user.val().name || user.key(),
-          id: user.key(),
+      // _ref(['users']).once('value', function(allusers) {
+      //   allusers.forEach(function(userInfo) {
+      API.listUsers(function(allusers) {
+        allusers.forEach(function(userInfo){
+          participants.forEach(function(user) {
+            if (user.key() === userInfo.id) {
+              users.push(userInfo);
+            }
+          });
         });
+        callback(users);
       });
-      console.log('listUsersInThread', threadId, users);
-      callback(users);
     });
   },
 };
