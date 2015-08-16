@@ -17,9 +17,7 @@ var _getLastThreadId = function(_threads) {
 };
 
 var _getParentThreadId = function() {
-  console.log(_threads[_currThreadID]);
-  return _threads[_currThreadID]
- && _threads[_currThreadID].info.parentId || 0;
+  return _threads[_currThreadID] && _threads[_currThreadID].info.parentId || 0;
 };
 
 var _retrieveInfoForThread = function(thread) {
@@ -203,11 +201,12 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
   case ActionTypes.REMOVED_FROM_THREAD:
-    //payload.threadId
+    delete _threads[payload.threadId];
     ThreadStore.emitChange();
     break;
 
   case ActionTypes.LOAD_DEFAULT_THREAD:
+    break;
 
   default:
     // do nothing

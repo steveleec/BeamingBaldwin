@@ -34,7 +34,7 @@ var ThreadSection = React.createClass({
       threadListItems = _.map(this.props.node || nodes, function(node) {
         return (
           <li onClick={this._onClick.bind(null, node.info.threadId)} ref="myInput" data-thread-id={node.info.threadId} className={classOfElement + node.info.depth}>
-            {node.info.title}
+            <span className="Thread__listItemTitle">{node.info.title}</span>
             <ThreadSection node={node.children}/>
           </li>
         );
