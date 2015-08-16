@@ -6,8 +6,6 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
-var _currThreadID = null;
-var res = [];
 
 ParticipantsStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
@@ -38,7 +36,7 @@ ParticipantsStore.dispatchToken = Dispatcher.register(function(payload) {
 
   default:
       // do nothing
-  };
+  }
 });
 
 module.exports = ParticipantsStore;

@@ -23,7 +23,7 @@ function _escape(str) {
 }
 
 function _subscribeThread(threadId) {
-  console.log('_subscribeThread', threadId);
+  // console.log('_subscribeThread', threadId);
 
   // subscribe to messages
   _ref(['threadMessages', threadId])
@@ -68,7 +68,7 @@ function _unsubscribeThreads() {
 function _subscribeThreads() {
   _userThreadsDo(function(snapshot) {
     snapshot.forEach(function(thread) {
-      console.log('_subscribeThreads', thread);
+      // console.log('_subscribeThreads', thread);
       _subscribeThread(thread.key());
     });
   });
@@ -87,7 +87,7 @@ function _addThreadToUsers(threadId, users) {
   var threadStub = {};
   threadStub[threadId] = 0;
   for (user of users) {
-    console.log('adding', user, 'to', threadId);
+    // console.log('adding', user, 'to', threadId);
     _ref(['users', user, 'threads'])
     .update(threadStub);
   }
@@ -97,7 +97,7 @@ function _addUserToThread(user, threadId) {
   var userStub = {};
   user = _escape(user); // no-param-reassign
   userStub[user] = true;
-  console.log('_addUserToThread', user, threadId);
+  // console.log('_addUserToThread', user, threadId);
   _ref(['threadInfo', threadId, 'participants'])
   .update(userStub);
 
@@ -121,7 +121,7 @@ function _removeUserFromThread(user, threadId) {
 function _userChanged(snapshot) {
   var user = snapshot.val();
   user.id = snapshot.key();
-  console.log('_userChanged', pretty(user));
+  // console.log('_userChanged', pretty(user));
   // kill existing thread listeners,
   _unsubscribeThreads();
 
@@ -131,14 +131,14 @@ function _userChanged(snapshot) {
 }
 
 function _unsubscribeThread(threadId) {
-  console.log('_unsubscribeThread', threadId);
+  // console.log('_unsubscribeThread', threadId);
   _ref(['threadMessages', threadId]).off();
   _ref(['threadInfo', threadId]).off();
   Actions.userRemovedFromThread(threadId);
 }
 
 function _subscribeUser(user) {
-  console.log('_subscribeUser', user);
+  // console.log('_subscribeUser', user);
   _user = user;
   // _ref(['users', user]).on('value', _userChanged);
   // subscribe to specific user attributes.
@@ -149,7 +149,7 @@ function _subscribeUser(user) {
   _ref(['users', _user]).once('value', function(snapshot) {
     var userInfo = snapshot.val();
     userInfo.id = snapshot.key();
-    console.log('got user subscriptions', pretty(userInfo));
+    // console.log('got user subscriptions', pretty(userInfo));
     Actions.userInfoReceivedFromApi(userInfo);
   });
 }
@@ -218,7 +218,7 @@ module.exports = API = {
   },
 
   login: function(user) {
-    console.log('login', user);
+    // console.log('login', user);
     _subscribeUser(_escape(user));
   },
 

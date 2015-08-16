@@ -1,24 +1,18 @@
 var React = require('react');
 var ParticipantsSection;
-var ParticipantsStore = require('../stores/ParticipantsStore');
+var _ = require('lodash');
 var ThreadStore = require('../stores/ThreadStore');
+var res;
 
-var getStateFromStores = function(threaId) {
-  var tId = threaId || ThreadStore.getThreadIdByDefault();
-  console.log('tId', tId);
+var getStateFromStores = function() {
   return {
-    listOfParticipants: window.__api.listUsersInThread( tId, function(users) {
-      return users;
-    }),
-
+    listOfParticipants: ThreadStore.getCurrentParticipants(),
   };
 };
 
 ParticipantsSection = React.createClass({
-
   getInitialState: function() {
-    console.log('init staet particpants');
-    return {listOfParticipants: null};
+    return getStateFromStores();
   },
 
   componentDidMount: function() {
@@ -27,16 +21,28 @@ ParticipantsSection = React.createClass({
   },
 
   render: function() {
-    console.log('listOfParticipants', this.state.listOfParticipants);
-    // listOfParticipants =
+    var renderList;
+    var list;
+    var key;
+    res = [];
+    list = this.state.listOfParticipants;
+    if (this.state !== undefined) {
+      for (key in list) res.push(key);
+      renderList = _.map(res, function(user) {
+        return (
+          <li>{user}</li>
+        );
+      });
+    }
     return (
       <ul>
-        Some text.
+        <p>Friends in this topic</p>
+        {renderList}
       </ul>
     );
   },
   _onChange: function() {
-    this.setState(getStateFromStores(ThreadStore.getCurrentThreadID()));
+    this.setState(getStateFromStores());
   },
 });
 

@@ -62,23 +62,27 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   getCurrentThreadID: function() {
     return _currThreadID;
   },
-
-  getCurrentThreadTitle: function() {
-    console.log('_currThreadID', _currThreadID);
+  getCurrentParticipants: function() {
     var tId;
     if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
-      console.log('null null', tId);
       return;
     } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
       tId = ThreadStore.getThreadIdByDefault();
-      console.log('null not-null', _threads[tId].info.title);
-      return _threads[tId].info.title;
     } else if(_currThreadID !== null) {
       tId = _currThreadID;
-      console.log('not-null', _threads[tId].info.title);
-      return _threads[tId].info.title;
     }
-    console.log('getCurrentThreadTitle', tId);
+    return _threads[tId].info.participants;
+  },
+  getCurrentThreadTitle: function() {
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+    }
+      return _threads[tId].info.title;
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
@@ -204,7 +208,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   setThreadIdByDefault: function(threadId){
     counter++;
     if (counter ===1 ) threadIdByDefault = threadId;
-    console.log('threadIdByDefault', threadIdByDefault);
     return threadIdByDefault;
   },
 >>>>>>> [save] Adding users for each thread in progress
