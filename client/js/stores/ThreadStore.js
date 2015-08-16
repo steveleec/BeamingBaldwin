@@ -195,12 +195,10 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   getParentThreadId: _getParentThreadId,
 
-<<<<<<< HEAD
   getCurrentThread: function() {
     return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 
-=======
   getThreadIdByDefault: function(){
     return threadIdByDefault;
   },
@@ -210,7 +208,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     if (counter ===1 ) threadIdByDefault = threadId;
     return threadIdByDefault;
   },
->>>>>>> [save] Adding users for each thread in progress
 });
 
 ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
