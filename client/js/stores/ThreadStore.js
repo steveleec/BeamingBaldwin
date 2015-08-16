@@ -63,6 +63,11 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     return _currThreadID;
   },
 
+  getCurrentThreadTitle: function() {
+    if (!_threads[_currThreadID]) { return; }
+    return _threads[_currThreadID].info.title;
+  },
+
   getCurrentStateOfThreadsAndMessages: function() {
     var res = {};
     var aThread = {};
