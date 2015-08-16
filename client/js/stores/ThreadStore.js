@@ -197,6 +197,11 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     ThreadStore.emitChange();
     break;
 
+  case ActionTypes.REMOVED_FROM_THREAD:
+    //payload.threadId
+    ThreadStore.emitChange();
+    break;
+
   case ActionTypes.LOAD_DEFAULT_THREAD:
 
   default:
