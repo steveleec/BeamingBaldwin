@@ -16,5 +16,8 @@ module.exports = {
 
     // ThreadListItem => ThreadActionCreators => MessageStore & ThreadStore
     CLICK_THREAD: null,
+
+    // UserSelectorIter => UserSelectorStore
+    TOGGLE_USERSELECTOR: null,
   }),
 };

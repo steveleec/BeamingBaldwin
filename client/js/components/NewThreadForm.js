@@ -2,6 +2,8 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var API = require('../utils/API');
 var ThreadActionCreators = require('../actions/ThreadActionCreators');
+var UserSelector = require('./UserSelector');
+var _ = require('lodash');
 
 var NewThreadForm = React.createClass({
   propTypes: {
@@ -13,6 +15,16 @@ var NewThreadForm = React.createClass({
       participants: localStorage.email || 'Bobby Tables',
     };
   },
+
+  // componentDidMount: function() {
+  //   console.log('NewThreadForm mounted');
+  //   if(this.props.threadProps && this.props.threadProps.parentId) {
+  //     console.log(this.props.threadProps.parentId);
+  //     UserSelector.setSelected(this.props.threadProps.parentId);
+  //   }
+  //   console.log(0);
+  //   UserSelector.setSelected(0);
+  // },
 
   render: function() {
     return (
@@ -45,6 +57,9 @@ var NewThreadForm = React.createClass({
             value="Create"
           />
         </form>
+        <label className="NewThreadForm__label>">Participants:
+          <UserSelector />
+        </label>
       </div>
     );
   },
@@ -54,11 +69,12 @@ var NewThreadForm = React.createClass({
   },
 
   _handleSubmit: function(e) {
-    var title = React.findDOMNode(this.refs.title).value.trim();
-    var participants = React.findDOMNode(this.refs.participants).value.trim().split(' ');
-    // var participants = UserSelector.getSelected(this.refs.UserSelector);
-    var threadInfo;
     e.preventDefault();
+    var title = React.findDOMNode(this.refs.title).value.trim();
+    // var participants = React.findDOMNode(this.refs.participants).value.trim().split(' ');
+    var participants = _.pluck(UserSelector.getSelected(),'id');
+
+    var threadInfo;
 
     if (!participants || !title) {
       console.error('You must provide a title and participants');

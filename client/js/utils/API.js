@@ -1,6 +1,8 @@
 var Firebase = require('firebase');
 var pretty = require('prettyjson').render;
 var Actions = require('../actions/ApiActionCreator');
+var _ = require('lodash');
+
 /* Private variables & methods */
 
 var uri = 'https://amber-inferno-3412.firebaseio.com';
@@ -16,6 +18,7 @@ function _ref(path) {
 }
 
 function _escape(str) {
+  console.log('_escape', str);
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 
@@ -219,12 +222,6 @@ module.exports = API = {
     _subscribeUser(_escape(user));
   },
 
-  logout: _unsubscribeAll,
-
-  addUserToThread: _addUserToThread,
-
-  removeUserFromThread: _removeUserFromThread,
-
   readMessage: function(threadId, messageId) {
     var last = {};
     last[threadId] = messageId;
@@ -250,8 +247,6 @@ module.exports = API = {
     }
     _ref(['threadInfo', threadId, 'participants']).once('value', function(participants) {
       var users = [];
-      // _ref(['users']).once('value', function(allusers) {
-      //   allusers.forEach(function(userInfo) {
       API.listUsers(function(allusers) {
         allusers.forEach(function(userInfo){
           participants.forEach(function(user) {
@@ -264,6 +259,25 @@ module.exports = API = {
       });
     });
   },
+
+  updateParticipants: function(threadInfo, participants) {
+    console.log('updateParticipants', threadInfo, participants);
+    _.each(Object.keys(threadInfo.participants), function(userId) {
+      console.log('removeUserFromThread', userId, threadInfo.threadId)
+      this.removeUserFromThread(userId, threadInfo.threadId);
+    }, this);
+
+    _.each(participants, function(user) {
+      console.log('addUserToThread', user.id, threadInfo.threadId)
+      this.addUserToThread(user.id, threadInfo.threadId);
+    }, this);
+  },
+
+  logout: _unsubscribeAll,
+
+  addUserToThread: _addUserToThread,
+
+  removeUserFromThread: _removeUserFromThread,
 };
 
 window.__api = module.exports;
