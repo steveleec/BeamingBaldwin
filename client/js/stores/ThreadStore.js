@@ -17,8 +17,9 @@ var _getLastThreadId = function(_threads) {
 };
 
 var _getParentThreadId = function() {
+  console.log(_threads[_currThreadID]);
   return _threads[_currThreadID]
- && _threads[_currThreadID].parentId || 0;
+ && _threads[_currThreadID].info.parentId || 0;
 };
 
 var _retrieveInfoForThread = function(thread) {

@@ -62,12 +62,13 @@ var NewThreadForm = React.createClass({
 
   _handleSubmit: function(e) {
     var title = React.findDOMNode(this.refs.title).value.trim();
-    var participants = UserSelector.getSelected(this.refs.UserSelector);
+    var participants = React.findDOMNode(this.refs.participants).value.trim().split(' ');
+    // var participants = UserSelector.getSelected(this.refs.UserSelector);
     var threadInfo;
     e.preventDefault();
 
 
-    if (!participants.length || !title) {
+    if (!participants || !title) {
       console.error('You must provide a title and participants');
       return;
     }
