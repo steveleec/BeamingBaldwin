@@ -15,7 +15,9 @@ var SlickApp = React.createClass({
       <div className="SlickApp">
         <HeaderSection/>
         <div className="Body">
-          <ThreadSection/>
+          <div className="Thread">
+            <ThreadSection/>
+          </div>
           <MessageSection/>
         </div>
       </div>

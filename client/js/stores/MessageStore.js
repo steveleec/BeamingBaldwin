@@ -30,7 +30,7 @@ MessageStore = assign({}, EventEmitter.prototype, {
   },
 
   removeChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE_EVENT, callback);
   },
 
   getMessagesforCurrentThread: function() {
