@@ -22,7 +22,7 @@ var Signup = React.createClass({
       <div className="Signup__container">
         <div className="Signup">
           <h2 className="Signup__h2">Sign Up</h2>
-          <form onClick={this.handler} className="Signup__form">
+          <form onSubmit={this.handler} className="Signup__form">
             <label className="Signup__label">Email:
               <input className="Signup__input" type="email" placeholder="you@example.com" ref="email"/>
             </label>
