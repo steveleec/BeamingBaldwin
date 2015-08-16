@@ -1,45 +1,44 @@
 var ParticipantsStore;
 var Dispatcher = require('../dispatcher/Dispatcher');
 var ActionTypes = require('../constants/Constants').ActionTypes;
-
+var ThreadStore = require('./ThreadStore');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 var _currThreadID = null;
+var res = [];
 
 ParticipantsStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
+    console.log('emitChange');
     this.emit(CHANGE_EVENT);
   },
 
   addChangeListener: function(callback) {
+    console.log('addChangeListener');
     this.on(CHANGE_EVENT, callback);
   },
 
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-  gutUsersForThread: function(_currThreadID) {
-    // return callback(user) from API
-    return window.__api.listUsersInThread(_currThreadID, callback(users));
-  },
-  getCurrentStateOfThreadsAndMessages: function() {
-    return gutUsersForThread(_currThreadID);
-  },
+
 });
 
 ParticipantsStore.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
 
   case ActionTypes.CLICK_THREAD:
-    _currThreadID = payload.threadId;
+    console.log('ParticipantsStore', payload.threadId);
+    Dispatcher.waitFor([ThreadStore.dispatchToken]);
+    // ParticipantsStore.getUsersForThread(payload.threadId);
     ParticipantsStore.emitChange();
     break;
 
   default:
       // do nothing
-  }
+  };
 });
 
 module.exports = ParticipantsStore;

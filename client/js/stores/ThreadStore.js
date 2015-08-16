@@ -12,6 +12,8 @@ var _threads = {};
 
 var _messages = {};
 var _listOfChildren = {};
+var counter = 0;
+var threadIdByDefault = null;
 
 var _getLastThreadId = function(_threads) {
 };
@@ -176,10 +178,23 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   getParentThreadId: _getParentThreadId,
 
+<<<<<<< HEAD
   getCurrentThread: function() {
     return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 
+=======
+  getThreadIdByDefault: function(){
+    return threadIdByDefault;
+  },
+
+  setThreadIdByDefault: function(threadId){
+    counter++;
+    if (counter ===1 ) threadIdByDefault = threadId;
+    console.log('threadIdByDefault', threadIdByDefault);
+    return threadIdByDefault;
+  },
+>>>>>>> [save] Adding users for each thread in progress
 });
 
 ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
@@ -195,6 +210,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
     // console.log('Listening to Thread DB', payload.threadInfo.threadId);
     ThreadStore.updateLocalThreadsStorage(payload.threadInfo);
     ThreadStore.setCurrentThreadId();
+    ThreadStore.setThreadIdByDefault(payload.threadInfo.threadId);
     // console.log('_threads[0]', _threads);
     ThreadStore.emitChange();
     break;
