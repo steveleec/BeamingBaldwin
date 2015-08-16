@@ -23,8 +23,8 @@ var ThreadSection = React.createClass({
   },
 
   componentDidMount: function() {
-    console.log('ThreadSection addChangeListener');
     ThreadStore.addChangeListener(this._onChange);
+    ThreadActionCreators.clickThread('0');
   },
 
   render: function() {
@@ -51,7 +51,9 @@ var ThreadSection = React.createClass({
   },
 
   _onChange: function() {
-    this.setState(getStateFromStores());
+    if (this.isMounted()) {
+      this.setState(getStateFromStores());
+    }
   },
 
   _onClick: function(id, e) {
