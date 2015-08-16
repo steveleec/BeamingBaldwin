@@ -28,7 +28,7 @@ var ModifyParticipants = React.createClass({
             type="submit"
             value="Save"
           />
-          <UserSelector ref="UserSelector" />
+          <UserSelector ref="UserSelector"/>
         </form>
       </div>
     );
@@ -36,7 +36,6 @@ var ModifyParticipants = React.createClass({
 
   _handleSubmit: function(e) {
     var participants = UserSelector.getSelected(this.refs.UserSelector);
-    console.log(participants);
     e.preventDefault();
     this.props.doClose();
   },

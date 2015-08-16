@@ -2,7 +2,6 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var API = require('../utils/API');
 var ThreadActionCreators = require('../actions/ThreadActionCreators');
-var UserSelector = require('./UserSelector');
 
 var NewThreadForm = React.createClass({
   propTypes: {
@@ -30,7 +29,6 @@ var NewThreadForm = React.createClass({
               name="title"
               placeholder="Slick Title"
               type="text"
-              // onChange={this._inputOnChange}
             />
           </label>
           <label className="NewThreadForm__label">Participants:
@@ -39,7 +37,6 @@ var NewThreadForm = React.createClass({
               ref="participants"
               name="participants"
               type="text"
-              onChange={this._inputOnChange}
               value={this.state.participants}
             />
           </label>
@@ -52,10 +49,6 @@ var NewThreadForm = React.createClass({
     );
   },
 
-  // <label className="NewThreadForm__label>">Participants:
-  //   <UserSelector ref="UserSelector" />
-  // </label>
-
   _inputOnChange: function(e) {
     this.setState({participants: e.target.value});
   },
@@ -67,14 +60,12 @@ var NewThreadForm = React.createClass({
     var threadInfo;
     e.preventDefault();
 
-
     if (!participants || !title) {
       console.error('You must provide a title and participants');
       return;
     }
 
     threadInfo = {
-      // participants: participants.split(' '),
       participants: participants,
       title: title,
     };

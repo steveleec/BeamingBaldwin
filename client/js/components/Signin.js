@@ -21,21 +21,22 @@ var Signin = React.createClass({
       <div className="Signin__container">
         <div className="Signin">
           <h2 className="Signin__h2">Login</h2>
-          <form className="Signin__form">
+          <form onSubmit={this.handler} className="Signin__form">
             <label className="Signin__label">Email:
               <input className="Signin__input" type="email" placeholder="you@example.com" ref="email"/>
             </label>
             <label className="Signin__label">Password:
               <input className="Signin__input" type="password" ref="password"/>
             </label>
-            <input className="Signin__submit" type="submit" value="Login" onClick={this.handler}/>
+            <input className="Signin__submit" type="submit" value="Login"/>
           </form>
         </div>
       </div>
     );
   },
 
-  handler: function() {
+  handler: function(e) {
+    e.preventDefault();
     var email = React.findDOMNode(this.refs.email).value;
     var password = React.findDOMNode(this.refs.password).value;
     React.findDOMNode(this.refs.email).value = '';
