@@ -63,26 +63,26 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     return _currThreadID;
   },
   getCurrentParticipants: function() {
-    // var tId;
-    // if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
-    //   return;
-    // } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
-    //   tId = ThreadStore.getThreadIdByDefault();
-    // } else if(_currThreadID !== null) {
-    //   tId = _currThreadID;
-    // }
-    // return _threads[tId].info.participants;
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+    }
+    return _threads[tId].info.participants;
   },
   getCurrentThreadTitle: function() {
-    // var tId;
-    // if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
-    //   return;
-    // } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
-    //   tId = ThreadStore.getThreadIdByDefault();
-    // } else if(_currThreadID !== null) {
-    //   tId = _currThreadID;
-    // }
-    //   return _threads[tId].info.title;
+    var tId;
+    if (_currThreadID === null && ThreadStore.getThreadIdByDefault() === null) {
+      return;
+    } else if (_currThreadID === null && ThreadStore.getThreadIdByDefault() !== null) {
+      tId = ThreadStore.getThreadIdByDefault();
+    } else if(_currThreadID !== null) {
+      tId = _currThreadID;
+    }
+      return _threads[tId].info.title;
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
