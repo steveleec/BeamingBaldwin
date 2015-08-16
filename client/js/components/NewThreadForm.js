@@ -12,6 +12,7 @@ var NewThreadForm = React.createClass({
   },
   getInitialState: function() {
     return {
+      title: '',
       participants: localStorage.email || 'Bobby Tables',
     };
   },
@@ -37,6 +38,7 @@ var NewThreadForm = React.createClass({
           <label className="NewThreadForm__label">Topic:
             <input
               className="NewThreadForm__input"
+              onChange={this._inputOnChangeTitle}
               ref="title"
               name="title"
               placeholder="Slick Title"
@@ -46,6 +48,7 @@ var NewThreadForm = React.createClass({
           <label className="NewThreadForm__label">Participants:
             <input
               className="NewThreadForm__input"
+              onChange={this._inputOnChangeParticipants}
               ref="participants"
               name="participants"
               type="text"
@@ -64,17 +67,28 @@ var NewThreadForm = React.createClass({
     );
   },
 
-  _inputOnChange: function(e) {
-    this.setState({participants: e.target.value});
+  _inputOnChangeTitle: function(e) {
+    e.preventDefault();
+    this.setState({
+      title: e.target.value,
+      participants: this.state.participants,
+    });
+  },
+
+  _inputOnChangeParticipants: function(e) {
+    e.preventDefault();
+    this.setState({
+      title: this.state.title,
+      participants: e.target.value,
+    });
   },
 
   _handleSubmit: function(e) {
-    e.preventDefault();
-    var title = React.findDOMNode(this.refs.title).value.trim();
-    // var participants = React.findDOMNode(this.refs.participants).value.trim().split(' ');
-    var participants = _.pluck(UserSelector.getSelected(),'id');
-
+    var title = this.state.title.value.trim();
+    // var participants = this.state.participants.trim().split(' ');
+    var participants = _.pluck(UserSelector.getSelected(), 'id');
     var threadInfo;
+    e.preventDefault();
 
     if (!participants || !title) {
       console.error('You must provide a title and participants');
