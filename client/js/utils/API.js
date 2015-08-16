@@ -213,8 +213,9 @@ module.exports = API = {
     user.id = _escape(user.id);
     _ref(['users', user.id]).set({
       name: user.name,
-      threads: [ 0 ], // 0 is default thread
+      // threads: [ 0 ], // 0 is default thread
     }, next);
+    this.addUserToThread(user.id, 0);
   },
 
   login: function(user) {
