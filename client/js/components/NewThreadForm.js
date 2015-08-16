@@ -1,10 +1,10 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var NewThreadForm;
 var API = require('../utils/API');
 var ThreadActionCreators = require('../actions/ThreadActionCreators');
+var UserSelector = require('./UserSelector');
 
-NewThreadForm = React.createClass({
+var NewThreadForm = React.createClass({
   propTypes: {
     threadProps: ReactPropTypes.object,
     doClose: ReactPropTypes.func,
@@ -14,6 +14,7 @@ NewThreadForm = React.createClass({
       participants: localStorage.email || 'Bobby Tables',
     };
   },
+
   render: function() {
     return (
       <div className="NewThreadForm">
@@ -51,38 +52,40 @@ NewThreadForm = React.createClass({
     );
   },
 
+  // <label className="NewThreadForm__label>">Participants:
+  //   <UserSelector ref="UserSelector" />
+  // </label>
+
   _inputOnChange: function(e) {
     this.setState({participants: e.target.value});
   },
 
   _handleSubmit: function(e) {
-    var title;
-    var participants;
-
+    var title = React.findDOMNode(this.refs.title).value.trim();
+    var participants = React.findDOMNode(this.refs.participants).value.trim().split(' ');
+    // var participants = UserSelector.getSelected(this.refs.UserSelector);
+    var threadInfo;
     e.preventDefault();
 
-    title = React.findDOMNode(this.refs.title).value.trim();
-    participants = React.findDOMNode(this.refs.participants).value.trim();
 
     if (!participants || !title) {
       console.error('You must provide a title and participants');
       return;
     }
-    var threadInfo = {
-      participants: participants.split(' '),
+
+    threadInfo = {
+      // participants: participants.split(' '),
+      participants: participants,
       title: title,
     };
     if (this.props.threadProps.parentId) {
       threadInfo.parentId = this.props.threadProps.parentId;
     }
-    var newThreadId = API.addThread(threadInfo);
 
     React.findDOMNode(this.refs.title).value = '';
-    React.findDOMNode(this.refs.participants).value = '';
 
     this.props.doClose();
-    ThreadActionCreators.clickThread(newThreadId);
-    return;
+    ThreadActionCreators.clickThread(API.addThread(threadInfo));
   },
 
 });

@@ -5,7 +5,7 @@ var NewThreadForm = require('./NewThreadForm');
 var ThreadStore = require('../stores/ThreadStore');
 var api = require('../utils/API.js');
 var ThreadActionCreators = require('../actions/ThreadActionCreators');
-
+var ModifyParticipants = require('./ModifyParticipants');
 
 var appElement = document.getElementById('react');
 Modal.setAppElement(appElement);
@@ -15,6 +15,7 @@ HeaderSection = React.createClass({
   getInitialState: function() {
     return {
       modalIsOpen: false,
+      modifyParticipantsModalIsOpen: false,
       threadId: ThreadStore.getCurrentThreadID() || '0',
     };
   },
@@ -53,6 +54,7 @@ HeaderSection = React.createClass({
           Leave Thread
         </button>
 
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this._closeModal}
@@ -64,9 +66,27 @@ HeaderSection = React.createClass({
           />
         </Modal>
 
+        <Modal
+          isOpen={this.state.modifyParticipantsModalIsOpen}
+          onRequestClose={this._closeModifyParticipantsModal}
+        >
+          <button onClick={this._closeModifyParticipantsModal}>Close</button>
+          <ModifyParticipants
+            doClose={this._closeModifyParticipantsModal}
+            threadId={this.state.threadId}
+          />
+        </Modal>
+
       </header>
     );
   },
+
+  // <button
+  //   className="Header__modifyParticipantsBtn"
+  //   onClick={this._openModifyParticipantsModal}
+  // >
+  //   Update Participants
+  // </button>
 
   _openModal: function(event) {
     var threadProps = {};
@@ -79,8 +99,18 @@ HeaderSection = React.createClass({
     });
   },
 
+  _openModifyParticipantsModal: function() {
+    this.setState({
+      modifyParticipantsModalIsOpen: true,
+    });
+  },
+
   _closeModal: function() {
     this.setState({modalIsOpen: false});
+  },
+
+  _closeModifyParticipantsModal: function() {
+    this.setState({modifyParticipantsModalIsOpen: false});
   },
 
   _leaveThread: function() {

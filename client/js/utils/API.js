@@ -229,6 +229,36 @@ module.exports = {
     last[threadId] = messageId;
     _ref(['users', _user, 'threads']).set(last);
   },
+
+  listUsers: function(callback) {
+    _ref('users').once('value', function(snapshot) {
+      var users = [];
+      snapshot.forEach(function(user) {
+        users.push({
+          name: user.val().name || user.key(),
+          id: user.key(),
+        });
+      });
+      callback(users);
+    });
+  },
+
+  listUsersInThread: function(threadId, callback) {
+    if (threadId === '0') {
+      return this.listUsers(callback);
+    }
+    _ref(['threads', threadId, 'participants']).once('value', function(snapshot) {
+      var users = [];
+      snapshot.forEach(function(user) {
+        users.push({
+          name: user.val().name || user.key(),
+          id: user.key(),
+        });
+      });
+      console.log('listUsersInThread', threadId, users);
+      callback(users);
+    });
+  },
 };
 
 window.__api = module.exports;

@@ -17,8 +17,9 @@ var _getLastThreadId = function(_threads) {
 };
 
 var _getParentThreadId = function() {
+  console.log(_threads[_currThreadID]);
   return _threads[_currThreadID]
- && _threads[_currThreadID].parentId || 0;
+ && _threads[_currThreadID].info.parentId || 0;
 };
 
 var _retrieveInfoForThread = function(thread) {
@@ -55,7 +56,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   },
 
   removeChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE_EVENT, callback);
   },
 
   getCurrentThreadID: function() {
@@ -193,6 +194,11 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   case ActionTypes.RECEIVE_MESSAGE:
     // console.log('Listening to message DB', payload.message);
     ThreadStore.updateLocalLastMessagesStorage(payload);
+    ThreadStore.emitChange();
+    break;
+
+  case ActionTypes.REMOVED_FROM_THREAD:
+    //payload.threadId
     ThreadStore.emitChange();
     break;
 
