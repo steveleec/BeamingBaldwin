@@ -27,12 +27,16 @@ var UserSelector = React.createClass({
     return (
       <div className="UserSelector">
         <button
-          className="UserSelector__toggleAll"
+          className="UserSelector__toggleAllBtn"
           onClick={this._toggleSelectAll}
-        >(Select All)</button>
-        <ul className="UserSelector__list">
-          {userListItems}
-        </ul>
+        >
+          Select All
+        </button>
+        <div className="UserSelector__container">
+          <ul className="UserSelector__list">
+            {userListItems}
+          </ul>
+        </div>
       </div>
     );
   },
