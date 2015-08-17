@@ -8,6 +8,7 @@ var _ = require('lodash');
 var CHANGE_EVENT = 'change';
 
 var _selections = {};
+var _allSelected = false;
 
 var UserSelectorStore = assign({}, EventEmitter.prototype, {
 
@@ -68,6 +69,15 @@ var UserSelectorStore = assign({}, EventEmitter.prototype, {
     _selections = {};
     _.each(users, function(user) {
       _selections[user.id] = user;
+    });
+    this.emitChange();
+  },
+
+  toggleSelectAll: function(e) {
+    e.preventDefault();
+    _allSelected = !_allSelected;
+    _.each(_selections, function(user) {
+      user.selected = _allSelected;
     });
     this.emitChange();
   },
