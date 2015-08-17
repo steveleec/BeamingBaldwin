@@ -49,7 +49,7 @@ var NewThreadForm = React.createClass({
               type="text"
             />
           </label>
-          <label className="NewThreadForm__label">Participants:
+          <label className="NewThreadForm__label">
             <input
               className="NewThreadForm__input"
               onChange={this._inputOnChangeParticipants}
@@ -59,7 +59,7 @@ var NewThreadForm = React.createClass({
               value={this.state.participants}
             />
           </label>
-          <label className="NewThreadForm__label">Participants:
+          <label className="NewThreadForm__label">
             <UserSelector />
           </label>
           <input className="NewThreadForm__submit"
