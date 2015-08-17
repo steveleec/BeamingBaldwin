@@ -26,6 +26,10 @@ var UserSelector = React.createClass({
     });
     return (
       <div className="UserSelector">
+        <button
+          className="UserSelector__toggleAll"
+          onClick={this._toggleSelectAll}
+        >(Select All)</button>
         <ul className="UserSelector__list">
           {userListItems}
         </ul>
@@ -44,19 +48,12 @@ var UserSelector = React.createClass({
       }),
     });
   },
+
+  _toggleSelectAll: UserSelectorStore.toggleSelectAll.bind(UserSelectorStore),
 });
 
 UserSelector.getSelected = function() {
   return UserSelectorStore.getSelected();
-
-  // var selected = UserSelectorStore.getAll();
-  // var users = [];
-  // for (var user in selected) {
-  //   if (selected[user]) {
-  //     users.push(user);
-  //   }
-  // }
-  // return users;
 };
 
 UserSelector.setSelected = function(threadId) {

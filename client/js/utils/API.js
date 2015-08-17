@@ -275,7 +275,6 @@ module.exports = API = {
   },
 
   getCurrentUser: function() {
-    console.log(_user);
     return _user;
   },
   
