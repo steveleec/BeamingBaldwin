@@ -74,7 +74,6 @@ var UserSelectorStore = assign({}, EventEmitter.prototype, {
   },
 
   toggleSelectAll: function(e) {
-    console.log(e);
     e.preventDefault();
     _allSelected = !_allSelected;
     _.each(_selections, function(user) {
