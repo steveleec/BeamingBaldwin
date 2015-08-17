@@ -1,5 +1,7 @@
-.Splash__container { flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center; background: url(../img/home-bg.jpg) no-repeat center/cover; }
-.Splash { flex: 1; width: 100%; padding: 48px; background: rgba(0, 0, 0, 0.8); }
+.Splash__container { flex: 1; flex-direction: column; display: flex; background: url(../img/home-bg.jpg) no-repeat center/cover; overflow: auto;
+  &:before { content: ""; display: block; position: fixed; top: 68px; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); }
+}
+.Splash { z-index: 1; flex: 1; width: 100%; padding: 48px; }
 .Splash__h2 { margin: 0; }
 .Splash__h4 { text-align: center; font-size: 32px; }
 .Splash__p { margin: 0 0 48px; }
