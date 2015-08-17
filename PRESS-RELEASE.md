@@ -1,4 +1,4 @@
-# Slick
+# Slck
 ## For people who find email slow and chats chaotic
 
 The number one productivity pain point in any organization is communication. Slick will allow you to become more productive than ever by allowing you to communicate at the speed of thought.
@@ -17,6 +17,6 @@ Slick provides a way for you to organize your chats into searchable emailesque t
 3. ???
 4. Profit!
 
-> "It's the best thing since sliced bread!" – No one ever
+> "I love emails!" – No one ever
 
-#### Visit [TODO: website], sign up, and get your threads on!
+#### Sign up and get your threads on!

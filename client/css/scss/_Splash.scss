@@ -1,3 +1,7 @@
-.Splash__container { flex: 1; display: flex; align-items: center; justify-content: center; background: url(../img/home-bg.jpg) no-repeat center/cover; }
-.Splash { max-width: 420px; margin: 8px; padding: 24px; background: rgba(0, 0, 0, 0.8); }
+.Splash__container { flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center; background: url(../img/home-bg.jpg) no-repeat center/cover; }
+.Splash { flex: 1; width: 100%; padding: 48px; background: rgba(0, 0, 0, 0.8); }
 .Splash__h2 { margin: 0; }
+.Splash__h4 { text-align: center; font-size: 32px; }
+.Splash__p { margin: 0 0 48px; }
+.Splash__instructions { width: 240px; margin: 0 auto; }
+.Splash__blockquote { margin: 0 0 48px; text-align: center; font-size: 24px; font-style: italic; }
