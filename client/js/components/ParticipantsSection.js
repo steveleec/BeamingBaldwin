@@ -50,7 +50,7 @@ ParticipantsSection = React.createClass({
       API.listUsersInThread(thread.threadId, function(users) {
         // console.log('thead users', users);
         this.setState({
-          listOfParticipants: users
+          listOfParticipants: users,
         });
       }.bind(this));
     }
