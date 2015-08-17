@@ -72,7 +72,7 @@ HeaderSection = React.createClass({
           isOpen={this.state.modifyParticipantsModalIsOpen}
           onRequestClose={this._closeModifyParticipantsModal}
         >
-          <button onClick={this._closeModifyParticipantsModal}>Close</button>
+          <button className="Modal__closeBtn" onClick={this._closeModifyParticipantsModal}>&times;</button>
           <ModifyParticipants
             doClose={this._closeModifyParticipantsModal}
             thread={this.state.thread}
