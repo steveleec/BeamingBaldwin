@@ -52,6 +52,7 @@ var ThreadSection = React.createClass({
   _onChange: function() {
     if (this.isMounted()) {
       this.setState(getStateFromStores());
+      this.forceUpdate();
     }
   },
 
