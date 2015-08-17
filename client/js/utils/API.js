@@ -18,7 +18,6 @@ function _ref(path) {
 }
 
 function _escape(str) {
-  console.log('_escape', str);
   return str.replace(/[\.#@$\[\]]/g, '-');
 }
 

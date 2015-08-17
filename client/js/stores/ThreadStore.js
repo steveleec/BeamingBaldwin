@@ -137,7 +137,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       counter--;
     };
     for (thread in _threads) {
-      console.log('_threads[thread].info.timestamp', _threads[thread].info.timestamp);
+      // console.log('_threads[thread].info.timestamp', _threads[thread].info.timestamp);
       if (!!_threads[thread]) {
         counter = 1;
         aThread[thread] = {
@@ -237,7 +237,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   case ActionTypes.RECEIVE_MESSAGE:
     // console.log('Listening to message DB', payload.message);
     ThreadStore.updateLocalLastMessagesStorage(payload);
-    console.log('payload', payload);
+    // console.log('payload', payload);
     ThreadStore.emitChange();
     break;
 
