@@ -60,7 +60,7 @@ UserSelector.getSelected = function() {
 };
 
 UserSelector.setSelected = function(threadId) {
-  console.log('setSelected', threadId);
+  // console.log('setSelected', threadId);
   API.listUsers(function(allusers) {
     API.listUsersInThread(threadId, function(users) {
       _.each(allusers, function(eachAlluser, key) {

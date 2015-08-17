@@ -35,7 +35,7 @@ var _retrieveInfoForThread = function(thread) {
 var _updateTreeOfChildren = function(thread) {
   if (thread.parentId !== undefined) {
     if (thread.parentId in _listOfChildren) {
-      _listOfChildren[thread.parentId].push(thread.threadId);
+      _listOfChildren[thread.parentId].unshift(thread.threadId);
     } else {
       _listOfChildren[thread.parentId] = [thread.threadId];
     }
@@ -74,7 +74,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     // return _threads[tId].info.participants;
     var thread = this.getCurrentThread();
     return thread && thread.participants;
-
   },
   getCurrentThreadTitle: function() {
     // var tId;
@@ -100,7 +99,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       var result = false;
       var recurse = function(children) {
         var i;
-        var eachThread;
         if (children.length > 0) {
           for (i = 0; i < children.length; i++) {
             if (children[i].listOfchildren.indexOf(thread)) {
@@ -129,7 +127,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         for (i = 0; i < children.length; i++) {
           if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             threadToStore.info['depth'] = counter;
-            children[i].children.push(threadToStore);
+            children[i].children.unshift(threadToStore);
+            children[i].children.sort(function(ch1, ch2) { return ch1.createdAt < ch2.createdAt ? 1 : -1; });
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
@@ -138,11 +137,13 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       counter--;
     };
     for (thread in _threads) {
+      console.log('_threads[thread].info.timestamp', _threads[thread].info.timestamp);
       if (!!_threads[thread]) {
         counter = 1;
         aThread[thread] = {
           info: _threads[thread].info || {},
           listOfchildren: _listOfChildren[thread] || [],
+          createdAt: _messages[thread] && _messages[thread].createdAt || _threads[thread].info.timestamp,
           lastMessage: _messages[thread] && _messages[thread].text || '',
           children: [],
         };
@@ -155,7 +156,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
             for (thread in res) {
               if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
                 threadToStore.info['depth'] = counter;
-                res[thread].children.push(threadToStore);
+                res[thread].children.unshift(threadToStore);
+                res[thread].children.sort(function(ch1, ch2) {return ch1.createdAt < ch2.createdAt ? 1 : -1; });
               }  else {
                 if (res[thread].children.length > 0) recurse(res[thread].children);
               }
@@ -200,18 +202,18 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   getParentThreadId: _getParentThreadId,
 
-  getThreadIdByDefault: function(){
+  getThreadIdByDefault: function() {
     return threadIdByDefault;
   },
 
-  setThreadIdByDefault: function(threadId){
+  setThreadIdByDefault: function(threadId) {
     counter++;
-    if (counter ===1 ) threadIdByDefault = threadId;
+    if (counter === 1 ) threadIdByDefault = threadId;
     return threadIdByDefault;
   },
 
   getCurrentThread: function() {
-      return _threads[_currThreadID] && _threads[_currThreadID].info;
+    return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 });
 
@@ -235,6 +237,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   case ActionTypes.RECEIVE_MESSAGE:
     // console.log('Listening to message DB', payload.message);
     ThreadStore.updateLocalLastMessagesStorage(payload);
+    console.log('payload', payload);
     ThreadStore.emitChange();
     break;
 

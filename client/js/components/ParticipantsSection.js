@@ -3,7 +3,6 @@ var ParticipantsSection;
 var _ = require('lodash');
 var ThreadStore = require('../stores/ThreadStore');
 var API = require('../utils/API');
-var res;
 
 var getStateFromStores = function() {
   return {
@@ -24,11 +23,9 @@ ParticipantsSection = React.createClass({
   render: function() {
     var renderList;
     var list;
-    var key;
     res = [];
     list = this.state.listOfParticipants;
     if (this.state !== undefined) {
-      // for (key in list) res.push(key);
       renderList = _.map(list, function(user) {
         return (
           <li className="Participants__li">{user.name}</li>
@@ -48,9 +45,9 @@ ParticipantsSection = React.createClass({
     var thread = ThreadStore.getCurrentThread();
     if (thread) {
       API.listUsersInThread(thread.threadId, function(users) {
-        console.log('thead users', users);
+        // console.log('thead users', users);
         this.setState({
-          listOfParticipants: users
+          listOfParticipants: users,
         });
       }.bind(this));
     }
