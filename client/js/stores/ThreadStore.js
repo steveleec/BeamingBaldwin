@@ -129,8 +129,9 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         for (i = 0; i < children.length; i++) {
           if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             threadToStore.info['depth'] = counter;
-            console.log('threadToStore.info', threadToStore);
+            // console.log('threadToStore.info', threadToStore);
             children[i].children.unshift(threadToStore);
+            children[i].children.sort(function(ch1, ch2){return ch1.createdAt < ch2.createdAt ? 1:-1;});
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
@@ -139,11 +140,13 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       counter--;
     };
     for (thread in _threads) {
+      console.log('_threads[thread].info.timestamp', _threads[thread].info.timestamp);
       if (!!_threads[thread]) {
         counter = 1;
         aThread[thread] = {
           info: _threads[thread].info || {},
           listOfchildren: _listOfChildren[thread] || [],
+          createdAt: _messages[thread] && _messages[thread].createdAt || _threads[thread].info.timestamp,
           lastMessage: _messages[thread] && _messages[thread].text || '',
           children: [],
         };
@@ -157,6 +160,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
               if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
                 threadToStore.info['depth'] = counter;
                 res[thread].children.unshift(threadToStore);
+                res[thread].children.sort(function(ch1, ch2){return ch1.createdAt < ch2.createdAt ? 1:-1;});
               }  else {
                 if (res[thread].children.length > 0) recurse(res[thread].children);
               }
@@ -236,6 +240,7 @@ ThreadStore.dispatchToken = Dispatcher.register(function(payload) {
   case ActionTypes.RECEIVE_MESSAGE:
     // console.log('Listening to message DB', payload.message);
     ThreadStore.updateLocalLastMessagesStorage(payload);
+    console.log('payload', payload);
     ThreadStore.emitChange();
     break;
 
