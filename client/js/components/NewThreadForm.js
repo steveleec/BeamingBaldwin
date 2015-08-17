@@ -59,14 +59,14 @@ var NewThreadForm = React.createClass({
               value={this.state.participants}
             />
           </label>
+          <label className="NewThreadForm__label">Participants:
+            <UserSelector />
+          </label>
           <input className="NewThreadForm__submit"
             type="submit"
             value="Create"
           />
         </form>
-        <label className="NewThreadForm__label>">Participants:
-          <UserSelector />
-        </label>
       </div>
     );
   },

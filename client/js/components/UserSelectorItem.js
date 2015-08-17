@@ -15,9 +15,9 @@ var UserSelectorItem = React.createClass({
   render: function() {
     var user = this.props.user;
     return (
-      <li className="UserSelect__userli">
-        <label className="UserSelect__userlabel">
-          <input className="UserSelect__usercb"
+      <li className="UserSelect__li">
+        <label className="UserSelect__label">
+          <input className="UserSelect__checkbox"
             type="checkbox"
             onChange={this.toggle}
             checked={user.selected}
