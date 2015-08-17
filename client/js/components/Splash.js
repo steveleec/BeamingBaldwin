@@ -10,7 +10,6 @@ function _scrollTo(element, to, duration) {
   var difference;
   var perTick;
 
-  console.log('sup');
   if (duration < 0) return;
   difference = to - element.scrollTop;
   perTick = difference / duration * 10;
