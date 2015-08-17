@@ -274,6 +274,11 @@ module.exports = API = {
     }, this);
   },
 
+  getCurrentUser: function() {
+    console.log(_user);
+    return _user;
+  },
+  
   logout: _unsubscribeAll,
 
   addUserToThread: _addUserToThread,
