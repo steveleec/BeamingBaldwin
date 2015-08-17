@@ -17,11 +17,11 @@ var auth = {
         password: pass,
       }, function(error, authData) {
         if (error) {
-          console.log('Login Failed!', error);
+          // console.log('Login Failed!', error);
           if (cb) cb(false);
           context.onChange(false);
         } else {
-          console.log('Authenticated successfully with payload:', authData);
+          // console.log('Authenticated successfully with payload:', authData);
           localStorage.token = authData.token;
           localStorage.email = email;
           API.login(email);
@@ -40,9 +40,9 @@ var auth = {
         password: pass,
       }, function(error, userData) {
         if (error) {
-          console.log('Error creating user:', error);
+          // console.log('Error creating user:', error);
         } else {
-          console.log('Successfully created user account with uid:', userData.uid);
+          // console.log('Successfully created user account with uid:', userData.uid);
           API.addUser({
             id: email,
             name: email,
