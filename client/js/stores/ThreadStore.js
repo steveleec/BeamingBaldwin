@@ -74,7 +74,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     // return _threads[tId].info.participants;
     var thread = this.getCurrentThread();
     return thread && thread.participants;
-
   },
   getCurrentThreadTitle: function() {
     // var tId;
@@ -100,7 +99,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
       var result = false;
       var recurse = function(children) {
         var i;
-        var eachThread;
         if (children.length > 0) {
           for (i = 0; i < children.length; i++) {
             if (children[i].listOfchildren.indexOf(thread)) {
@@ -129,9 +127,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         for (i = 0; i < children.length; i++) {
           if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             threadToStore.info['depth'] = counter;
-            // console.log('threadToStore.info', threadToStore);
             children[i].children.unshift(threadToStore);
-            children[i].children.sort(function(ch1, ch2){return ch1.createdAt < ch2.createdAt ? 1:-1;});
+            children[i].children.sort(function(ch1, ch2) { return ch1.createdAt < ch2.createdAt ? 1 : -1; });
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
@@ -160,7 +157,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
               if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
                 threadToStore.info['depth'] = counter;
                 res[thread].children.unshift(threadToStore);
-                res[thread].children.sort(function(ch1, ch2){return ch1.createdAt < ch2.createdAt ? 1:-1;});
+                res[thread].children.sort(function(ch1, ch2) {return ch1.createdAt < ch2.createdAt ? 1 : -1; });
               }  else {
                 if (res[thread].children.length > 0) recurse(res[thread].children);
               }
@@ -205,18 +202,18 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   getParentThreadId: _getParentThreadId,
 
-  getThreadIdByDefault: function(){
+  getThreadIdByDefault: function() {
     return threadIdByDefault;
   },
 
-  setThreadIdByDefault: function(threadId){
+  setThreadIdByDefault: function(threadId) {
     counter++;
-    if (counter ===1 ) threadIdByDefault = threadId;
+    if (counter === 1 ) threadIdByDefault = threadId;
     return threadIdByDefault;
   },
 
   getCurrentThread: function() {
-      return _threads[_currThreadID] && _threads[_currThreadID].info;
+    return _threads[_currThreadID] && _threads[_currThreadID].info;
   },
 });
 
