@@ -31,15 +31,17 @@ ParticipantsSection = React.createClass({
       // for (key in list) res.push(key);
       renderList = _.map(list, function(user) {
         return (
-          <li>{user.name}</li>
+          <li className="Participants__li">{user.name}</li>
         );
       });
     }
     return (
-      <ul>
-        <p>Friends in this topic</p>
-        {renderList}
-      </ul>
+      <div className="Participants">
+        <h2 className="Participants__h2">Participants</h2>
+        <ul className="Participants__ul">
+          {renderList}
+        </ul>
+      </div>
     );
   },
   _onChange: function() {

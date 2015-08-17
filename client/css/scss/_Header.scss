@@ -6,6 +6,8 @@
 }
 .Header__newThreadBtn,
 .Header__newChildThreadBtn,
-.Header__leaveThreadBtn { @extend %Header__btn; }
+.Header__leaveThreadBtn,
+.Header__modifyParticipantsBtn { @extend %Header__btn; }
 
-.Header__leaveThreadBtn { margin-left: auto; margin-right: 0; }
+.Header__leaveThreadBtn { margin-left: auto; margin-right: 16px; }
+.Header__modifyParticipantsBtn { margin-right: 0; }

@@ -1,4 +1,5 @@
 .Thread { flex: 1 100%; margin: 0; padding: 0; list-style: none; background: $slick-bg3; overflow: auto; }
+.Thread__h2 { margin: 16px; }
 .Thread__ul { margin: 0; padding: 0; list-style: none; }
 [class^="Thread__listItem--"],
 [class*=" Thread__listItem--"] { padding: 0 0 0 24px; font-size: 12px; cursor: pointer; }
@@ -10,7 +11,7 @@
 }
 
 @media #{$tablet} {
-  .Thread { flex: 0 0 240px; }
+  .Thread { flex: 0; min-width: 240px; }
 }
 
 @media #{$desktop} {
