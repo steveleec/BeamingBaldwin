@@ -46,13 +46,14 @@ var UserSelectorStore = assign({}, EventEmitter.prototype, {
   },
 
   init: function() {
+    var currentUser = API.getCurrentUser();
     this.wipe();
     API.listUsers(function(users) {
       users.forEach(function(user) {
         _selections[user.id] = {
           id: user.id,
           name: user.name,
-          selected: false,
+          selected: false || user.id === currentUser,
         };
       });
       UserSelectorStore.emitChange();
