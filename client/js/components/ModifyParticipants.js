@@ -17,19 +17,19 @@ var ModifyParticipants = React.createClass({
   render: function() {
     console.log('thread', this.props.thread);
     return (
-      <div className="ModifyParticipantsForm">
+      <div className="ModifyParticipants">
         <h2>Add/Remove Participants</h2>
         <form
-          className="ModifyParticipantsForm__form"
+          className="ModifyParticipants__form"
           onSubmit={this._handleSubmit}
         >
-          <h3 className="ModifyParticipantsForm__h3">{this.props.thread && this.props.thread.title}
+          <h3 className="ModifyParticipants__h3">{this.props.thread && this.props.thread.title}
           </h3>
-          <input className="ModifyParticipantsForm__submit"
+          <UserSelector />
+          <input className="ModifyParticipants__submit"
             type="submit"
             value="Save"
           />
-          <UserSelector />
         </form>
       </div>
     );
