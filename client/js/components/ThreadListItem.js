@@ -24,9 +24,9 @@ var ThreadListItem = React.createClass({
       if (children.length > 0) {
         for (i = 0; i < children.length; i++) {
           child = children[i];
-          console.log('child', children.length);
+          // console.log('child', children.length);
           if (child.children.length > 0) {
-            console.log('children of child', child.children);
+            // console.log('children of child', child.children);
             renderChildrenThread(child.children);
           }
           return (
@@ -51,7 +51,7 @@ var ThreadListItem = React.createClass({
   },
 
   _onClick: function() {
-    console.log('Hello from ', this.props.threadTitle, ' with id: ', this.props.threadId);
+    // console.log('Hello from ', this.props.threadTitle, ' with id: ', this.props.threadId);
     ThreadActionCreators.clickThread(this.props.threadId);
   },
 

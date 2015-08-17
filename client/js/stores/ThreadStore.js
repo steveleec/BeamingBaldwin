@@ -1,6 +1,7 @@
 var ThreadStore;
 var Dispatcher = require('../dispatcher/Dispatcher');
 var ActionTypes = require('../constants/Constants').ActionTypes;
+var _ = require('lodash');
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
@@ -74,7 +75,6 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     // return _threads[tId].info.participants;
     var thread = this.getCurrentThread();
     return thread && thread.participants;
-
   },
   getCurrentThreadTitle: function() {
     // var tId;
@@ -91,7 +91,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
   },
 
   getCurrentStateOfThreadsAndMessages: function() {
-    var res = {};
+    var res = [];
     var aThread = {};
     var thread;
     var counter;
@@ -129,8 +129,8 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         for (i = 0; i < children.length; i++) {
           if (children[i].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
             threadToStore.info['depth'] = counter;
-            console.log('threadToStore.info', threadToStore);
             children[i].children.unshift(threadToStore);
+            break;
           } else {
             if (children[i].children.length > 0) recurse(children[i].children);
           }
@@ -140,7 +140,7 @@ ThreadStore = assign({}, EventEmitter.prototype, {
     };
     for (thread in _threads) {
       if (!!_threads[thread]) {
-        counter = 1;
+        counter = 0;
         aThread[thread] = {
           info: _threads[thread].info || {},
           listOfchildren: _listOfChildren[thread] || [],
@@ -149,22 +149,16 @@ ThreadStore = assign({}, EventEmitter.prototype, {
         };
         if (_threads[thread].info.parentId === undefined) {
           aThread[thread].info['depth'] = 0;
-          res[thread] = aThread[thread];
+          res.push(aThread[thread]);
         } else if (_thereIsParentFor(thread, res)) {
           threadToStore = aThread[thread];
-          if (Object.keys(res).length > 0) {
-            for (thread in res) {
-              if (res[thread].listOfchildren.indexOf(threadToStore.info.threadId) !== -1) {
-                threadToStore.info['depth'] = counter;
-                res[thread].children.unshift(threadToStore);
-              }  else {
-                if (res[thread].children.length > 0) recurse(res[thread].children);
-              }
-            }
+          if (res.length > 0) {
+            recurse(res);
           }
         }
       }
     }
+    res.sort(function(a, b) { return a.info.timestamp < b.info.timestamp ? 1 : -1; });
     return res;
   },
 
@@ -201,11 +195,11 @@ ThreadStore = assign({}, EventEmitter.prototype, {
 
   getParentThreadId: _getParentThreadId,
 
-  getThreadIdByDefault: function(){
+  getThreadIdByDefault: function() {
     return threadIdByDefault;
   },
 
-  setThreadIdByDefault: function(threadId){
+  setThreadIdByDefault: function(threadId) {
     counter++;
     if (counter ===1 ) threadIdByDefault = threadId;
     return threadIdByDefault;

@@ -17,7 +17,7 @@ ParticipantsSection = React.createClass({
   },
 
   componentDidMount: function() {
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
     ThreadStore.addChangeListener(this._onChange);
   },
 

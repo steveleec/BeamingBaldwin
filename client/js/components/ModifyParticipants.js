@@ -15,7 +15,7 @@ var ModifyParticipants = React.createClass({
   },
 
   render: function() {
-    console.log('thread', this.props.thread);
+    // console.log('thread', this.props.thread);
     return (
       <div className="ModifyParticipantsForm">
         <h2>Add/Remove Participants</h2>

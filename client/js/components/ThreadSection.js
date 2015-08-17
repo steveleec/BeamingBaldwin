@@ -19,7 +19,11 @@ var ThreadSection = React.createClass({
   },
 
   getInitialState: function() {
-    return getStateFromStores();
+    var state = getStateFromStores();
+    if (Array.isArray(state)) {
+      state.unshift(state.pop());
+    }
+    return state;
   },
 
   componentDidMount: function() {
@@ -30,7 +34,7 @@ var ThreadSection = React.createClass({
     var threadListItems;
     var nodes = this.state.currentState;
     var classOfElement = 'Thread__listItem--';
-    if (Object.keys(nodes).length > 0) {
+    if (nodes && nodes.length > 0) {
       threadListItems = _.map(this.props.node || nodes, function(node) {
         return (
           <li onClick={this._onClick.bind(null, node.info.threadId)} ref="myInput" data-thread-id={node.info.threadId} className={classOfElement + node.info.depth}>

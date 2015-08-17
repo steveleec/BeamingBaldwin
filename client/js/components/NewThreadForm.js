@@ -89,7 +89,7 @@ var NewThreadForm = React.createClass({
 
   _handleSubmit: function(e) {
     e.preventDefault();
-    console.log(this.state.title);
+    // console.log(this.state.title);
     var title = this.state.title.trim();
     // var participants = this.state.participants.trim().split(' ');
     var participants = _.pluck(UserSelector.getSelected(), 'id');
