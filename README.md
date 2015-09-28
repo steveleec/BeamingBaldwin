@@ -12,3 +12,6 @@ Please, see [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on contributing.
 
 ## Style Guide
 Please, see [STYLE-GUIDE.md](STYLE-GUIDE.md) for the style guide.
+
+## Demo
+[SLACK Demo](https://www.behance.net/gallery/29837307/SLCK)
